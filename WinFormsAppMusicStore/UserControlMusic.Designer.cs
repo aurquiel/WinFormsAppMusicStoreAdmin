@@ -31,14 +31,14 @@
             listBoxAudio = new ListBox();
             panel1 = new Panel();
             panel3 = new Panel();
-            buttonCommit = new Button();
+            buttonCommitToServer = new Button();
             panel2 = new Panel();
-            button6 = new Button();
+            buttonPullFromServer = new Button();
             buttonMoveDown = new Button();
             buttonMoveUp = new Button();
-            buttonUpload = new Button();
-            buttonDelete = new Button();
-            buttonDeleteAll = new Button();
+            buttonAdd = new Button();
+            buttonRemove = new Button();
+            buttonRemoveAll = new Button();
             panel4 = new Panel();
             panel5 = new Panel();
             tableLayoutPanel = new TableLayoutPanel();
@@ -77,55 +77,55 @@
             // 
             // panel3
             // 
-            panel3.Controls.Add(buttonCommit);
+            panel3.Controls.Add(buttonCommitToServer);
             panel3.Dock = DockStyle.Right;
             panel3.Location = new Point(929, 0);
             panel3.Name = "panel3";
             panel3.Size = new Size(42, 42);
             panel3.TabIndex = 22;
             // 
-            // buttonCommit
+            // buttonCommitToServer
             // 
-            buttonCommit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonCommit.BackColor = Color.White;
-            buttonCommit.FlatStyle = FlatStyle.Flat;
-            buttonCommit.Font = new Font("Roboto Condensed", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            buttonCommit.ForeColor = Color.Black;
-            buttonCommit.Image = Properties.Resources.save;
-            buttonCommit.Location = new Point(3, 3);
-            buttonCommit.Name = "buttonCommit";
-            buttonCommit.Size = new Size(36, 36);
-            buttonCommit.TabIndex = 20;
-            buttonCommit.TextAlign = ContentAlignment.MiddleLeft;
-            buttonCommit.UseVisualStyleBackColor = false;
+            buttonCommitToServer.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            buttonCommitToServer.BackColor = Color.White;
+            buttonCommitToServer.FlatStyle = FlatStyle.Flat;
+            buttonCommitToServer.Font = new Font("Roboto Condensed", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonCommitToServer.ForeColor = Color.Black;
+            buttonCommitToServer.Image = Properties.Resources.save;
+            buttonCommitToServer.Location = new Point(3, 3);
+            buttonCommitToServer.Name = "buttonCommitToServer";
+            buttonCommitToServer.Size = new Size(36, 36);
+            buttonCommitToServer.TabIndex = 20;
+            buttonCommitToServer.TextAlign = ContentAlignment.MiddleLeft;
+            buttonCommitToServer.UseVisualStyleBackColor = false;
             // 
             // panel2
             // 
-            panel2.Controls.Add(button6);
+            panel2.Controls.Add(buttonPullFromServer);
             panel2.Controls.Add(buttonMoveDown);
             panel2.Controls.Add(buttonMoveUp);
-            panel2.Controls.Add(buttonUpload);
-            panel2.Controls.Add(buttonDelete);
-            panel2.Controls.Add(buttonDeleteAll);
+            panel2.Controls.Add(buttonAdd);
+            panel2.Controls.Add(buttonRemove);
+            panel2.Controls.Add(buttonRemoveAll);
             panel2.Dock = DockStyle.Left;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(297, 42);
+            panel2.Size = new Size(365, 42);
             panel2.TabIndex = 21;
             // 
-            // button6
+            // buttonPullFromServer
             // 
-            button6.BackColor = Color.White;
-            button6.FlatStyle = FlatStyle.Flat;
-            button6.Font = new Font("Roboto Condensed", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            button6.ForeColor = Color.RoyalBlue;
-            button6.Image = Properties.Resources.replicaDown;
-            button6.Location = new Point(3, 3);
-            button6.Name = "button6";
-            button6.Size = new Size(36, 36);
-            button6.TabIndex = 20;
-            button6.TextAlign = ContentAlignment.MiddleLeft;
-            button6.UseVisualStyleBackColor = false;
+            buttonPullFromServer.BackColor = Color.White;
+            buttonPullFromServer.FlatStyle = FlatStyle.Flat;
+            buttonPullFromServer.Font = new Font("Roboto Condensed", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonPullFromServer.ForeColor = Color.RoyalBlue;
+            buttonPullFromServer.Image = Properties.Resources.replicaDown;
+            buttonPullFromServer.Location = new Point(3, 3);
+            buttonPullFromServer.Name = "buttonPullFromServer";
+            buttonPullFromServer.Size = new Size(36, 36);
+            buttonPullFromServer.TabIndex = 20;
+            buttonPullFromServer.TextAlign = ContentAlignment.MiddleLeft;
+            buttonPullFromServer.UseVisualStyleBackColor = false;
             // 
             // buttonMoveDown
             // 
@@ -134,7 +134,7 @@
             buttonMoveDown.Font = new Font("Roboto Condensed", 12F, FontStyle.Bold, GraphicsUnit.Point);
             buttonMoveDown.ForeColor = Color.Black;
             buttonMoveDown.Image = Properties.Resources.downArrow;
-            buttonMoveDown.Location = new Point(87, 3);
+            buttonMoveDown.Location = new Point(156, 3);
             buttonMoveDown.Name = "buttonMoveDown";
             buttonMoveDown.Size = new Size(36, 36);
             buttonMoveDown.TabIndex = 15;
@@ -149,54 +149,57 @@
             buttonMoveUp.Font = new Font("Roboto Condensed", 12F, FontStyle.Bold, GraphicsUnit.Point);
             buttonMoveUp.ForeColor = Color.Black;
             buttonMoveUp.Image = Properties.Resources.upArrow;
-            buttonMoveUp.Location = new Point(129, 3);
+            buttonMoveUp.Location = new Point(198, 3);
             buttonMoveUp.Name = "buttonMoveUp";
             buttonMoveUp.Size = new Size(36, 36);
             buttonMoveUp.TabIndex = 16;
             buttonMoveUp.TextAlign = ContentAlignment.MiddleLeft;
             buttonMoveUp.UseVisualStyleBackColor = false;
+            buttonMoveUp.Click += buttonMoveUp_Click;
             // 
-            // buttonUpload
+            // buttonAdd
             // 
-            buttonUpload.BackColor = Color.White;
-            buttonUpload.FlatStyle = FlatStyle.Flat;
-            buttonUpload.Font = new Font("Roboto Condensed", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            buttonUpload.ForeColor = Color.FromArgb(213, 88, 13);
-            buttonUpload.Image = Properties.Resources.upload;
-            buttonUpload.Location = new Point(255, 3);
-            buttonUpload.Name = "buttonUpload";
-            buttonUpload.Size = new Size(36, 36);
-            buttonUpload.TabIndex = 19;
-            buttonUpload.TextAlign = ContentAlignment.MiddleLeft;
-            buttonUpload.UseVisualStyleBackColor = false;
+            buttonAdd.BackColor = Color.White;
+            buttonAdd.FlatStyle = FlatStyle.Flat;
+            buttonAdd.Font = new Font("Roboto Condensed", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonAdd.ForeColor = Color.FromArgb(213, 88, 13);
+            buttonAdd.Image = Properties.Resources.upload;
+            buttonAdd.Location = new Point(324, 3);
+            buttonAdd.Name = "buttonAdd";
+            buttonAdd.Size = new Size(36, 36);
+            buttonAdd.TabIndex = 19;
+            buttonAdd.TextAlign = ContentAlignment.MiddleLeft;
+            buttonAdd.UseVisualStyleBackColor = false;
             // 
-            // buttonDelete
+            // buttonRemove
             // 
-            buttonDelete.BackColor = Color.White;
-            buttonDelete.FlatStyle = FlatStyle.Flat;
-            buttonDelete.Font = new Font("Roboto Condensed", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            buttonDelete.ForeColor = Color.Red;
-            buttonDelete.Image = Properties.Resources.erase;
-            buttonDelete.Location = new Point(171, 3);
-            buttonDelete.Name = "buttonDelete";
-            buttonDelete.Size = new Size(36, 36);
-            buttonDelete.TabIndex = 17;
-            buttonDelete.TextAlign = ContentAlignment.MiddleLeft;
-            buttonDelete.UseVisualStyleBackColor = false;
+            buttonRemove.BackColor = Color.White;
+            buttonRemove.FlatStyle = FlatStyle.Flat;
+            buttonRemove.Font = new Font("Roboto Condensed", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonRemove.ForeColor = Color.Red;
+            buttonRemove.Image = Properties.Resources.erase;
+            buttonRemove.Location = new Point(240, 3);
+            buttonRemove.Name = "buttonRemove";
+            buttonRemove.Size = new Size(36, 36);
+            buttonRemove.TabIndex = 17;
+            buttonRemove.TextAlign = ContentAlignment.MiddleLeft;
+            buttonRemove.UseVisualStyleBackColor = false;
+            buttonRemove.Click += buttonRemove_Click;
             // 
-            // buttonDeleteAll
+            // buttonRemoveAll
             // 
-            buttonDeleteAll.BackColor = Color.White;
-            buttonDeleteAll.FlatStyle = FlatStyle.Flat;
-            buttonDeleteAll.Font = new Font("Roboto Condensed", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            buttonDeleteAll.ForeColor = Color.FromArgb(41, 10, 10);
-            buttonDeleteAll.Image = Properties.Resources.eraseAll;
-            buttonDeleteAll.Location = new Point(213, 3);
-            buttonDeleteAll.Name = "buttonDeleteAll";
-            buttonDeleteAll.Size = new Size(36, 36);
-            buttonDeleteAll.TabIndex = 18;
-            buttonDeleteAll.TextAlign = ContentAlignment.MiddleLeft;
-            buttonDeleteAll.UseVisualStyleBackColor = false;
+            buttonRemoveAll.BackColor = Color.White;
+            buttonRemoveAll.FlatStyle = FlatStyle.Flat;
+            buttonRemoveAll.Font = new Font("Roboto Condensed", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonRemoveAll.ForeColor = Color.FromArgb(41, 10, 10);
+            buttonRemoveAll.Image = Properties.Resources.eraseAll;
+            buttonRemoveAll.Location = new Point(282, 3);
+            buttonRemoveAll.Name = "buttonRemoveAll";
+            buttonRemoveAll.Size = new Size(36, 36);
+            buttonRemoveAll.TabIndex = 18;
+            buttonRemoveAll.TextAlign = ContentAlignment.MiddleLeft;
+            buttonRemoveAll.UseVisualStyleBackColor = false;
+            buttonRemoveAll.Click += buttonRemoveAll_Click;
             // 
             // panel4
             // 
@@ -271,16 +274,16 @@
         private Panel panel1;
         private Button buttonMoveDown;
         private Button buttonMoveUp;
-        private Button buttonDelete;
-        private Button buttonUpload;
-        private Button buttonDeleteAll;
-        private Button buttonCommit;
+        private Button buttonRemove;
+        private Button buttonAdd;
+        private Button buttonRemoveAll;
+        private Button buttonCommitToServer;
         private Panel panel3;
         private Panel panel2;
         private Panel panel4;
         private Panel panel5;
         private Label label1;
         private TableLayoutPanel tableLayoutPanel;
-        private Button button6;
+        private Button buttonPullFromServer;
     }
 }

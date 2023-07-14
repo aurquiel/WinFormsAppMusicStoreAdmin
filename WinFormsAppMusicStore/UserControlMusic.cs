@@ -31,6 +31,16 @@ namespace WinFormsAppMusicStore
             new Action(async () => await LoadAudioFromFile())();
         }
 
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+                return cp;
+            }
+        }
+
         private async Task LoadAudioFromFile()
         {
             var result = await _fileManager.GetAudioList();
@@ -55,7 +65,7 @@ namespace WinFormsAppMusicStore
         private void buttonMoveDown_Click(object sender, EventArgs e)
         {
             var itemIndex = listBoxAudio.SelectedIndex;
-            if (itemIndex < listBoxAudio.Items.Count - 1)
+            if (itemIndex > -1 && itemIndex < listBoxAudio.Items.Count - 1)
             {
                 Swap(itemIndex, itemIndex + 1);
                 listBoxAudio.SelectedIndex = itemIndex + 1;
@@ -69,5 +79,28 @@ namespace WinFormsAppMusicStore
             _audioOperationList[j] = temp;
         }
 
+        private void buttonMoveUp_Click(object sender, EventArgs e)
+        {
+            var itemIndex = listBoxAudio.SelectedIndex;
+            if (itemIndex > -1 && itemIndex != 0)
+            {
+                Swap(itemIndex, itemIndex - 1);
+                listBoxAudio.SelectedIndex = itemIndex - 1;
+            }
+        }
+
+        private void buttonRemove_Click(object sender, EventArgs e)
+        {
+            _audioOperationList.RemoveAt(listBoxAudio.SelectedIndex);
+        }
+
+        private void buttonRemoveAll_Click(object sender, EventArgs e)
+        {
+            while (_audioOperationList.Count > 0)
+            {
+                _audioOperationList.RemoveAt(0);
+            }
+
+        }
     }
 }
