@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.Intrinsics.X86;
+using ClassLibraryFiles;
 using ClassLibraryServices;
 using ClassLibraryServices.WebService;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +12,7 @@ namespace WinFormsAppMusicStore
     internal static class Program
     {
         private static Mutex mutex = new Mutex(true, "music-store-grupototal99-egomez");
-        private static readonly string PATH_FOLDER_LOG = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "//MusicStore";
+        private static readonly string PATH_FOLDER_LOG = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MusicStore";
 
         [STAThread]
         static void Main()
@@ -49,6 +50,7 @@ namespace WinFormsAppMusicStore
 
                     Log.Logger = serilogLogger;
                     services.AddSingleton(Log.Logger);
+                    services.AddSingleton<IFileManager, FileManager>();
                     services.AddSingleton<FormLogin>();
                 });
         }

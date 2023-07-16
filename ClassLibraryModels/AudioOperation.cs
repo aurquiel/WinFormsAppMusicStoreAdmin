@@ -8,7 +8,7 @@ namespace ClassLibraryModels
 {
     public class AudioOperation
     {
-        public enum OPERATIONS { NONE =0, UPLOAD = 0, ERASE = 1}
+        public enum OPERATIONS { NONE = 0, UPLOAD = 1}
 
         public string? Name { get; set; }
         public OPERATIONS Operation { get; set; } = OPERATIONS.NONE;

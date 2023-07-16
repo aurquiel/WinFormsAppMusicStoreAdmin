@@ -1,15 +1,9 @@
 ﻿using ClassLibraryFiles;
 using ClassLibraryModels;
 using ClassLibraryServices;
-using Serilog;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json;
 using System.Windows.Forms;
 
 namespace WinFormsAppMusicStore
@@ -21,14 +15,26 @@ namespace WinFormsAppMusicStore
         private IFileManager _fileManager;
         private BindingSource _bindingAudioListOperationList = new BindingSource();
         private BindingList<AudioOperation> _audioOperationList;
+        private List<AudioOperation> _audioOperationListCompareChanges;
 
-        public UserControlMusic(IServices services, EventHandler<(bool, string)> raiseRichTextInsertMessage, IFileManager fileManager)
+        //Tooltips
+        ToolTip toolTipButtonPullFromServer = new ToolTip();
+        ToolTip toolTipButtonMoveDown = new ToolTip();
+        ToolTip toolTipButtonMoveUp = new ToolTip();
+        ToolTip toolTipButtonRemove = new ToolTip();
+        ToolTip toolTipButtonRemoveAll = new ToolTip();
+        ToolTip toolTipButtonAdd = new ToolTip();
+        ToolTip toolTipButtonPushToServer = new ToolTip();
+
+
+        public UserControlMusic(IServices services, IFileManager fileManager, EventHandler<(bool, string)> raiseRichTextInsertMessage)
         {
             InitializeComponent();
             _services = services;
             _raiseRichTextInsertMessage = raiseRichTextInsertMessage;
             _fileManager = fileManager;
-            new Action(async () => await LoadAudioFromFile())();
+            CreateToolTips();
+            new Action(async () => await LoadAudioFromServer())();
         }
 
         protected override CreateParams CreateParams
@@ -41,12 +47,30 @@ namespace WinFormsAppMusicStore
             }
         }
 
-        private async Task LoadAudioFromFile()
+        private void CreateToolTips()
         {
-            var result = await _fileManager.GetAudioList();
+            toolTipButtonPullFromServer.SetToolTip(buttonPullFromServer, "Descargar lista de audio.");
+            toolTipButtonMoveDown.SetToolTip(buttonMoveDown, "Desplazar abajo.");
+            toolTipButtonMoveUp.SetToolTip(buttonMoveUp, "Desplazar arriba.");
+            toolTipButtonRemove.SetToolTip(buttonRemove, "Remover audio.");
+            toolTipButtonRemoveAll.SetToolTip(buttonRemoveAll, "Remover todos los audios.");
+            toolTipButtonAdd.SetToolTip(buttonAdd, "Agregar audio.");
+            toolTipButtonPushToServer.SetToolTip(buttonPushToServer, "Guardar cambios en el servidor.");
+        }
+
+        private async Task LoadAudioFromServer()
+        {
+            var result = await _services.AudioService.DownloadAudioList();
             if (result.status)
             {
-                _audioOperationList = new BindingList<AudioOperation>(result.data);
+                var listOfSongs = result.data.Split(Environment.NewLine).ToList();
+                if (listOfSongs.Count == 1 && listOfSongs[0] == string.Empty)
+                {
+                    listOfSongs.RemoveAt(0);
+                }
+                var listOfAudioOperation = listOfSongs.Select(x => new AudioOperation { Name = x, Operation = AudioOperation.OPERATIONS.NONE, PathFileUpload = string.Empty }).ToList();
+                _audioOperationListCompareChanges = new List<AudioOperation>(listOfAudioOperation);
+                _audioOperationList = new BindingList<AudioOperation>(listOfAudioOperation);
                 BindListbox(_audioOperationList);
                 _raiseRichTextInsertMessage?.Invoke(this, new(result.status, result.statusMessage));
                 return;
@@ -91,16 +115,93 @@ namespace WinFormsAppMusicStore
 
         private void buttonRemove_Click(object sender, EventArgs e)
         {
-            _audioOperationList.RemoveAt(listBoxAudio.SelectedIndex);
+            if (_audioOperationList != null && _audioOperationList.Count > 0)
+            {
+                _audioOperationList.RemoveAt(listBoxAudio.SelectedIndex);
+            }
         }
 
         private void buttonRemoveAll_Click(object sender, EventArgs e)
         {
-            while (_audioOperationList.Count > 0)
+            if (_audioOperationList != null && _audioOperationList.Count > 0)
             {
-                _audioOperationList.RemoveAt(0);
+                while (_audioOperationList.Count > 0)
+                {
+                    _audioOperationList.RemoveAt(0);
+                }
+            }
+        }
+
+        private async void buttonPullFromServer_Click(object sender, EventArgs e)
+        {
+            await LoadAudioFromServer();
+        }
+
+        private void buttonAdd_Click(object sender, EventArgs e)
+        {
+            var filesPath = GetFilePathFromDialog();
+            if (filesPath.Count() > 0)
+            {
+                foreach (var file in filesPath)
+                {
+                    if (_audioOperationList.Any(x => x.Name == Path.GetFileName(file)))
+                    {
+                        _raiseRichTextInsertMessage?.Invoke(this, (false, "Archivo de audio ya existente en la lista."));
+                    }
+                    else
+                    {
+                        _audioOperationList.Add(new AudioOperation { Name = Path.GetFileName(file), Operation = AudioOperation.OPERATIONS.UPLOAD, PathFileUpload = file });
+                        _raiseRichTextInsertMessage?.Invoke(this, (true, "Archivo de audio agregado a la lista."));
+                    }
+                }
+            }
+        }
+
+        private List<string> GetFilePathFromDialog()
+        {
+            List<string> files = new List<string>();
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Multiselect = true;
+                openFileDialog.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                openFileDialog.Filter = "mp3 files (*.mp3)|*.mp3";
+                openFileDialog.FilterIndex = 2;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    foreach (string file in openFileDialog.FileNames)
+                    {
+                        files.Add(file);
+                    }
+                    return files;
+                }
             }
 
+            return files;
+        }
+
+        private bool areTheyChancehsToPush()
+        {
+            if (JsonSerializer.Serialize(_audioOperationList) != JsonSerializer.Serialize(_audioOperationListCompareChanges))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private async void buttonPushToServer_Click(object sender, EventArgs e)
+        {
+            if (areTheyChancehsToPush())
+            {
+                FormWait form = new FormWait(_services, _fileManager, new List<AudioOperation>(_audioOperationList), _raiseRichTextInsertMessage, true);
+                form.ShowDialog();
+                await LoadAudioFromServer();
+            }
+            else
+            {
+                _raiseRichTextInsertMessage(this, (false, "No hay cambios en la lista de audio."));
+            }
         }
     }
 }

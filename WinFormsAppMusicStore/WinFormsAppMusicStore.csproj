@@ -10,17 +10,33 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\add.png" />
+    <None Remove="Resources\app.png" />
+    <None Remove="Resources\cancel.png" />
     <None Remove="Resources\close.png" />
+    <None Remove="Resources\delete.png" />
     <None Remove="Resources\downArrow.png" />
+    <None Remove="Resources\edit.png" />
     <None Remove="Resources\erase.png" />
     <None Remove="Resources\eraseAll.png" />
+    <None Remove="Resources\excel.png" />
+    <None Remove="Resources\icon.ico" />
+    <None Remove="Resources\loader.gif" />
+    <None Remove="Resources\login.png" />
     <None Remove="Resources\logoMundoTotalGrande.png" />
     <None Remove="Resources\MundoTotalLogo.png" />
     <None Remove="Resources\pc.png" />
+    <None Remove="Resources\refresh.png" />
     <None Remove="Resources\replicaDown.png" />
-    <None Remove="Resources\save.png" />
+    <None Remove="Resources\saveCloud.png" />
     <None Remove="Resources\upArrow.png" />
     <None Remove="Resources\upload.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +44,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\add.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\app.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\cancel.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\close.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -47,13 +72,28 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\delete.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\downArrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\edit.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\erase.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\eraseAll.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\excel.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\loader.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\login.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\logoMundoTotalGrande.png">
@@ -65,10 +105,13 @@
     <Resource Include="Resources\pc.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\refresh.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\replicaDown.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\save.png">
+    <Resource Include="Resources\saveCloud.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\upArrow.png">

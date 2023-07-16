@@ -1,3 +1,4 @@
+using ClassLibraryFiles;
 using ClassLibraryModels;
 using ClassLibraryServices;
 using ClassLibraryServices.WebService;
@@ -11,11 +12,11 @@ namespace WinFormsAppMusicStore
         private WebService _webService;
         private ILogger _logger;
 
-        public FormLogin(ILogger logger)
+        public FormLogin(ILogger logger, IFileManager fileManager)
         {
             InitializeComponent();
             _logger = logger;
-            _webService = new WebService(GetIpWebService(), GetTimeoutWebService());
+            _webService = new WebService(GetIpWebService(), GetTimeoutWebService(), fileManager);
         }
 
         private string GetIpWebService()
@@ -104,7 +105,23 @@ namespace WinFormsAppMusicStore
 
             _webService.SetToken(resultUserAccess.data.token);
 
-            LaunchMainWindows(resultUserAccess.data.user);
+            var resultUserGetAll = await _webService.UserService.UserGetAll();
+
+            if (resultUserGetAll.status == false)
+            {
+                UpdateUiFromLoadStore((resultUserGetAll.status, resultUserGetAll.statusMessage));
+                goto ERROR_LOGGIN;
+            }
+
+            var resultStoreGetAll = await _webService.StoreService.StoreGetAll();
+
+            if (resultStoreGetAll.status == false)
+            {
+                UpdateUiFromLoadStore((resultStoreGetAll.status, resultStoreGetAll.statusMessage));
+                goto ERROR_LOGGIN;
+            }
+
+            LaunchMainWindows(resultUserAccess.data.user, resultUserGetAll.data, resultStoreGetAll.data);
             UpdateUiFromLoadStore((true, string.Empty));
             ClearTextFileds();
 
@@ -132,10 +149,10 @@ namespace WinFormsAppMusicStore
             textBoxUserPassword.Text = String.Empty;
         }
 
-        private void LaunchMainWindows(User user)
+        private void LaunchMainWindows(User activeUser, List<User> users, List<Store> stores)
         {
             this.Hide();
-            FormMain formMain = new FormMain(_webService, _logger, user);
+            FormMain formMain = new FormMain(_webService, _logger, activeUser, users, stores);
             formMain.Closed += (s, args) => this.Show();
             formMain.ShowDialog();
         }

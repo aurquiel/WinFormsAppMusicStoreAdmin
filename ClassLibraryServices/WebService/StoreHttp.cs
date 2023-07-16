@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace ClassLibraryServices.WebService
 {
-    internal static class UserHttp
+    internal class StoreHttp
     {
-        internal static async Task<(bool, string, GeneralAnswer<List<User>>)> UserGetAll(WebServiceParams _params)
+        internal static async Task<(bool, string, GeneralAnswer<List<Store>>)> StoreGetAll(WebServiceParams _params)
         {
             try
             {
@@ -24,7 +24,7 @@ namespace ClassLibraryServices.WebService
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _params._TOKEN_WEB_SERVICE);
 
-                var response = await client.GetAsync(_params._IP_WEB_SERVICE + $"api/User/UserGetAll");
+                var response = await client.GetAsync(_params._IP_WEB_SERVICE + $"api/Store/StoreGetAll");
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
@@ -33,7 +33,7 @@ namespace ClassLibraryServices.WebService
                     return (
                     true,
                     "Respuesta del servidor obtenida con exito.",
-                    JsonSerializer.Deserialize<GeneralAnswer<List<User>>>(result));
+                    JsonSerializer.Deserialize<GeneralAnswer<List<Store>>>(result));
                 }
                 else
                 {
@@ -48,11 +48,11 @@ namespace ClassLibraryServices.WebService
                 return (
                     false,
                     "Error, Excepcion: " + ex.Message.ToLower(),
-                    new GeneralAnswer<List<User>>());
+                    new GeneralAnswer<List<Store>>());
             }
         }
 
-        internal static async Task<(bool, string, GeneralAnswer<object>)> UserPost(User user, WebServiceParams _params)
+        internal static async Task<(bool, string, GeneralAnswer<object>)> StorePost(Store store, WebServiceParams _params)
         {
             try
             {
@@ -61,9 +61,9 @@ namespace ClassLibraryServices.WebService
                 var client = new HttpClient(handler);
                 client.Timeout = TimeSpan.FromSeconds(_params._TIMEOUT_WEB_SERVICE);
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _params._TOKEN_WEB_SERVICE);
-                string json = JsonSerializer.Serialize(user);
+                string json = JsonSerializer.Serialize(store);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync(_params._IP_WEB_SERVICE + $"api/User/UserInsert", data);
+                var response = await client.PostAsync(_params._IP_WEB_SERVICE + $"api/Store/StoreInsert", data);
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
@@ -91,7 +91,7 @@ namespace ClassLibraryServices.WebService
             }
         }
 
-        internal static async Task<(bool, string, GeneralAnswer<object>)> UserPut(User user, WebServiceParams _params)
+        internal static async Task<(bool, string, GeneralAnswer<object>)> StorePut(Store store, WebServiceParams _params)
         {
             try
             {
@@ -100,9 +100,9 @@ namespace ClassLibraryServices.WebService
                 var client = new HttpClient(handler);
                 client.Timeout = TimeSpan.FromSeconds(_params._TIMEOUT_WEB_SERVICE);
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _params._TOKEN_WEB_SERVICE);
-                string json = JsonSerializer.Serialize(user);
+                string json = JsonSerializer.Serialize(store);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PutAsync(_params._IP_WEB_SERVICE + $"api/User/UserUpdate", data);
+                var response = await client.PutAsync(_params._IP_WEB_SERVICE + $"api/Store/StoreUpdate", data);
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
@@ -131,15 +131,15 @@ namespace ClassLibraryServices.WebService
             }
         }
 
-        internal static async Task<(bool, string, GeneralAnswer<object>)> UserDelete(User user, WebServiceParams _params)
+        internal static async Task<(bool, string, GeneralAnswer<object>)> StoreDelete(Store store, WebServiceParams _params)
         {
             try
             {
                 var request = new HttpRequestMessage
                 {
                     Method = HttpMethod.Delete,
-                    RequestUri = new Uri(_params._IP_WEB_SERVICE + $"api/User/UserDelete"),
-                    Content = new StringContent(JsonSerializer.Serialize(user), Encoding.UTF8, "application/json")
+                    RequestUri = new Uri(_params._IP_WEB_SERVICE + $"api/Store/StoreDelete"),
+                    Content = new StringContent(JsonSerializer.Serialize(store), Encoding.UTF8, "application/json")
                 };
 
                 HttpClientHandler handler = new HttpClientHandler();

@@ -10,7 +10,6 @@ namespace ClassLibraryServices.WebService
         {
             try
             {
-
                 HttpClientHandler handler = new HttpClientHandler();
                 handler.ServerCertificateCustomValidationCallback = Certificate.ValidateServerCertificate;
                 var client = new HttpClient(handler);
