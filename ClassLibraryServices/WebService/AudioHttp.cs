@@ -143,5 +143,50 @@ namespace ClassLibraryServices.WebService
                     null);
             }
         }
+
+        internal static async Task<(bool, string, object)> DownloadAudio(WebServiceParams _params, string audioName, IFileManager fileManager)
+        {
+            try
+            {
+                HttpClientHandler handler = new HttpClientHandler();
+                handler.ServerCertificateCustomValidationCallback = Certificate.ValidateServerCertificate;
+
+                var client = new HttpClient(handler);
+
+                client.Timeout = TimeSpan.FromSeconds(_params._TIMEOUT_WEB_SERVICE);
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _params._TOKEN_WEB_SERVICE);
+
+                var response = await client.GetAsync(_params._IP_WEB_SERVICE + $"api/Audio/DownloadAudio/" + audioName);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    Stream streamToReadFrom = await response.Content.ReadAsStreamAsync();
+                    using (var fs = new FileStream(fileManager.GetAudioPath() + audioName, FileMode.Create))
+                    {
+                        await response.Content.CopyToAsync(fs);
+                    }
+
+                    return (
+                    true,
+                    "Archivo de audio obtenido del servidor.",
+                    null);
+                }
+                else
+                {
+                    return (
+                        false,
+                        "Error al obtener archivo de audio del servidor. Estatus: " + response.StatusCode,
+                        null);
+                }
+            }
+            catch (Exception ex)
+            {
+                return (
+                    false,
+                    "Error al obtener archivo de audio del servidor. Excepcion: " + ex.Message,
+                    null);
+            }
+        }
     }
 }

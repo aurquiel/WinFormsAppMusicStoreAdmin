@@ -5,6 +5,7 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
+	<UseWPF>true</UseWPF>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
@@ -12,6 +13,7 @@
   <ItemGroup>
     <None Remove="Resources\add.png" />
     <None Remove="Resources\app.png" />
+    <None Remove="Resources\back.png" />
     <None Remove="Resources\cancel.png" />
     <None Remove="Resources\close.png" />
     <None Remove="Resources\delete.png" />
@@ -25,15 +27,23 @@
     <None Remove="Resources\login.png" />
     <None Remove="Resources\logoMundoTotalGrande.png" />
     <None Remove="Resources\MundoTotalLogo.png" />
+    <None Remove="Resources\next.png" />
+    <None Remove="Resources\pause.png" />
     <None Remove="Resources\pc.png" />
+    <None Remove="Resources\play.png" />
     <None Remove="Resources\refresh.png" />
     <None Remove="Resources\replicaDown.png" />
     <None Remove="Resources\saveCloud.png" />
+    <None Remove="Resources\stop.png" />
     <None Remove="Resources\upArrow.png" />
     <None Remove="Resources\upload.png" />
+    <None Remove="Resources\volume.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\back.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\icon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -102,7 +112,16 @@
     <Resource Include="Resources\MundoTotalLogo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\next.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\pause.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\pc.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\play.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\refresh.png">
@@ -114,10 +133,16 @@
     <Resource Include="Resources\saveCloud.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\stop.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\upArrow.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\upload.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\volume.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

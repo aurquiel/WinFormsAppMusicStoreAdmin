@@ -2,6 +2,7 @@
 using ClassLibraryModels;
 using ClassLibraryServices;
 using System.ComponentModel;
+using System.IO;
 using System.Text;
 using System.Text.Json;
 using System.Windows.Forms;
@@ -25,7 +26,6 @@ namespace WinFormsAppMusicStore
         ToolTip toolTipButtonRemoveAll = new ToolTip();
         ToolTip toolTipButtonAdd = new ToolTip();
         ToolTip toolTipButtonPushToServer = new ToolTip();
-
 
         public UserControlMusic(IServices services, IFileManager fileManager, EventHandler<(bool, string)> raiseRichTextInsertMessage)
         {
@@ -68,12 +68,10 @@ namespace WinFormsAppMusicStore
                 {
                     listOfSongs.RemoveAt(0);
                 }
-                var listOfAudioOperation = listOfSongs.Select(x => new AudioOperation { Name = x, Operation = AudioOperation.OPERATIONS.NONE, PathFileUpload = string.Empty }).ToList();
+                var listOfAudioOperation = listOfSongs.Select(x => new AudioOperation { Name = x, Operation = AudioOperation.OPERATIONS.NONE, PathFileAudio = string.Empty }).ToList();
                 _audioOperationListCompareChanges = new List<AudioOperation>(listOfAudioOperation);
                 _audioOperationList = new BindingList<AudioOperation>(listOfAudioOperation);
                 BindListbox(_audioOperationList);
-                _raiseRichTextInsertMessage?.Invoke(this, new(result.status, result.statusMessage));
-                return;
             }
 
             _raiseRichTextInsertMessage?.Invoke(this, new(result.status, result.statusMessage));
@@ -150,7 +148,7 @@ namespace WinFormsAppMusicStore
                     }
                     else
                     {
-                        _audioOperationList.Add(new AudioOperation { Name = Path.GetFileName(file), Operation = AudioOperation.OPERATIONS.UPLOAD, PathFileUpload = file });
+                        _audioOperationList.Add(new AudioOperation { Name = Path.GetFileName(file), Operation = AudioOperation.OPERATIONS.UPLOAD, PathFileAudio = file });
                         _raiseRichTextInsertMessage?.Invoke(this, (true, "Archivo de audio agregado a la lista."));
                     }
                 }
@@ -194,7 +192,7 @@ namespace WinFormsAppMusicStore
         {
             if (areTheyChancehsToPush())
             {
-                FormWait form = new FormWait(_services, _fileManager, new List<AudioOperation>(_audioOperationList), _raiseRichTextInsertMessage, true);
+                FormWait form = new FormWait(_services, _fileManager, new List<AudioOperation>(_audioOperationList), _raiseRichTextInsertMessage, FormWait.TypeOperation.PushToServer);
                 form.ShowDialog();
                 await LoadAudioFromServer();
             }

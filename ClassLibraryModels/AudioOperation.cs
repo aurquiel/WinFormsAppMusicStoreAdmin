@@ -12,6 +12,6 @@ namespace ClassLibraryModels
 
         public string? Name { get; set; }
         public OPERATIONS Operation { get; set; } = OPERATIONS.NONE;
-        public string? PathFileUpload { get; set; } = string.Empty;
+        public string? PathFileAudio { get; set; } = string.Empty;
     }
 }

@@ -15,6 +15,7 @@ namespace WinFormsAppMusicStore
         public FormLogin(ILogger logger, IFileManager fileManager)
         {
             InitializeComponent();
+            fileManager.CreateDictories();
             _logger = logger;
             _webService = new WebService(GetIpWebService(), GetTimeoutWebService(), fileManager);
         }
@@ -122,8 +123,7 @@ namespace WinFormsAppMusicStore
             }
 
             LaunchMainWindows(resultUserAccess.data.user, resultUserGetAll.data, resultStoreGetAll.data);
-            UpdateUiFromLoadStore((true, string.Empty));
-            ClearTextFileds();
+            Close();
 
         ERROR_LOGGIN:
             EnableControl();
@@ -153,8 +153,8 @@ namespace WinFormsAppMusicStore
         {
             this.Hide();
             FormMain formMain = new FormMain(_webService, _logger, activeUser, users, stores);
-            formMain.Closed += (s, args) => this.Show();
             formMain.ShowDialog();
+            formMain.Close();
         }
 
         private void buttonClose_Click(object sender, EventArgs e)

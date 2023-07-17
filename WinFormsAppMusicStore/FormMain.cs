@@ -17,7 +17,7 @@ namespace WinFormsAppMusicStore
 {
     public partial class FormMain : Form
     {
-        private IServices _service;
+        private IServices _services;
         private ILogger _logger;
         private IFileManager _fileManager;
         private EventHandler<(bool, string)> _raiseRichTextInsertMessage;
@@ -35,7 +35,7 @@ namespace WinFormsAppMusicStore
         {
             InitializeComponent();
             WireUpEvents();
-            _service = services;
+            _services = services;
             _logger = logger;
             _user = user;
             _users = users;
@@ -103,28 +103,28 @@ namespace WinFormsAppMusicStore
         private void UpdateStore(object? sender, List<Store> e)
         {
             _stores = e;
-            _userControlList[(int)USER_CONTORL_ELEMENTS.REGISTER] = new UserControlRegister(_service, _users, _stores, _raiseRichTextInsertMessage);
-            _userControlList[(int)USER_CONTORL_ELEMENTS.STORE] = new UserControlStore(_service, _stores, _raiseRichTextInsertMessage, _raiseUpdateStores);
-            _userControlList[(int)USER_CONTORL_ELEMENTS.USER] = new UserControlUser(_service, _user, _users, _stores, _raiseRichTextInsertMessage, _raiseUpdateUsers);
+            _userControlList[(int)USER_CONTORL_ELEMENTS.REGISTER] = new UserControlRegister(_services, _users, _stores, _raiseRichTextInsertMessage);
+            _userControlList[(int)USER_CONTORL_ELEMENTS.STORE] = new UserControlStore(_services, _stores, _raiseRichTextInsertMessage, _raiseUpdateStores);
+            _userControlList[(int)USER_CONTORL_ELEMENTS.USER] = new UserControlUser(_services, _user, _users, _stores, _raiseRichTextInsertMessage, _raiseUpdateUsers);
         }
 
         private void UpdateUsers(object? sender, List<User> e)
         {
             _users = e;
             _user = _users.Where(x => x.id == _user.id).FirstOrDefault();
-            _userControlList[(int)USER_CONTORL_ELEMENTS.REGISTER] = new UserControlRegister(_service, _users, _stores, _raiseRichTextInsertMessage);
-            _userControlList[(int)USER_CONTORL_ELEMENTS.USER] = new UserControlUser(_service, _user, _users, _stores, _raiseRichTextInsertMessage, _raiseUpdateUsers);
+            _userControlList[(int)USER_CONTORL_ELEMENTS.REGISTER] = new UserControlRegister(_services, _users, _stores, _raiseRichTextInsertMessage);
+            _userControlList[(int)USER_CONTORL_ELEMENTS.USER] = new UserControlUser(_services, _user, _users, _stores, _raiseRichTextInsertMessage, _raiseUpdateUsers);
         }
 
         private List<UserControl> InitUserContorlList()
         {
             return new List<UserControl> {
                 new UserControlInit(),
-                new UserControlMusic(_service, _fileManager, _raiseRichTextInsertMessage),
-                new UserControlPlayer(),
-                new UserControlRegister(_service, _users, _stores, _raiseRichTextInsertMessage),
-                new UserControlStore(_service, _stores, _raiseRichTextInsertMessage, _raiseUpdateStores),
-                new UserControlUser(_service, _user, _users, _stores, _raiseRichTextInsertMessage, _raiseUpdateUsers)
+                new UserControlMusic(_services, _fileManager, _raiseRichTextInsertMessage),
+                new UserControlPlayer(_services, _fileManager, _raiseRichTextInsertMessage),
+                new UserControlRegister(_services, _users, _stores, _raiseRichTextInsertMessage),
+                new UserControlStore(_services, _stores, _raiseRichTextInsertMessage, _raiseUpdateStores),
+                new UserControlUser(_services, _user, _users, _stores, _raiseRichTextInsertMessage, _raiseUpdateUsers)
             };
         }
 
@@ -192,6 +192,7 @@ namespace WinFormsAppMusicStore
             {
                 userControl.Dispose();
             }
+            _userControlList = new List<UserControl>();
             Close();
         }
     }

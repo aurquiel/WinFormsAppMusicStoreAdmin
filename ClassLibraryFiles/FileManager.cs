@@ -1,21 +1,37 @@
 ﻿using ClassLibraryModels;
+using System.Formats.Asn1;
+using System.Text;
 
 namespace ClassLibraryFiles
 {
     public class FileManager : IFileManager
     {
-        private readonly string AUIDO_LIST_PATH = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MusicStore\\data\\audioList.txt";
-        private readonly string AUIDO_LIST_FILE = "audioList.txt";
+        private readonly string AUIDO_LIST_PATH = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MusicStore\\data\\audioList.bin";
         private readonly string AUIDO_PATH = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MusicStore\\data\\audio\\";
+        private readonly string MUSIC_STORE_PATH = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MusicStore";
+        private readonly string MUSIC_STORE_DATA_PATH = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MusicStore\\data";
+
+        public void CreateDictories()
+        {
+            if(!Directory.Exists(MUSIC_STORE_PATH))
+            {
+                Directory.CreateDirectory(MUSIC_STORE_PATH);
+            }
+
+            if (!Directory.Exists(MUSIC_STORE_DATA_PATH))
+            {
+                Directory.CreateDirectory(MUSIC_STORE_DATA_PATH);
+            }
+
+            if (!Directory.Exists(AUIDO_PATH))
+            {
+                Directory.CreateDirectory(AUIDO_PATH);
+            }
+        }
 
         public string GetAudioListPath()
         {
             return AUIDO_LIST_PATH;
-        }
-
-        public string GetAudioListFileName()
-        {
-            return AUIDO_LIST_FILE;
         }
 
         public string GetAudioPath()
@@ -42,14 +58,72 @@ namespace ClassLibraryFiles
             }
         }
 
-        public GeneralAnswer<object> FileAlreadyExits(string nameFile)
+        public GeneralAnswer<object> WriteAudioListToBinaryFile(string audioList)
         {
-            if (File.Exists(AUIDO_PATH + nameFile))
+            try
             {
-                return new GeneralAnswer<object> { status = true, statusMessage = "Archivo ya existente, archivo: " + nameFile, data = null };
+                using (BinaryWriter binWriter = new BinaryWriter(new FileStream(AUIDO_LIST_PATH, FileMode.Create), Encoding.UTF8))
+                {
+                    var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(audioList);
+                    binWriter.Write(System.Convert.ToBase64String(plainTextBytes));
+                }
+                return new GeneralAnswer<object>(true, "Lista de Audio escritas en archivo binario.", null);
+            }
+            catch(Exception ex)
+            {
+                return new GeneralAnswer<object> (false, "Error escribiendo Lista de Audio a archivo binario.", null);
+            }   
+        }
+
+        public GeneralAnswer<List<string>> ReadAudioListFromBinaryFile()
+        {
+            try
+            {
+                List<string> audioList = new List<string>();
+                using (BinaryReader binReader = new BinaryReader(File.OpenRead(AUIDO_LIST_PATH), Encoding.UTF8))
+                {
+                    var base64EncodedBytes = System.Convert.FromBase64String(binReader.ReadString());
+                    audioList = new List<string>(System.Text.Encoding.UTF8.GetString(base64EncodedBytes).Split(Environment.NewLine));
+                }
+                return new GeneralAnswer<List<string>>(true, "Lista de Audio obtenida de archivo binario.", audioList);
+            }
+            catch (Exception ex)
+            {
+                return new GeneralAnswer<List<string>>(true, "Error al  obte nerLista de Audio de archivo binario. Excepcion: " + ex.Message, null);
+            }
+        }
+
+        public void EraseAudiosNotInAudioList(List<string> audioList)
+        {
+            List<string> listAudioPc = new List<string>();
+            foreach (var item in Directory.GetFiles(AUIDO_PATH))
+            {
+                listAudioPc.Add(Path.GetFileName(item));
             }
 
-            return new GeneralAnswer<object> { status = false, statusMessage = "Archivo no existente, archivo: " + nameFile, data = null };
+            List<string> notInAudioList = listAudioPc.Except(audioList).ToList();
+
+            foreach (var audio in notInAudioList)
+            {
+                foreach (var item in Directory.GetFiles(AUIDO_PATH))
+                {
+                    if(audio == Path.GetFileName(item))
+                    {
+                        File.Delete(item);
+                    }
+                }      
+            }
+        }
+
+        public List<string> GetAudioListToDownload(List<string> listAudioFormServer)
+        {
+            List<string> listAudioPc = new List<string>();
+            foreach(var item in Directory.GetFiles(AUIDO_PATH))
+            {
+                listAudioPc.Add(Path.GetFileName(item));
+            }
+            
+            return listAudioFormServer.Except(listAudioPc).ToList();
 
         }
     }

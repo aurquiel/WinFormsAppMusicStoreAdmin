@@ -46,5 +46,12 @@ namespace ClassLibraryServices.WebService
 
             return new GeneralAnswer<object>(result.Item1, result.Item2, null);
         }
+
+        public async Task<GeneralAnswer<object>> DownloadAudio(string audioName)
+        {
+            var result = await AudioHttp.DownloadAudio(_webParams, audioName, _fileManager);
+
+            return new GeneralAnswer<object>(result.Item1, result.Item2, null);
+        }
     }
 }
