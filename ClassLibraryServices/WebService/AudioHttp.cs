@@ -48,7 +48,7 @@ namespace ClassLibraryServices.WebService
             {
                 return (
                     false,
-                    "Error al obtener archivo lista de audio, Excepcion: " + ex.Message.ToLower(),
+                    "Error al obtener archivo lista de audio, Excepcion: " + ex.Message,
                     null);
             }
         }
@@ -90,7 +90,7 @@ namespace ClassLibraryServices.WebService
             {
                 return (
                     false,
-                    "Error al sincronizar lista de audio, Excepcion: " + ex.Message.ToLower(),
+                    "Error al sincronizar lista de audio, Excepcion: " + ex.Message,
                     null);
             }
         }
@@ -122,8 +122,6 @@ namespace ClassLibraryServices.WebService
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-
-
                     return (
                     true,
                     "Audio subido con exito al servidor servidor.",
@@ -141,7 +139,7 @@ namespace ClassLibraryServices.WebService
             {
                 return (
                     false,
-                    "Error al subir audio al servidor, Excepcion: " + ex.Message.ToLower(),
+                    "Error al subir audio al servidor, Excepcion: " + ex.Message,
                     null);
             }
         }

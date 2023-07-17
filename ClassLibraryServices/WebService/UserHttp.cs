@@ -19,11 +19,8 @@ namespace ClassLibraryServices.WebService
                 handler.ServerCertificateCustomValidationCallback = Certificate.ValidateServerCertificate;
 
                 var client = new HttpClient(handler);
-
                 client.Timeout = TimeSpan.FromSeconds(_params._TIMEOUT_WEB_SERVICE);
-
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _params._TOKEN_WEB_SERVICE);
-
                 var response = await client.GetAsync(_params._IP_WEB_SERVICE + $"api/User/UserGetAll");
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -47,7 +44,7 @@ namespace ClassLibraryServices.WebService
             {
                 return (
                     false,
-                    "Error, Excepcion: " + ex.Message.ToLower(),
+                    "Error al obtener Usuarios del servidor, Excepcion: " + ex.Message,
                     new GeneralAnswer<List<User>>());
             }
         }
@@ -78,7 +75,7 @@ namespace ClassLibraryServices.WebService
                 {
                     return (
                         false,
-                        "Error al crear Usuario en el servidor.  Estatus: " + response.StatusCode,
+                        "Error al crear Usuario en el servidor. Estatus: " + response.StatusCode,
                         null);
                 }
             }
@@ -86,7 +83,7 @@ namespace ClassLibraryServices.WebService
             {
                 return (
                     false,
-                    "Error UserPost, Excepcion: " + ex.Message.ToLower(),
+                    "Error al crear Usuario en el servidor, Excepcion: " + ex.Message,
                     new GeneralAnswer<object>());
             }
         }
@@ -126,7 +123,7 @@ namespace ClassLibraryServices.WebService
             {
                 return (
                     false,
-                    "Error UserPut, Excepcion: " + ex.Message.ToLower(),
+                    "Error al actualizar Usuario en el servidor, Excepcion: " + ex.Message,
                     new GeneralAnswer<object>());
             }
         }
@@ -170,7 +167,7 @@ namespace ClassLibraryServices.WebService
             {
                 return (
                     false,
-                    "Error UserDelete, Excepcion: " + ex.Message.ToLower(),
+                    "Error al eliminar Usuario en el servidor, Excepcion: " + ex.Message,
                     new GeneralAnswer<object>());
             }
         }

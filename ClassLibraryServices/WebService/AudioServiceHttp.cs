@@ -25,11 +25,11 @@ namespace ClassLibraryServices.WebService
 
             if (result.Item1) //Obtenido del servidor
             {
-                return new GeneralAnswer<string> { status = result.Item3.status, statusMessage = result.Item3.statusMessage, data = result.Item3.data };
+                return new GeneralAnswer<string>(result.Item3.status, result.Item3.statusMessage, result.Item3.data);
             }
             else // No Obtenido del servidor
             {
-                return new GeneralAnswer<string> { status = result.Item1, statusMessage = result.Item2, data = null };
+                return new GeneralAnswer<string>(result.Item1, result.Item2, null);
             }
         }
 
@@ -37,14 +37,14 @@ namespace ClassLibraryServices.WebService
         {
             var result = await AudioHttp.SynchronizeAudioList(_webParams, plainText);
 
-            return new GeneralAnswer<object> { status = result.Item1, statusMessage = result.Item2, data = null };
+            return new GeneralAnswer<object>(result.Item1, result.Item2, null);
         }
 
         public async Task<GeneralAnswer<object>> UploadAudio(string pathFile)
         {
             var result = await AudioHttp.UploadAudio(_webParams, pathFile);
 
-            return new GeneralAnswer<object> { status = result.Item1, statusMessage = result.Item2, data = null };
+            return new GeneralAnswer<object>(result.Item1, result.Item2, null);
         }
     }
 }

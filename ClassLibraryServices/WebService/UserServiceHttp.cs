@@ -22,11 +22,11 @@ namespace ClassLibraryServices.WebService
 
             if (result.Item1) //Obtenido del servidor
             {
-                return new GeneralAnswer<UserToken> { status = result.Item3.status, statusMessage = result.Item3.statusMessage, data = result.Item3.data };
+                return new GeneralAnswer<UserToken>(result.Item3.status,result.Item3.statusMessage, result.Item3.data);
             }
             else // No Obtenido del servidor
             {
-                return new GeneralAnswer<UserToken> { status = result.Item1, statusMessage = result.Item2, data = null };
+                return new GeneralAnswer<UserToken>(result.Item1, result.Item2, null);
             }
         }
 
@@ -36,11 +36,11 @@ namespace ClassLibraryServices.WebService
 
             if (result.Item1) //Obtenido del servidor
             {
-                return new GeneralAnswer<List<User>> { status = result.Item3.status, statusMessage = result.Item3.statusMessage, data = result.Item3.data };
+                return new GeneralAnswer<List<User>>(result.Item3.status, result.Item3.statusMessage, result.Item3.data);
             }
             else // No Obtenido del servidor
             {
-                return new GeneralAnswer<List<User>> { status = result.Item1, statusMessage = result.Item2, data = null };
+                return new GeneralAnswer<List<User>>(result.Item1, result.Item2, null);
             }
         }
 
@@ -50,11 +50,11 @@ namespace ClassLibraryServices.WebService
 
             if (result.Item1) //Obtenido del servidor
             {
-                return new GeneralAnswer<object> { status = result.Item3.status, statusMessage = result.Item3.statusMessage, data = result.Item3.data };
+                return new GeneralAnswer<object>(result.Item3.status, result.Item3.statusMessage, result.Item3.data);
             }
             else // No Obtenido del servidor
             {
-                return new GeneralAnswer<object> { status = result.Item1, statusMessage = result.Item2, data = null };
+                return new GeneralAnswer<object>(result.Item1, result.Item2, null);
             }
         }
 
@@ -64,11 +64,11 @@ namespace ClassLibraryServices.WebService
 
             if (result.Item1) //Obtenido del servidor
             {
-                return new GeneralAnswer<object> { status = result.Item3.status, statusMessage = result.Item3.statusMessage, data = result.Item3.data };
+                return new GeneralAnswer<object>(result.Item3.status, result.Item3.statusMessage, result.Item3.data);
             }
             else // No Obtenido del servidor
             {
-                return new GeneralAnswer<object> { status = result.Item1, statusMessage = result.Item2, data = null };
+                return new GeneralAnswer<object>(result.Item1, result.Item2, null);
             }
         }
 
@@ -78,11 +78,11 @@ namespace ClassLibraryServices.WebService
 
             if (result.Item1) //Obtenido del servidor
             {
-                return new GeneralAnswer<object> { status = result.Item3.status, statusMessage = result.Item3.statusMessage, data = result.Item3.data };
+                return new GeneralAnswer<object> (result.Item3.status, result.Item3.statusMessage, result.Item3.data);
             }
             else // No Obtenido del servidor
             {
-                return new GeneralAnswer<object> { status = result.Item1, statusMessage = result.Item2, data = null };
+                return new GeneralAnswer<object>(result.Item1, result.Item2, null);
             }
         }
     }

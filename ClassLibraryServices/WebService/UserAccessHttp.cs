@@ -40,7 +40,7 @@ namespace ClassLibraryServices.WebService
             {
                 return (
                     false,
-                    "Error UserAccessPost, Excepcion: " + ex.Message.ToLower(),
+                    "Error UserAccessPost, Excepcion: " + ex.Message,
                     new GeneralAnswer<UserToken>());
             }
         }

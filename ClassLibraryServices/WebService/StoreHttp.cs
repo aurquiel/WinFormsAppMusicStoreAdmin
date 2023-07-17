@@ -47,7 +47,7 @@ namespace ClassLibraryServices.WebService
             {
                 return (
                     false,
-                    "Error, Excepcion: " + ex.Message.ToLower(),
+                    "Error, Excepcion: " + ex.Message,
                     new GeneralAnswer<List<Store>>());
             }
         }
@@ -86,7 +86,7 @@ namespace ClassLibraryServices.WebService
             {
                 return (
                     false,
-                    "Error UserPost, Excepcion: " + ex.Message.ToLower(),
+                    "Error UserPost, Excepcion: " + ex.Message,
                     new GeneralAnswer<object>());
             }
         }
@@ -126,7 +126,7 @@ namespace ClassLibraryServices.WebService
             {
                 return (
                     false,
-                    "Error UserPut, Excepcion: " + ex.Message.ToLower(),
+                    "Error UserPut, Excepcion: " + ex.Message,
                     new GeneralAnswer<object>());
             }
         }
@@ -170,7 +170,7 @@ namespace ClassLibraryServices.WebService
             {
                 return (
                     false,
-                    "Error UserDelete, Excepcion: " + ex.Message.ToLower(),
+                    "Error UserDelete, Excepcion: " + ex.Message,
                     new GeneralAnswer<object>());
             }
         }

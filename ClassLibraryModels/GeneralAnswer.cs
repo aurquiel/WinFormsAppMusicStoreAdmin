@@ -16,5 +16,12 @@ namespace ClassLibraryModels
         {
 
         }
+
+        public GeneralAnswer(bool status, string? statusMessage, T? data)
+        {
+            this.status = status;
+            this.statusMessage = statusMessage;
+            this.data = data;
+        }
     }
 }
