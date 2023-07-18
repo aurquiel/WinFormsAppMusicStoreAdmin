@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace WinFormsAppMusicStore
 {
@@ -25,6 +26,8 @@ namespace WinFormsAppMusicStore
         private BindingList<AudioOperation> _audioOperationList;
         private MediaPlayer player = new MediaPlayer();
         private bool isPaused = false;
+        TimeSpan _position;
+        DispatcherTimer _timer = new DispatcherTimer();
 
         //Tooltips
         ToolTip toolTipButtonPullFromServer = new ToolTip();
@@ -41,9 +44,20 @@ namespace WinFormsAppMusicStore
             _raiseRichTextInsertMessage = raiseRichTextInsertMessage;
             player.MediaEnded += Player_MediaEnded;
             player.MediaFailed += Player_MediaFailed;
+            player.MediaOpened += Player_MediaOpened;
             player.Volume = 1;
             trackBarVolume.Value = trackBarVolume.Maximum;
+            _timer.Interval = TimeSpan.FromMilliseconds(10);
+            _timer.Tick += new EventHandler(ticktock);
+            _timer.Start();
             LoadAuidoListFRomBinaryFile();
+        }
+
+        private void Player_MediaOpened(object? sender, EventArgs e)
+        {
+            _position = player.NaturalDuration.TimeSpan;
+            progressBarAudio.Minimum = 0;
+            progressBarAudio.Maximum = (int)_position.TotalSeconds;
         }
 
         private void CreateToolTips()
@@ -54,12 +68,18 @@ namespace WinFormsAppMusicStore
             toolTipButtonStop.SetToolTip(buttonStop, "Detenber lista de audio.");
         }
 
+        void ticktock(object sender, EventArgs e)
+        {
+            progressBarAudio.Value = (int)player.Position.TotalSeconds;
+        }
+
         private void InitMediaPlayer()
         {
             player.Stop();
             player = new MediaPlayer();
             player.MediaEnded += Player_MediaEnded;
             player.MediaFailed += Player_MediaFailed;
+            player.MediaOpened += Player_MediaOpened;
             player.Volume = 1;
             trackBarVolume.Value = trackBarVolume.Maximum;
         }
@@ -131,7 +151,6 @@ namespace WinFormsAppMusicStore
 
         private void buttonPlay_Click(object sender, EventArgs e)
         {
-            labelStatusPlayer.Text = "Estatus: Reproduciendo";
             if (listBoxAudio.Items.Count > 0 && listBoxAudio.SelectedItems.Count == 0)
             {
                 listBoxAudio.SelectedIndex = 0;
@@ -151,14 +170,12 @@ namespace WinFormsAppMusicStore
 
         private void buttonPause_Click(object sender, EventArgs e)
         {
-            labelStatusPlayer.Text = "Estatus: Pausa";
             isPaused = true;
             player.Pause();
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
         {
-            labelStatusPlayer.Text = "Estatus: Detenido";
             if (listBoxAudio.Items.Count > 0)
             {
                 listBoxAudio.SelectedIndex = 0;
@@ -180,6 +197,11 @@ namespace WinFormsAppMusicStore
                 listBoxAudio.SelectedIndex = index;
                 buttonPlay_Click(null, null);
             }
+        }
+
+        private void progressBarAudio_MouseDown(object sender, MouseEventArgs e)
+        {
+            player.Position = player.NaturalDuration.TimeSpan * e.X / progressBarAudio.Width;
         }
     }
 }

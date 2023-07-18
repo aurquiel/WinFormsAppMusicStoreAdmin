@@ -1,5 +1,4 @@
 ﻿using ClassLibraryModels;
-using System.Formats.Asn1;
 using System.Text;
 
 namespace ClassLibraryFiles
@@ -89,7 +88,7 @@ namespace ClassLibraryFiles
             }
             catch (Exception ex)
             {
-                return new GeneralAnswer<List<string>>(true, "Error al  obte nerLista de Audio de archivo binario. Excepcion: " + ex.Message, null);
+                return new GeneralAnswer<List<string>>(false, "Error al  obtener Lista de Audio de archivo binario. Excepcion: " + ex.Message, null);
             }
         }
 
