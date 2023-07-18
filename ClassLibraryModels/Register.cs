@@ -8,8 +8,8 @@ namespace ClassLibraryModels
 {
     public class Register
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public DateTime CreationDateTime { get; set; }
+        public int id { get; set; }
+        public int storeId { get; set; }
+        public DateTime creationDateTime { get; set; }
     }
 }

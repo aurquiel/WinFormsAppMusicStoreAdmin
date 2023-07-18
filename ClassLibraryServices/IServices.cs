@@ -11,5 +11,6 @@ namespace ClassLibraryServices
         public IAudioService AudioService { get; set; }
         public IStoreService StoreService { get; set; }
         public IUserService UserService { get; set; }
+        public IRegisterService RegisterService { get; set; }
     }
 }

@@ -12,6 +12,7 @@ namespace ClassLibraryServices.WebService
         public IUserService UserService { get; set; }
         public IAudioService AudioService { get; set; }
         public IStoreService StoreService { get; set; }
+        public IRegisterService RegisterService { get; set; }
 
         private WebServiceParams _webParams;
         private IFileManager _fileManager;
@@ -29,6 +30,7 @@ namespace ClassLibraryServices.WebService
             UserService = new UserServiceHttp(_webParams);
             StoreService = new StoreServiceHttp(_webParams);    
             AudioService = new AudioServiceHttp(_webParams, _fileManager);
+            RegisterService = new RegisterServiceHttp(_webParams);
         }
     }
 }
