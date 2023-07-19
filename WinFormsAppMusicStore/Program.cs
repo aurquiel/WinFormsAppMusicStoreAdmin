@@ -8,11 +8,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
-namespace WinFormsAppMusicStore
+namespace WinFormsAppMusicStoreAdmin
 {
     internal static class Program
     {
-        private static Mutex mutex = new Mutex(true, "music-store-grupototal99-egomez");
+        private static Mutex mutex = new Mutex(true, "music-store-admin-grupototal99-egomez");
         private static readonly string PATH_FOLDER_LOG = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MusicStore";
 
         [STAThread]

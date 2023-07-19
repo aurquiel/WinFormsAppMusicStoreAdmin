@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
-namespace WinFormsAppMusicStore
+namespace WinFormsAppMusicStoreAdmin
 {
     public partial class FormMain : Form
     {

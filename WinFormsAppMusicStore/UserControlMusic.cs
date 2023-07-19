@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Windows.Forms;
 
-namespace WinFormsAppMusicStore
+namespace WinFormsAppMusicStoreAdmin
 {
     public partial class UserControlMusic : UserControl
     {

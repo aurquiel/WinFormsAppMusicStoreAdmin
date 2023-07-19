@@ -15,7 +15,7 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Threading;
 
-namespace WinFormsAppMusicStore
+namespace WinFormsAppMusicStoreAdmin
 {
     public partial class UserControlPlayer : UserControl
     {
@@ -65,7 +65,7 @@ namespace WinFormsAppMusicStore
             toolTipButtonPullFromServer.SetToolTip(buttonPullFromServer, "Actualizar lista de reproduccion.");
             toolTipButtonPlay.SetToolTip(buttonPlay, "Reproducir audio.");
             toolTipButtonPause.SetToolTip(buttonPause, "Pausar reproduccion.");
-            toolTipButtonStop.SetToolTip(buttonStop, "Detenber lista de audio.");
+            toolTipButtonStop.SetToolTip(buttonStop, "Detener lista de audio.");
         }
 
         void ticktock(object sender, EventArgs e)

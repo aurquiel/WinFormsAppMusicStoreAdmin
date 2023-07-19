@@ -139,9 +139,10 @@ namespace ClassLibraryServices.WebService
                 handler.ServerCertificateCustomValidationCallback = Certificate.ValidateServerCertificate;
                 var client = new HttpClient(handler);
                 client.Timeout = TimeSpan.FromSeconds(_params._TIMEOUT_WEB_SERVICE);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _params._TOKEN_WEB_SERVICE);
                 string json = JsonSerializer.Serialize(register);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync(_params._IP_WEB_SERVICE + "api/RegisterInsert/", data);
+                var response = await client.PostAsync(_params._IP_WEB_SERVICE + "api/Register/RegisterInsert/", data);
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {

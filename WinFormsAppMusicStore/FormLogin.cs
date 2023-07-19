@@ -5,7 +5,7 @@ using ClassLibraryServices.WebService;
 using Serilog;
 using System.Configuration;
 
-namespace WinFormsAppMusicStore
+namespace WinFormsAppMusicStoreAdmin
 {
     public partial class FormLogin : Form
     {

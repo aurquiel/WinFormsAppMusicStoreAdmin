@@ -1,4 +1,4 @@
-﻿namespace WinFormsAppMusicStore
+﻿namespace WinFormsAppMusicStoreAdmin
 {
     partial class UserControlUser
     {
