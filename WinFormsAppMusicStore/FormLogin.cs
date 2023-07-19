@@ -101,6 +101,7 @@ namespace WinFormsAppMusicStoreAdmin
             if (resultUserAccess.status == false)
             {
                 UpdateUiFromLoadStore((resultUserAccess.status, resultUserAccess.statusMessage));
+                _logger.Error("UserAccess: " + resultUserAccess.statusMessage);
                 goto ERROR_LOGGIN;
             }
 
@@ -111,6 +112,7 @@ namespace WinFormsAppMusicStoreAdmin
             if (resultUserGetAll.status == false)
             {
                 UpdateUiFromLoadStore((resultUserGetAll.status, resultUserGetAll.statusMessage));
+                _logger.Error("UserGetAll: " + resultUserAccess.statusMessage);
                 goto ERROR_LOGGIN;
             }
 
@@ -119,6 +121,7 @@ namespace WinFormsAppMusicStoreAdmin
             if (resultStoreGetAll.status == false)
             {
                 UpdateUiFromLoadStore((resultStoreGetAll.status, resultStoreGetAll.statusMessage));
+                _logger.Error("StoreGetAll: " + resultUserAccess.statusMessage);
                 goto ERROR_LOGGIN;
             }
 
