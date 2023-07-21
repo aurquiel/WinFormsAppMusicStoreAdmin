@@ -21,7 +21,7 @@ namespace ClassLibraryServices.WebService
 
         public async Task<GeneralAnswer<string>> DownloadAudioList()
         {
-            var result = await AudioHttp.AduioGetAudioList(_webParams);
+            var result = await AudioHttp.GetAudioList(_webParams);
 
             if (result.Item1) //Obtenido del servidor
             {
@@ -33,9 +33,23 @@ namespace ClassLibraryServices.WebService
             }
         }
 
-        public async Task<GeneralAnswer<object>> SynchronizeAudioList(string plainText)
+        public async Task<GeneralAnswer<string>> DownloadAudioListStore(string storeCode)
         {
-            var result = await AudioHttp.SynchronizeAudioList(_webParams, plainText);
+            var result = await AudioHttp.GetAudioListStore(_webParams, storeCode);
+
+            if (result.Item1) //Obtenido del servidor
+            {
+                return new GeneralAnswer<string>(result.Item3.status, result.Item3.statusMessage, result.Item3.data);
+            }
+            else // No Obtenido del servidor
+            {
+                return new GeneralAnswer<string>(result.Item1, result.Item2, null);
+            }
+        }
+
+        public async Task<GeneralAnswer<object>> SynchronizeAudioList(string audioList, string storeCode)
+        {
+            var result = await AudioHttp.SynchronizeAudioList(_webParams, audioList, storeCode);
 
             return new GeneralAnswer<object>(result.Item1, result.Item2, null);
         }
@@ -52,6 +66,11 @@ namespace ClassLibraryServices.WebService
             var result = await AudioHttp.DownloadAudio(_webParams, audioName, _fileManager);
 
             return new GeneralAnswer<object>(result.Item1, result.Item2, null);
+        }
+
+        public Task<GeneralAnswer<object>> DeleteAudios(List<string> audioNamesList)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -49,7 +49,7 @@ namespace WinFormsAppMusicStoreAdmin
 
         private void CreateToolTips()
         {
-            toolTipButtonPullFromServer.SetToolTip(buttonPullFromServer, "Descargar lista de audio.");
+            toolTipButtonPullFromServer.SetToolTip(buttonPullAudioFromServer, "Descargar lista de audio.");
             toolTipButtonMoveDown.SetToolTip(buttonMoveDown, "Desplazar abajo.");
             toolTipButtonMoveUp.SetToolTip(buttonMoveUp, "Desplazar arriba.");
             toolTipButtonRemove.SetToolTip(buttonRemove, "Remover audio.");
@@ -60,7 +60,7 @@ namespace WinFormsAppMusicStoreAdmin
 
         private async Task LoadAudioFromServer()
         {
-            var result = await _services.AudioService.DownloadAudioList();
+            var result = await _services.AudioService.DownloadAudioListStore();
             if (result.status)
             {
                 var listOfSongs = result.data.Split(Environment.NewLine).ToList();

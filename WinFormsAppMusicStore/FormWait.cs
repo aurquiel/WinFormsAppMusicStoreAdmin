@@ -108,7 +108,7 @@ namespace WinFormsAppMusicStoreAdmin
             labelTotalNumber.Text = (1 + 1 + 1).ToString();
             labelActualNumber.Text = "1";
             labelOperation.Text = "Descargando Lista de Audio.";
-            var resultGetAudioList = await _services.AudioService.DownloadAudioList();
+            var resultGetAudioList = await _services.AudioService.DownloadAudioListStore();
             _raiseRichTextInsertMessage?.Invoke(this, (resultGetAudioList.status, resultGetAudioList.statusMessage));
 
             if (resultGetAudioList.status == false)

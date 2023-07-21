@@ -12,37 +12,78 @@ namespace ClassLibraryServices.WebService
 {
     internal class AudioHttp
     {
-        internal static async Task<(bool, string, GeneralAnswer<string>)> AduioGetAudioList(WebServiceParams _params)
+        internal static async Task<(bool, string, GeneralAnswer<string>)> GetAudioList(WebServiceParams _params)
         {
             try
             {
-                HttpClientHandler handler = new HttpClientHandler();
-                handler.ServerCertificateCustomValidationCallback = Certificate.ValidateServerCertificate;
-
-                var client = new HttpClient(handler);
-
-                client.Timeout = TimeSpan.FromSeconds(_params._TIMEOUT_WEB_SERVICE);
-
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _params._TOKEN_WEB_SERVICE);
-
-                var response = await client.GetAsync(_params._IP_WEB_SERVICE + $"api/Audio/DownloadAudioList");
-
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                using (var httpClient = new HttpClient())
                 {
-                    var result = await response.Content.ReadAsStringAsync();
+                    HttpClientHandler handler = new HttpClientHandler();
+                    handler.ServerCertificateCustomValidationCallback = Certificate.ValidateServerCertificate;
+                    httpClient.Timeout = TimeSpan.FromSeconds(_params._TIMEOUT_WEB_SERVICE);
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _params._TOKEN_WEB_SERVICE);
 
-                    return (
-                    true,
-                    "Archivo lista de audio obtenido del servidor.",
-                    JsonSerializer.Deserialize<GeneralAnswer<string>>(result));
+                    var response = await httpClient.GetAsync(_params._IP_WEB_SERVICE + $"api/Audio/DownloadAudioList");
+
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        var result = await response.Content.ReadAsStringAsync();
+
+                        return (
+                        true,
+                        "Archivo lista de audio obtenido del servidor.",
+                        JsonSerializer.Deserialize<GeneralAnswer<string>>(result));
+                    }
+                    else
+                    {
+                        return (
+                            false,
+                            "Error al obtener archivo lista de audio. Estatus: " + response.StatusCode,
+                            null);
+                    }
                 }
-                else
+
+            }
+            catch (Exception ex)
+            {
+                return (
+                    false,
+                    "Error al obtener archivo lista de audio, Excepcion: " + ex.Message,
+                    null);
+            }
+        }
+
+        internal static async Task<(bool, string, GeneralAnswer<string>)> GetAudioListStore(WebServiceParams _params, string storeCode)
+        {
+            try
+            {
+                using(var httpClient = new HttpClient())
                 {
-                    return (
-                        false,
-                        "Error al obtener archivo lista de audio. Estatus: " + response.StatusCode,
-                        null);
+                    HttpClientHandler handler = new HttpClientHandler();
+                    handler.ServerCertificateCustomValidationCallback = Certificate.ValidateServerCertificate;
+                    httpClient.Timeout = TimeSpan.FromSeconds(_params._TIMEOUT_WEB_SERVICE);
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _params._TOKEN_WEB_SERVICE);
+
+                    var response = await httpClient.GetAsync(_params._IP_WEB_SERVICE + $"api/Audio/DownloadAudioListStore/{storeCode}");
+
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        var result = await response.Content.ReadAsStringAsync();
+
+                        return (
+                        true,
+                        "Archivo lista de audio obtenido del servidor.",
+                        JsonSerializer.Deserialize<GeneralAnswer<string>>(result));
+                    }
+                    else
+                    {
+                        return (
+                            false,
+                            "Error al obtener archivo lista de audio. Estatus: " + response.StatusCode,
+                            null);
+                    }
                 }
+                
             }
             catch (Exception ex)
             {
@@ -53,7 +94,7 @@ namespace ClassLibraryServices.WebService
             }
         }
         
-        internal static async Task<(bool, string, GeneralAnswer<object>)> SynchronizeAudioList(WebServiceParams _params, string textFile)
+        internal static async Task<(bool, string, GeneralAnswer<object>)> SynchronizeAudioList(WebServiceParams _params, string audioList, string storeCode)
         {
             try
             {
@@ -66,7 +107,7 @@ namespace ClassLibraryServices.WebService
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _params._TOKEN_WEB_SERVICE);
 
-                string json = JsonSerializer.Serialize(textFile);
+                string json = JsonSerializer.Serialize(new {audioList = audioList, storeCode = storeCode});
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await client.PostAsync(_params._IP_WEB_SERVICE + $"api/Audio/SynchronizeAudioList", data);
@@ -95,7 +136,7 @@ namespace ClassLibraryServices.WebService
             }
         }
 
-        internal static async Task<(bool, string, GeneralAnswer<object>)> UploadAudio(WebServiceParams _params, string pathFile)
+        internal static async Task<(bool, string, GeneralAnswer<object>)> UploadAudio(WebServiceParams _params, string filePath)
         {
             try
             {
@@ -110,13 +151,13 @@ namespace ClassLibraryServices.WebService
 
                 var form = new MultipartFormDataContent();
 
-                byte[] fileData = File.ReadAllBytes(pathFile);
+                byte[] fileData = File.ReadAllBytes(filePath);
 
                 ByteArrayContent byteContent = new ByteArrayContent(fileData);
 
                 byteContent.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
 
-                form.Add(byteContent, "file", Path.GetFileName(pathFile));
+                form.Add(byteContent, "file", Path.GetFileName(filePath));
 
                 var response = await client.PostAsync(_params._IP_WEB_SERVICE + $"api/Audio/UploadAudio",form);
 
