@@ -126,7 +126,7 @@ namespace WinFormsAppMusicStoreAdmin
         {
             for (int val = 0; val < listBoxStores.Items.Count; val++)
             {
-                listBoxAudioListStore.SetSelected(val, false);
+                listBoxStores.SetSelected(val, false);
             }
         }
 
@@ -134,7 +134,7 @@ namespace WinFormsAppMusicStoreAdmin
         {
             for (int val = 0; val < listBoxStores.Items.Count; val++)
             {
-                listBoxAudioListStore.SetSelected(val, true);
+                listBoxStores.SetSelected(val, true);
             }
         }
 
