@@ -62,24 +62,7 @@ namespace ClassLibraryFiles
             }
         }
 
-        public async Task<GeneralAnswer<List<OperationDetails>>> GetAudioList(string storeCode)
-        {
-            List<OperationDetails> list = new();
-            try
-            {
-                if (File.Exists(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}\\audioList{storeCode}.txt"))
-                {
-                    new List<string>(await File.ReadAllLinesAsync(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}\\audioList{storeCode}.txt")).ForEach(x => list.Add(new OperationDetails { AudioName = x }));
-                    return new GeneralAnswer<List<OperationDetails>> { status = true, statusMessage = "Audios obtenidos de archivo del equipo.", data = list };
-                }
-
-                return new GeneralAnswer<List<OperationDetails>> { status = false, statusMessage = "Archivo de audio no existe en el equipo.", data = list };
-            }
-            catch (Exception ex)
-            {
-                return new GeneralAnswer<List<OperationDetails>> { status = false, statusMessage = "Error al obtener archivo de audio del equipo, Excepcion: " + ex.Message, data = list };
-            }
-        }
+       
 
         public GeneralAnswer<object> WriteAudioListToBinaryFile(string audioList, string storeCode)
         {

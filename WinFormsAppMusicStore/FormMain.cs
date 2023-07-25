@@ -34,7 +34,6 @@ namespace WinFormsAppMusicStoreAdmin
             _fileManager = new FileManager();
             _userControlList = InitUserContorlList();
             OpenChildForm(_userControlList[0]);
-            _users = users;
         }
 
         protected override CreateParams CreateParams
