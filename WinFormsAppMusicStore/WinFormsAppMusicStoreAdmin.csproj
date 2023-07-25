@@ -83,6 +83,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ClassLibraryExcel\ClassLibraryExcel.csproj" />
     <ProjectReference Include="..\ClassLibraryFiles\ClassLibraryFiles.csproj" />
     <ProjectReference Include="..\ClassLibraryServices\ClassLibraryServices.csproj" />
   </ItemGroup>

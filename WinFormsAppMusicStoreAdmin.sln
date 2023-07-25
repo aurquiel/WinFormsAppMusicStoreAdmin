@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassLibraryFiles", "ClassL
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{BAB67CF9-55D7-4EF6-8CB8-F8CD0A1F5D20}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibraryExcel", "ClassLibraryExcel\ClassLibraryExcel.csproj", "{AF99A949-6C48-4AB4-BFB2-8D620D22A9F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{CB11BF09-558E-4B41-B28E-AF7CB1A55217}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BAB67CF9-55D7-4EF6-8CB8-F8CD0A1F5D20}.Debug|Any CPU.ActiveCfg = Debug
 		{BAB67CF9-55D7-4EF6-8CB8-F8CD0A1F5D20}.Release|Any CPU.ActiveCfg = Release
+		{AF99A949-6C48-4AB4-BFB2-8D620D22A9F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF99A949-6C48-4AB4-BFB2-8D620D22A9F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF99A949-6C48-4AB4-BFB2-8D620D22A9F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF99A949-6C48-4AB4-BFB2-8D620D22A9F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

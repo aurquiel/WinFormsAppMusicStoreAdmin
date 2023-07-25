@@ -80,7 +80,11 @@ namespace WinFormsAppMusicStoreAdmin
             {
                 BindListbox(formWait.AudioList);
                 listBoxAudio.ClearSelected();
-            }           
+            }
+            else
+            {
+                _audioListPlayer.Clear();
+            }
         }
 
         private void LoadAudioListFromBinaryFile()

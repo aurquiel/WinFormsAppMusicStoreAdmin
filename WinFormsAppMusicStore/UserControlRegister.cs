@@ -1,4 +1,6 @@
-﻿using ClassLibraryModels;
+﻿using ClassLibraryExcel;
+using ClassLibraryFiles;
+using ClassLibraryModels;
 using ClassLibraryServices;
 using System;
 using System.Collections.Generic;
@@ -102,7 +104,13 @@ namespace WinFormsAppMusicStoreAdmin
 
             if (result.status)
             {
-                dataGridViewRegister.DataSource = result.data.Select(x => new { Codigo = _stores.Where(u => u.id == x.storeId).Select(u => u.code).FirstOrDefault(), Operacion = x.operation, Fecha = x.creationDateTime.ToString("dd-MM-yyyy") }).ToList();
+                dataGridViewRegister.DataSource = result.data.Select(x => new RegisterDisplay { storeCode = _stores.Where(u => u.id == x.storeId).Select(u => u.code).FirstOrDefault(), operation = x.operation, creationDateTime = x.creationDateTime }).ToList();
+                dataGridViewRegister.Columns[0].HeaderText = "Tienda";
+                dataGridViewRegister.Columns[1].HeaderText = "Operacion";
+                dataGridViewRegister.Columns[2].HeaderText = "Tiempo Creacion";
+                dataGridViewRegister.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                dataGridViewRegister.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                dataGridViewRegister.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             }
         }
 
@@ -110,6 +118,49 @@ namespace WinFormsAppMusicStoreAdmin
         {
             var result = await _service.RegisterService.RegisterDelete(((Store)comboBoxRegisterDelete.SelectedItem).id);
             _raiseRichTextInsertMessage?.Invoke(this, (result.status, result.statusMessage));
+        }
+
+        private async void buttonExportToExcel_Click(object sender, EventArgs e)
+        {
+            if(dataGridViewRegister.DataSource != null && ((List<RegisterDisplay>)dataGridViewRegister.DataSource).Count > 0)
+            {
+                string savePathFile = GetSavePathExcel();
+                if (savePathFile != string.Empty)
+                {
+                    var result = await ManageExcel.CreateReportStore((List<RegisterDisplay>)dataGridViewRegister.DataSource, savePathFile);
+                    _raiseRichTextInsertMessage?.Invoke(this, (result.status, result.statusMessage));
+                }
+                else
+                {
+                    _raiseRichTextInsertMessage?.Invoke(this, (false, "Error debe seleccionar una ruta de acceso para guardar el archivo."));
+                }
+            }
+            else
+            {
+                _raiseRichTextInsertMessage?.Invoke(this, (false, "Error registros vacios."));
+            }
+        }
+
+        private string GetSavePathExcel()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            saveFileDialog.Title = "Save XLSX File";
+            saveFileDialog.CheckFileExists = false;
+            saveFileDialog.CheckPathExists = true;
+            saveFileDialog.DefaultExt = "XLSX";
+            saveFileDialog.Filter = "XLSX files (*.xlsx)|*.xlsx";
+            saveFileDialog.FilterIndex = 2;
+            saveFileDialog.RestoreDirectory = true;
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                return saveFileDialog.FileName;
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
     }
 }

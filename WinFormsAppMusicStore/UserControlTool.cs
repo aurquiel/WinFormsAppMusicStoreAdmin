@@ -15,8 +15,7 @@ namespace WinFormsAppMusicStoreAdmin
         private BindingSource _bindingAudioListStore = new BindingSource();
         private BindingList<OperationDetails> _audioListFromStore = new BindingList<OperationDetails>();
         private bool _audioListServerDownloaded = false;
-        private BindingList<OperationDetails> _storeList = new BindingList<OperationDetails>();
-        private bool _audioListStoreDownloaded = false;
+
 
         private enum OPERATION_UPDATE { NONE = 0, SERVER = 1 }
 
@@ -102,6 +101,7 @@ namespace WinFormsAppMusicStoreAdmin
         {
             listBoxStores.DataSource = _stores.Where(x => x.code != "0000").ToList();
             listBoxStores.DisplayMember = "code";
+            listBoxStores.ClearSelected();  
         }
 
         private void comboBoxStore_SelectedIndexChanged(object sender, EventArgs e)
@@ -139,15 +139,24 @@ namespace WinFormsAppMusicStoreAdmin
         }
 
         private void buttonCopyAudioListToStores_Click(object sender, EventArgs e)
-        {          
-            var audioListString = String.Join("\r\n", listBoxAudioListStore.Items.OfType<OperationDetails>().Select(x => x.AudioName).ToArray());
-            var selectedItems = listBoxStores.SelectedItems;
-            var operationDetailsList = new List<OperationDetails>();
-            foreach(var item in selectedItems)
+        {
+            if (_audioListServerDownloaded)
             {
-                operationDetailsList.Add(new OperationDetails { StoreCode = ((Store)item).code, AudioList = audioListString, Operation = OperationDetails.OPERATIONS.STORE_SYNCHRONIZE_LIST_AUDIO });
+                var audioListString = String.Join("\r\n", listBoxAudioListStore.Items.OfType<OperationDetails>().Select(x => x.AudioName).ToArray());
+                var selectedItems = listBoxStores.SelectedItems;
+                var operationDetailsList = new List<OperationDetails>();
+                foreach (var item in selectedItems)
+                {
+                    operationDetailsList.Add(new OperationDetails { StoreCode = ((Store)item).code, AudioList = audioListString, Operation = OperationDetails.OPERATIONS.STORE_SYNCHRONIZE_LIST_AUDIO });
+                }
+                LaunchOperationWaitForm(operationDetailsList, OPERATION_UPDATE.NONE);
             }
-            LaunchOperationWaitForm(operationDetailsList, OPERATION_UPDATE.NONE);
+            else
+            {
+                _raiseRichTextInsertMessage?.Invoke(this, (false, "No se ha descargado una lista de audio de una tienda."));
+            }
         }
+
+        
     }
 }

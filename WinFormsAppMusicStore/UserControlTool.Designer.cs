@@ -221,6 +221,7 @@
             buttonSelectAll.TabIndex = 26;
             buttonSelectAll.TextAlign = ContentAlignment.MiddleLeft;
             buttonSelectAll.UseVisualStyleBackColor = false;
+            buttonSelectAll.Click += buttonSelectAll_Click;
             // 
             // buttonUnselectAll
             // 
@@ -235,6 +236,7 @@
             buttonUnselectAll.TabIndex = 25;
             buttonUnselectAll.TextAlign = ContentAlignment.MiddleLeft;
             buttonUnselectAll.UseVisualStyleBackColor = false;
+            buttonUnselectAll.Click += buttonUnselectAll_Click;
             // 
             // buttonCopyAudioListToStores
             // 
