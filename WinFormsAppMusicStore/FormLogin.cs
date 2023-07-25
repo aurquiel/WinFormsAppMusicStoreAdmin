@@ -17,7 +17,7 @@ namespace WinFormsAppMusicStoreAdmin
         {
             InitializeComponent();
             _logger = logger;
-            _fileManager = fileManager; 
+            _fileManager = fileManager;
             _webService = new WebService(GetIpWebService(), GetTimeoutWebService(), _fileManager);
         }
 
