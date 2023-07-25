@@ -101,7 +101,7 @@ namespace WinFormsAppMusicStoreAdmin
         {
             listBoxStores.DataSource = _stores.Where(x => x.code != "0000").ToList();
             listBoxStores.DisplayMember = "code";
-            listBoxStores.ClearSelected();  
+            listBoxStores.ClearSelected();
         }
 
         private void comboBoxStore_SelectedIndexChanged(object sender, EventArgs e)
@@ -157,6 +157,6 @@ namespace WinFormsAppMusicStoreAdmin
             }
         }
 
-        
+
     }
 }

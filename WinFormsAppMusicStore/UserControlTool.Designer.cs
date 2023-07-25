@@ -192,8 +192,7 @@
             tableLayoutPanel6.Name = "tableLayoutPanel6";
             tableLayoutPanel6.RowCount = 2;
             tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
-            tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel6.Size = new Size(477, 559);
             tableLayoutPanel6.TabIndex = 2;
             // 
@@ -203,9 +202,9 @@
             panel9.Controls.Add(buttonUnselectAll);
             panel9.Controls.Add(buttonCopyAudioListToStores);
             panel9.Dock = DockStyle.Fill;
-            panel9.Location = new Point(3, 517);
+            panel9.Location = new Point(3, 522);
             panel9.Name = "panel9";
-            panel9.Size = new Size(471, 39);
+            panel9.Size = new Size(471, 34);
             panel9.TabIndex = 23;
             // 
             // buttonSelectAll
@@ -215,7 +214,7 @@
             buttonSelectAll.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
             buttonSelectAll.ForeColor = Color.Black;
             buttonSelectAll.Image = Properties.Resources.selectAll;
-            buttonSelectAll.Location = new Point(41, 7);
+            buttonSelectAll.Location = new Point(41, 2);
             buttonSelectAll.Name = "buttonSelectAll";
             buttonSelectAll.Size = new Size(32, 27);
             buttonSelectAll.TabIndex = 26;
@@ -230,7 +229,7 @@
             buttonUnselectAll.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
             buttonUnselectAll.ForeColor = Color.Black;
             buttonUnselectAll.Image = Properties.Resources.unselectAll;
-            buttonUnselectAll.Location = new Point(3, 7);
+            buttonUnselectAll.Location = new Point(3, 2);
             buttonUnselectAll.Name = "buttonUnselectAll";
             buttonUnselectAll.Size = new Size(32, 27);
             buttonUnselectAll.TabIndex = 25;
@@ -246,7 +245,7 @@
             buttonCopyAudioListToStores.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
             buttonCopyAudioListToStores.ForeColor = Color.DarkOrange;
             buttonCopyAudioListToStores.Image = Properties.Resources.upload;
-            buttonCopyAudioListToStores.Location = new Point(436, 7);
+            buttonCopyAudioListToStores.Location = new Point(436, 2);
             buttonCopyAudioListToStores.Name = "buttonCopyAudioListToStores";
             buttonCopyAudioListToStores.Size = new Size(32, 27);
             buttonCopyAudioListToStores.TabIndex = 21;
@@ -262,7 +261,7 @@
             listBoxStores.Location = new Point(3, 3);
             listBoxStores.Name = "listBoxStores";
             listBoxStores.SelectionMode = SelectionMode.MultiSimple;
-            listBoxStores.Size = new Size(471, 508);
+            listBoxStores.Size = new Size(471, 513);
             listBoxStores.TabIndex = 1;
             // 
             // label4

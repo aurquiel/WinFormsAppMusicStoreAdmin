@@ -47,7 +47,7 @@ namespace ClassLibraryExcel
                     workSheet.Cells[row, col].Value = item.operation;
                     col++;
                     workSheet.Cells[row, col].Value = item.creationDateTime.ToString("dd/MM/yyyy HH:mm");
-                    col++;
+                    col = 1;
                     row++;
                 }
 
