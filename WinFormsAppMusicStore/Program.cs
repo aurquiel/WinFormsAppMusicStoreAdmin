@@ -13,7 +13,7 @@ namespace WinFormsAppMusicStoreAdmin
     internal static class Program
     {
         private static Mutex mutex = new Mutex(true, "music-store-admin-grupototal99-egomez");
-        private static readonly string PATH_FOLDER_LOG = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MusicStore";
+        private static readonly string PATH_FOLDER_LOG = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\AudioStoreAdmin";
 
         [STAThread]
         static void Main()

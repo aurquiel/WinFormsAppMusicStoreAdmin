@@ -10,6 +10,7 @@ namespace ClassLibraryModels
     {
         public int id { get; set; }
         public int storeId { get; set; }
+        public string operation { get; set; }
         public DateTime creationDateTime { get; set; }
     }
 }

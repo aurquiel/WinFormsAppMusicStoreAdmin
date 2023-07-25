@@ -93,7 +93,7 @@ namespace WinFormsAppMusicStoreAdmin
         {
             if (ValidateInput() == false)
             {
-                _raiseRichTextInsertMessage?.Invoke(this, (false, "Error la fecha inicial no pude ser menor a la fecha final"));
+                _raiseRichTextInsertMessage?.Invoke(this, (false, "Error la fecha inicial no puede ser menor a la fecha final."));
                 return;
             }
 
@@ -102,7 +102,7 @@ namespace WinFormsAppMusicStoreAdmin
 
             if (result.status)
             {
-                dataGridViewRegister.DataSource = result.data.Select(x => new { Codigo = _stores.Where(u => u.id == x.storeId).Select(u => u.code).FirstOrDefault(), Fecha = x.creationDateTime.ToString("dd-MM-yyyy") }).ToList();
+                dataGridViewRegister.DataSource = result.data.Select(x => new { Codigo = _stores.Where(u => u.id == x.storeId).Select(u => u.code).FirstOrDefault(), Operacion = x.operation, Fecha = x.creationDateTime.ToString("dd-MM-yyyy") }).ToList();
             }
         }
 

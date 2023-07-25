@@ -11,13 +11,14 @@ namespace WinFormsAppMusicStoreAdmin
     {
         private WebService _webService;
         private ILogger _logger;
+        private IFileManager _fileManager;
 
         public FormLogin(ILogger logger, IFileManager fileManager)
         {
             InitializeComponent();
-            fileManager.CreateDictories();
             _logger = logger;
-            _webService = new WebService(GetIpWebService(), GetTimeoutWebService(), fileManager);
+            _fileManager = fileManager; 
+            _webService = new WebService(GetIpWebService(), GetTimeoutWebService(), _fileManager);
         }
 
         private string GetIpWebService()
@@ -124,6 +125,8 @@ namespace WinFormsAppMusicStoreAdmin
                 _logger.Error("StoreGetAll: " + resultUserAccess.statusMessage);
                 goto ERROR_LOGGIN;
             }
+
+            _fileManager.CreateDictoriesAndFiles(resultStoreGetAll.data.Where(x => x.code != "0000").ToList());
 
             LaunchMainWindows(resultUserAccess.data.user, resultUserGetAll.data, resultStoreGetAll.data);
             Close();

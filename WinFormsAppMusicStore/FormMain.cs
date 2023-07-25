@@ -2,16 +2,7 @@
 using ClassLibraryModels;
 using ClassLibraryServices;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace WinFormsAppMusicStoreAdmin
 {
@@ -29,7 +20,7 @@ namespace WinFormsAppMusicStoreAdmin
         private List<Store> _stores;
         private List<UserControl> _userControlList;
 
-        private enum USER_CONTORL_ELEMENTS { INIT = 0, MUSIC = 1, PLAYER = 2, REGISTER = 3, STORE = 4, USER = 5 }
+        private enum USER_CONTORL_ELEMENTS { INIT = 0, MUSIC = 1, TOOLS = 2, PLAYER = 3, REGISTER = 4, STORE = 5, USER = 6 }
 
         public FormMain(IServices services, ILogger logger, User user, List<User> users, List<Store> stores)
         {
@@ -103,8 +94,11 @@ namespace WinFormsAppMusicStoreAdmin
         private void UpdateStore(object? sender, List<Store> e)
         {
             _stores = e;
+            _userControlList[(int)USER_CONTORL_ELEMENTS.MUSIC] = new UserControlMusic(_services, _fileManager, _stores, _raiseRichTextInsertMessage);
+            _userControlList[(int)USER_CONTORL_ELEMENTS.TOOLS] = new UserControlTool(_services, _fileManager, _stores, _raiseRichTextInsertMessage);
+            _userControlList[(int)USER_CONTORL_ELEMENTS.PLAYER] = new UserControlPlayer(_services, _fileManager, _stores, _raiseRichTextInsertMessage);
             _userControlList[(int)USER_CONTORL_ELEMENTS.REGISTER] = new UserControlRegister(_services, _users, _stores, _raiseRichTextInsertMessage);
-            _userControlList[(int)USER_CONTORL_ELEMENTS.STORE] = new UserControlStore(_services, _stores, _raiseRichTextInsertMessage, _raiseUpdateStores);
+            _userControlList[(int)USER_CONTORL_ELEMENTS.STORE] = new UserControlStore(_services, _fileManager, _stores, _raiseRichTextInsertMessage, _raiseUpdateStores);
             _userControlList[(int)USER_CONTORL_ELEMENTS.USER] = new UserControlUser(_services, _user, _users, _stores, _raiseRichTextInsertMessage, _raiseUpdateUsers);
         }
 
@@ -120,10 +114,11 @@ namespace WinFormsAppMusicStoreAdmin
         {
             return new List<UserControl> {
                 new UserControlInit(),
-                new UserControlMusic(_services, _fileManager, _raiseRichTextInsertMessage),
-                new UserControlPlayer(_services, _fileManager, _raiseRichTextInsertMessage),
+                new UserControlMusic(_services, _fileManager, _stores, _raiseRichTextInsertMessage),
+                new UserControlTool(_services, _fileManager, _stores, _raiseRichTextInsertMessage),
+                new UserControlPlayer(_services, _fileManager, _stores, _raiseRichTextInsertMessage),
                 new UserControlRegister(_services, _users, _stores, _raiseRichTextInsertMessage),
-                new UserControlStore(_services, _stores, _raiseRichTextInsertMessage, _raiseUpdateStores),
+                new UserControlStore(_services, _fileManager, _stores, _raiseRichTextInsertMessage, _raiseUpdateStores),
                 new UserControlUser(_services, _user, _users, _stores, _raiseRichTextInsertMessage, _raiseUpdateUsers)
             };
         }
@@ -140,6 +135,7 @@ namespace WinFormsAppMusicStoreAdmin
         private void ButtonReColorMainMenu()
         {
             buttonMusic.BackColor = Color.RoyalBlue;
+            buttonTools.BackColor = Color.RoyalBlue;
             buttonPlayer.BackColor = Color.RoyalBlue;
             buttonRegister.BackColor = Color.RoyalBlue;
             buttonStore.BackColor = Color.RoyalBlue;
@@ -150,7 +146,15 @@ namespace WinFormsAppMusicStoreAdmin
         {
             ButtonReColorMainMenu();
             buttonMusic.BackColor = Color.Blue;
-            OpenChildForm(_userControlList[1]);
+            OpenChildForm(_userControlList[(int)USER_CONTORL_ELEMENTS.MUSIC]);
+            richTextBoxStatusMessages.Clear();
+        }
+
+        private void buttonTools_Click(object sender, EventArgs e)
+        {
+            ButtonReColorMainMenu();
+            buttonTools.BackColor = Color.Blue;
+            OpenChildForm(_userControlList[(int)USER_CONTORL_ELEMENTS.TOOLS]);
             richTextBoxStatusMessages.Clear();
         }
 
@@ -158,7 +162,7 @@ namespace WinFormsAppMusicStoreAdmin
         {
             ButtonReColorMainMenu();
             buttonPlayer.BackColor = Color.Blue;
-            OpenChildForm(_userControlList[2]);
+            OpenChildForm(_userControlList[(int)USER_CONTORL_ELEMENTS.PLAYER]);
             richTextBoxStatusMessages.Clear();
         }
 
@@ -166,7 +170,7 @@ namespace WinFormsAppMusicStoreAdmin
         {
             ButtonReColorMainMenu();
             buttonRegister.BackColor = Color.Blue;
-            OpenChildForm(_userControlList[3]);
+            OpenChildForm(_userControlList[(int)USER_CONTORL_ELEMENTS.REGISTER]);
             richTextBoxStatusMessages.Clear();
         }
 
@@ -174,7 +178,7 @@ namespace WinFormsAppMusicStoreAdmin
         {
             ButtonReColorMainMenu();
             buttonStore.BackColor = Color.Blue;
-            OpenChildForm(_userControlList[4]);
+            OpenChildForm(_userControlList[(int)USER_CONTORL_ELEMENTS.STORE]);
             richTextBoxStatusMessages.Clear();
         }
 
@@ -182,7 +186,7 @@ namespace WinFormsAppMusicStoreAdmin
         {
             ButtonReColorMainMenu();
             buttonUser.BackColor = Color.Blue;
-            OpenChildForm(_userControlList[5]);
+            OpenChildForm(_userControlList[(int)USER_CONTORL_ELEMENTS.USER]);
             richTextBoxStatusMessages.Clear();
         }
 
@@ -195,5 +199,7 @@ namespace WinFormsAppMusicStoreAdmin
             _userControlList = new List<UserControl>();
             Close();
         }
+
+        
     }
 }

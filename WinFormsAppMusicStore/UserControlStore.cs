@@ -1,4 +1,5 @@
-﻿using ClassLibraryModels;
+﻿using ClassLibraryFiles;
+using ClassLibraryModels;
 using ClassLibraryServices;
 using System;
 using System.Collections.Generic;
@@ -15,15 +16,17 @@ namespace WinFormsAppMusicStoreAdmin
     public partial class UserControlStore : UserControl
     {
         private IServices _services;
+        private IFileManager _fileManager;
         private List<Store> _stores;
         private EventHandler<(bool, string)> _raiseRichTextInsertMessage;
         private EventHandler<List<Store>> _raiseUpdateStores;
 
-        public UserControlStore(IServices services, List<Store> stores, EventHandler<(bool, string)> raiseRichTextInsertMessage,
+        public UserControlStore(IServices services, IFileManager fileManager, List<Store> stores, EventHandler<(bool, string)> raiseRichTextInsertMessage,
             EventHandler<List<Store>> raiseUpdateStores)
         {
             InitializeComponent();
             _services = services;
+            _fileManager = fileManager;
             _stores = stores;
             _raiseRichTextInsertMessage = raiseRichTextInsertMessage;
             _raiseUpdateStores = raiseUpdateStores;
@@ -89,6 +92,8 @@ namespace WinFormsAppMusicStoreAdmin
             var result = await _services.StoreService.StoreUpdate(new Store { id = ((Store)comboBoxStoreEdit.SelectedItem).id, code = textBoxStoreEditCode.Text, creationDateTime = DateTime.Now });
             if (result.status)
             {
+                _fileManager.DeleteDictory(((Store)comboBoxStoreEdit.SelectedItem).code);
+                _fileManager.CreateDictoryAndFile(textBoxStoreEditCode.Text);
                 buttonStoreRefreshData_Click(null, null);
                 comboBoxStoreEdit.SelectedIndex = -1;
                 textBoxStoreEditCode.Text = string.Empty;
@@ -110,6 +115,7 @@ namespace WinFormsAppMusicStoreAdmin
             var result = await _services.StoreService.StoreDelete(new Store { id = ((Store)comboBoxStoreEdit.SelectedItem).id, code = textBoxStoreEditCode.Text, creationDateTime = DateTime.Now });
             if (result.status)
             {
+                _fileManager.DeleteDictory(((Store)comboBoxStoreEdit.SelectedItem).code);
                 buttonStoreRefreshData_Click(null, null);
                 comboBoxStoreEdit.SelectedIndex = -1;
                 textBoxStoreEditCode.Text = string.Empty;

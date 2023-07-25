@@ -4,14 +4,15 @@ namespace ClassLibraryFiles
 {
     public interface IFileManager
     {
-        void CreateDictories();
-        string GetAudioListPath();
-        string GetAudioPath();
+        string GetAudioStoreAdminPath();
+        void CreateDictoriesAndFiles(List<Store> stores);
+        void CreateDictoryAndFile(string storeCode);
+        void DeleteDictory(string storeCode);
 
-        Task<GeneralAnswer<List<AudioOperation>>> GetAudioList();
-        GeneralAnswer<object> WriteAudioListToBinaryFile(string audioList);
-        GeneralAnswer<List<string>> ReadAudioListFromBinaryFile();
-        void EraseAudiosNotInAudioList(List<string> audioList);
-        List<string> GetAudioListToDownload(List<string> listAudioFormServer);
+        Task<GeneralAnswer<List<OperationDetails>>> GetAudioList(string storeCode);
+        GeneralAnswer<object> WriteAudioListToBinaryFile(string audioList, string storeCode);
+        GeneralAnswer<List<string>> ReadAudioListFromBinaryFile(string storeCode);
+        void EraseAudiosNotInAudioList(List<string> audioList, string storeCode);
+        List<string> GetAudioListToDownload(List<string> listAudioFormServer, string storeCode);
     }
 }

@@ -1,17 +1,7 @@
 ﻿using ClassLibraryFiles;
 using ClassLibraryModels;
 using ClassLibraryServices;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Numerics;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -22,26 +12,32 @@ namespace WinFormsAppMusicStoreAdmin
         private IServices _services;
         private IFileManager _fileManager;
         private EventHandler<(bool, string)> _raiseRichTextInsertMessage;
-        private BindingSource _bindingAudioListOperationList = new BindingSource();
-        private BindingList<AudioOperation> _audioOperationList;
+        private List<Store> _stores;
+
+        private BindingSource _bindingAudioListPlayer = new BindingSource();
+        private BindingList<OperationDetails> _audioListPlayer = new BindingList<OperationDetails>();
+
         private MediaPlayer player = new MediaPlayer();
         private bool isPaused = false;
         TimeSpan _position;
         DispatcherTimer _timer = new DispatcherTimer();
+
 
         //Tooltips
         ToolTip toolTipButtonPullFromServer = new ToolTip();
         ToolTip toolTipButtonPlay = new ToolTip();
         ToolTip toolTipButtonPause = new ToolTip();
         ToolTip toolTipButtonStop = new ToolTip();
+        
 
-        public UserControlPlayer(IServices services, IFileManager fileManager, EventHandler<(bool, string)> raiseRichTextInsertMessage)
+        public UserControlPlayer(IServices services, IFileManager fileManager, List<Store> stores, EventHandler<(bool, string)> raiseRichTextInsertMessage)
         {
             InitializeComponent();
             CreateToolTips();
             _services = services;
             _fileManager = fileManager;
             _raiseRichTextInsertMessage = raiseRichTextInsertMessage;
+            _stores = stores;
             player.MediaEnded += Player_MediaEnded;
             player.MediaFailed += Player_MediaFailed;
             player.MediaOpened += Player_MediaOpened;
@@ -50,7 +46,72 @@ namespace WinFormsAppMusicStoreAdmin
             _timer.Interval = TimeSpan.FromMilliseconds(10);
             _timer.Tick += new EventHandler(ticktock);
             _timer.Start();
-            LoadAuidoListFRomBinaryFile();
+            LoadComboBoxStore();
+        }
+
+        private void LoadComboBoxStore()
+        {
+            comboBoxStore.SelectedIndexChanged -= comboBoxStore_SelectedIndexChanged;
+            comboBoxStore.DataSource = _stores.Where(x => x.code != "0000").ToList();
+            comboBoxStore.DisplayMember = "code";
+            comboBoxStore.ValueMember = "id";
+            comboBoxStore.SelectedIndex = -1;
+            comboBoxStore.SelectedIndexChanged += comboBoxStore_SelectedIndexChanged;
+        }
+
+        private void comboBoxStore_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxStore.SelectedIndex != -1)
+            {
+                LoadAudioListFromBinaryFile();
+            }
+        }
+
+        private void LaunchOperationWaitForm(List<OperationDetails> operationDetails)
+        {
+            FormOperationAndWait formWait = new FormOperationAndWait(
+                _services,
+                _fileManager,
+                operationDetails,
+                _raiseRichTextInsertMessage);
+            formWait.ShowDialog();
+
+            if (formWait.AudioList != null)
+            {
+                BindListbox(formWait.AudioList);
+                listBoxAudio.ClearSelected();
+            }           
+        }
+
+        private void LoadAudioListFromBinaryFile()
+        {
+            InitMediaPlayer();
+            var operationDetailsList = new List<OperationDetails> { 
+                new OperationDetails { 
+                    Operation = OperationDetails.OPERATIONS.PLAYER_GET_AUDIO_LIST_STORE_PC,
+                    StoreCode = ((Store)comboBoxStore.SelectedItem).code
+                } 
+            };
+            LaunchOperationWaitForm(operationDetailsList);
+        }
+
+        private void buttonPullFromServer_Click(object sender, EventArgs e)
+        {
+            if (comboBoxStore.SelectedIndex != -1)
+            {
+                InitMediaPlayer();
+                var operationDetailsList = new List<OperationDetails> {
+                new OperationDetails {
+                    Operation = OperationDetails.OPERATIONS.PLAYER_GET_AUDIO_LIST_STORE_SERVER,
+                    StoreCode = ((Store)comboBoxStore.SelectedItem).code
+                }
+            };
+                LaunchOperationWaitForm(operationDetailsList);
+            }
+            else
+            {
+                _raiseRichTextInsertMessage?.Invoke(this, (false, "Debe seleccionar una tienda."));
+            }
         }
 
         private void Player_MediaOpened(object? sender, EventArgs e)
@@ -91,39 +152,13 @@ namespace WinFormsAppMusicStoreAdmin
             _raiseRichTextInsertMessage?.Invoke(this, (false, "Error al reproducir archvio de audio. Excepcion: " + e.ErrorException.Message));
         }
 
-        private void LoadAuidoListFRomBinaryFile()
+        private void BindListbox(List<OperationDetails> audioOperationList)
         {
-            InitMediaPlayer();
-            var result = _fileManager.ReadAudioListFromBinaryFile();
-            if (result.status)
-            {
-                if (result.data.Count() == 1 && result.data[0] == string.Empty)
-                {
-                    result.data.RemoveAt(0);
-                }
-
-                var audioList = result.data.Select(x => new AudioOperation { Name = x, Operation = AudioOperation.OPERATIONS.NONE, PathFileAudio = _fileManager.GetAudioPath() + x }).ToList();
-                _audioOperationList = new BindingList<AudioOperation>(audioList);
-                BindListbox(_audioOperationList);
-            }
-
-            _raiseRichTextInsertMessage?.Invoke(this, new(result.status, result.statusMessage));
+            _audioListPlayer = new BindingList<OperationDetails>(audioOperationList);
+            _bindingAudioListPlayer.DataSource = _audioListPlayer;
+            listBoxAudio.DataSource = _bindingAudioListPlayer;
+            listBoxAudio.DisplayMember = "AudioName";
         }
-
-        private void BindListbox(BindingList<AudioOperation> audioOperationList)
-        {
-            _bindingAudioListOperationList.DataSource = audioOperationList;
-            listBoxAudio.DataSource = _bindingAudioListOperationList;
-            listBoxAudio.DisplayMember = "Name";
-        }
-
-        private void buttonPullFromServer_Click(object sender, EventArgs e)
-        {
-            FormWait formWait = new FormWait(_services, _fileManager, null, _raiseRichTextInsertMessage, FormWait.TypeOperation.PullFromServer);
-            formWait.ShowDialog();
-            LoadAuidoListFRomBinaryFile();
-        }
-
         private void PlayNextAudio()
         {
             bool flag = false;
@@ -161,7 +196,7 @@ namespace WinFormsAppMusicStoreAdmin
                 var selectedItem = listBoxAudio.SelectedItem;
                 if (selectedItem != null)
                 {
-                    player.Open(new Uri(((AudioOperation)selectedItem).PathFileAudio));
+                    player.Open(new Uri(((OperationDetails)selectedItem).PathFileAudio));
                 }
             }
             isPaused = false;
@@ -197,7 +232,7 @@ namespace WinFormsAppMusicStoreAdmin
                 var selectedItem = listBoxAudio.SelectedItem;
                 if (selectedItem != null)
                 {
-                    player.Open(new Uri(((AudioOperation)selectedItem).PathFileAudio));
+                    player.Open(new Uri(((OperationDetails)selectedItem).PathFileAudio));
                 }
                 buttonPlay_Click(null, null);
             }
@@ -205,7 +240,10 @@ namespace WinFormsAppMusicStoreAdmin
 
         private void progressBarAudio_MouseDown(object sender, MouseEventArgs e)
         {
-            player.Position = player.NaturalDuration.TimeSpan * e.X / progressBarAudio.Width;
+            if (player.NaturalDuration.HasTimeSpan)
+            {
+                player.Position = player.NaturalDuration.TimeSpan * e.X / progressBarAudio.Width;
+            }
         }
     }
 }

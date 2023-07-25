@@ -3,9 +3,7 @@ using ClassLibraryModels;
 using ClassLibraryServices;
 using System.ComponentModel;
 using System.IO;
-using System.Text;
 using System.Text.Json;
-using System.Windows.Forms;
 
 namespace WinFormsAppMusicStoreAdmin
 {
@@ -14,27 +12,41 @@ namespace WinFormsAppMusicStoreAdmin
         private IServices _services;
         private EventHandler<(bool, string)> _raiseRichTextInsertMessage;
         private IFileManager _fileManager;
-        private BindingSource _bindingAudioListOperationList = new BindingSource();
-        private BindingList<AudioOperation> _audioOperationList;
-        private List<AudioOperation> _audioOperationListCompareChanges;
+        private List<Store> _stores;
+        private BindingSource _bindingAudioListServer = new BindingSource();
+        private BindingSource _bindingAudioListStore = new BindingSource();
+        private BindingList<OperationDetails> _audioListServer = new BindingList<OperationDetails>();
+        private bool _audioListServerDownloaded = false;
+        private BindingList<OperationDetails> _audioListStore = new BindingList<OperationDetails>();
+        private bool _audioListStoreDownloaded = false;
+        private BindingList<OperationDetails> _audioListStoreChange = new BindingList<OperationDetails>();
+
+        private enum OPERATION_UPDATE { NONE = 0, SERVER = 1, STORE = 2 }
 
         //Tooltips
         ToolTip toolTipButtonPullFromServer = new ToolTip();
+        ToolTip toolTipButtonRemoveAudioFromServer = new ToolTip();
+        ToolTip toolTipButtonUnselectAll = new ToolTip();
+        ToolTip toolTipButtonSelectAll = new ToolTip();
+        ToolTip toolTipButtonAddAudiosToServer = new ToolTip();
+        ToolTip toolTipButtonSynchronizeAllStores = new ToolTip();
+        ToolTip toolTipButtonAddAudioToAudioListStore = new ToolTip();
+        ToolTip toolTipButtonRefreshListStore = new ToolTip();
         ToolTip toolTipButtonMoveDown = new ToolTip();
         ToolTip toolTipButtonMoveUp = new ToolTip();
-        ToolTip toolTipButtonRemove = new ToolTip();
-        ToolTip toolTipButtonRemoveAll = new ToolTip();
-        ToolTip toolTipButtonAdd = new ToolTip();
+        ToolTip toolTipButtonDeleteAudioAudioListStore = new ToolTip();
+        ToolTip toolTipButtonDeleteAllAudioAudioListStore = new ToolTip();
         ToolTip toolTipButtonPushToServer = new ToolTip();
 
-        public UserControlMusic(IServices services, IFileManager fileManager, EventHandler<(bool, string)> raiseRichTextInsertMessage)
+        public UserControlMusic(IServices services, IFileManager fileManager, List<Store> stores, EventHandler<(bool, string)> raiseRichTextInsertMessage)
         {
             InitializeComponent();
             _services = services;
             _raiseRichTextInsertMessage = raiseRichTextInsertMessage;
             _fileManager = fileManager;
+            _stores = stores;
             CreateToolTips();
-            new Action(async () => await LoadAudioFromServer())();
+            LoadComboBoxStores();
         }
 
         protected override CreateParams CreateParams
@@ -49,109 +61,162 @@ namespace WinFormsAppMusicStoreAdmin
 
         private void CreateToolTips()
         {
-            toolTipButtonPullFromServer.SetToolTip(buttonPullAudioFromServer, "Descargar lista de audio.");
-            toolTipButtonMoveDown.SetToolTip(buttonMoveDown, "Desplazar abajo.");
-            toolTipButtonMoveUp.SetToolTip(buttonMoveUp, "Desplazar arriba.");
-            toolTipButtonRemove.SetToolTip(buttonRemove, "Remover audio.");
-            toolTipButtonRemoveAll.SetToolTip(buttonRemoveAll, "Remover todos los audios.");
-            toolTipButtonAdd.SetToolTip(buttonAdd, "Agregar audio.");
-            toolTipButtonPushToServer.SetToolTip(buttonPushToServer, "Guardar cambios en el servidor.");
+            toolTipButtonPullFromServer.SetToolTip(buttonPullAudioListFromServer, "Descargar lista de audio del servidor.");
+            toolTipButtonRemoveAudioFromServer.SetToolTip(buttonRemoveAudioFromServer, "Remover audio del servidor.");
+            toolTipButtonUnselectAll.SetToolTip(buttonUnselectAll, "Deseleccionar todos.");
+            toolTipButtonSelectAll.SetToolTip(buttonUnselectAll, "Seleccionar todos.");
+            toolTipButtonAddAudiosToServer.SetToolTip(buttonAddAudiosToServer, "Agregar audios.");
+            toolTipButtonSynchronizeAllStores.SetToolTip(buttonSynchronizeAllStores, "Sincronizar lista de audio de las tiendas.");
+            toolTipButtonAddAudioToAudioListStore.SetToolTip(buttonAddAudioToAudioListStore, "Agregar Audios a Lista de Audio Tienda.");
+            toolTipButtonRefreshListStore.SetToolTip(buttonRefreshListStore, "Actualizar a Lista de Audio Tienda.");
+            toolTipButtonMoveDown.SetToolTip(buttonMoveDownAudioListStore, "Desplazar abajo.");
+            toolTipButtonMoveUp.SetToolTip(buttonMoveUpAudioListStore, "Desplazar arriba.");
+            toolTipButtonDeleteAudioAudioListStore.SetToolTip(buttonDeleteAudioAudioListStore, "Eliminar Audio.");
+            toolTipButtonDeleteAllAudioAudioListStore.SetToolTip(buttonDeleteAllAudioAudioListStore, "Elimnar todos los audios.");
+            toolTipButtonPushToServer.SetToolTip(buttonUploadAudioListStore, "Guardar cambios en el servidor.");
         }
 
-        private async Task LoadAudioFromServer()
+        private void LoadComboBoxStores()
         {
-            var result = await _services.AudioService.DownloadAudioListStore();
-            if (result.status)
+            comboBoxStore.SelectedIndexChanged -= comboBoxStore_SelectedIndexChanged;
+            comboBoxStore.DataSource = _stores.Where(x => x.code != "0000").ToList();
+            comboBoxStore.DisplayMember = "code";
+            comboBoxStore.ValueMember = "id";
+            comboBoxStore.SelectedIndex = -1;
+            comboBoxStore.SelectedIndexChanged += comboBoxStore_SelectedIndexChanged;
+        }
+
+        private void LaunchOperationWaitForm(List<OperationDetails> operationDetails, OPERATION_UPDATE update)
+        {
+            FormOperationAndWait formWait = new FormOperationAndWait(
+                _services,
+                _fileManager,
+                operationDetails,
+                _raiseRichTextInsertMessage);
+            formWait.ShowDialog();
+
+            if (update == OPERATION_UPDATE.SERVER)
             {
-                var listOfSongs = result.data.Split(Environment.NewLine).ToList();
-                if (listOfSongs.Count == 1 && listOfSongs[0] == string.Empty)
+                if (formWait.AudioList != null)
                 {
-                    listOfSongs.RemoveAt(0);
+                    _audioListServerDownloaded = true;
+                    BindListboxServer(formWait.AudioList);
+                    listBoxAudioListServer.ClearSelected();
                 }
-                var listOfAudioOperation = listOfSongs.Select(x => new AudioOperation { Name = x, Operation = AudioOperation.OPERATIONS.NONE, PathFileAudio = string.Empty }).ToList();
-                _audioOperationListCompareChanges = new List<AudioOperation>(listOfAudioOperation);
-                _audioOperationList = new BindingList<AudioOperation>(listOfAudioOperation);
-                BindListbox(_audioOperationList);
-            }
-
-            _raiseRichTextInsertMessage?.Invoke(this, new(result.status, result.statusMessage));
-        }
-
-        private void BindListbox(BindingList<AudioOperation> audioOperationList)
-        {
-            _bindingAudioListOperationList.DataSource = audioOperationList;
-            listBoxAudio.DataSource = _bindingAudioListOperationList;
-            listBoxAudio.DisplayMember = "Name";
-        }
-
-        private void buttonMoveDown_Click(object sender, EventArgs e)
-        {
-            var itemIndex = listBoxAudio.SelectedIndex;
-            if (itemIndex > -1 && itemIndex < listBoxAudio.Items.Count - 1)
-            {
-                Swap(itemIndex, itemIndex + 1);
-                listBoxAudio.SelectedIndex = itemIndex + 1;
-            }
-        }
-
-        private void Swap(int i, int j)
-        {
-            AudioOperation temp = _audioOperationList[i];
-            _audioOperationList[i] = _audioOperationList[j];
-            _audioOperationList[j] = temp;
-        }
-
-        private void buttonMoveUp_Click(object sender, EventArgs e)
-        {
-            var itemIndex = listBoxAudio.SelectedIndex;
-            if (itemIndex > -1 && itemIndex != 0)
-            {
-                Swap(itemIndex, itemIndex - 1);
-                listBoxAudio.SelectedIndex = itemIndex - 1;
-            }
-        }
-
-        private void buttonRemove_Click(object sender, EventArgs e)
-        {
-            if (_audioOperationList != null && _audioOperationList.Count > 0)
-            {
-                _audioOperationList.RemoveAt(listBoxAudio.SelectedIndex);
-            }
-        }
-
-        private void buttonRemoveAll_Click(object sender, EventArgs e)
-        {
-            if (_audioOperationList != null && _audioOperationList.Count > 0)
-            {
-                while (_audioOperationList.Count > 0)
+                else
                 {
-                    _audioOperationList.RemoveAt(0);
+                    _audioListServerDownloaded = false;
+                }
+            }
+            else if (update == OPERATION_UPDATE.STORE)
+            {
+                if (formWait.AudioList != null)
+                {
+                    _audioListStoreDownloaded = true;
+                    BindListboxStore(formWait.AudioList);
+                    listBoxAudioListStore.ClearSelected();
+                    labelAudioListStoreCode.Text = $"LISTA DE AUDIO TIENDA: {((Store)comboBoxStore.SelectedItem).code}";
+                }
+                else
+                {
+                    _audioListStoreDownloaded = false;
+                    _audioListStore.Clear();
+                    labelAudioListStoreCode.Text = "LISTA DE AUDIO TIENDA: 0000";
+                    comboBoxStore.SelectedIndexChanged -= comboBoxStore_SelectedIndexChanged;
+                    comboBoxStore.SelectedIndex = -1;
+                    comboBoxStore.SelectedIndexChanged += comboBoxStore_SelectedIndexChanged;
                 }
             }
         }
 
-        private async void buttonPullFromServer_Click(object sender, EventArgs e)
+        private void BindListboxServer(List<OperationDetails> audioList)
         {
-            await LoadAudioFromServer();
+            _audioListServer = new BindingList<OperationDetails>(audioList);
+            _bindingAudioListServer.DataSource = _audioListServer;
+            listBoxAudioListServer.DataSource = _bindingAudioListServer;
+            listBoxAudioListServer.DisplayMember = "AudioName";
         }
 
-        private void buttonAdd_Click(object sender, EventArgs e)
+        private void buttonPullAudioFromServer_Click(object sender, EventArgs e)
         {
-            var filesPath = GetFilePathFromDialog();
-            if (filesPath.Count() > 0)
+            var operationDetails = new List<OperationDetails> { new OperationDetails { Operation = OperationDetails.OPERATIONS.SERVER_GET_AUDIO_LIST } };
+            LaunchOperationWaitForm(operationDetails, OPERATION_UPDATE.SERVER);
+
+        }
+
+        private void buttonRemoveAudioFromServer_Click(object sender, EventArgs e)
+        {
+            if (_audioListServerDownloaded)
             {
-                foreach (var file in filesPath)
+                List<OperationDetails> operationDetails = new List<OperationDetails>();
+                var itemsSerlectd = listBoxAudioListServer.SelectedItems;
+                foreach (var item in itemsSerlectd)
                 {
-                    if (_audioOperationList.Any(x => x.Name == Path.GetFileName(file)))
+                    ((OperationDetails)item).Operation = OperationDetails.OPERATIONS.SERVER_DELETE_AUDIO;
+                    operationDetails.Add((OperationDetails)item);
+                }
+
+                operationDetails.Add(new OperationDetails { Operation = OperationDetails.OPERATIONS.SERVER_GET_AUDIO_LIST });
+
+                if (operationDetails.Count > 0)
+                {
+                    LaunchOperationWaitForm(operationDetails, OPERATION_UPDATE.SERVER);
+                }
+            }
+            else
+            {
+                _raiseRichTextInsertMessage?.Invoke(this, (false, "Error debe descargar una lista de audio del servidor."));
+            }
+
+        }
+
+        private void buttonUnselectAll_Click(object sender, EventArgs e)
+        {
+            for (int val = 0; val < listBoxAudioListServer.Items.Count; val++)
+            {
+                listBoxAudioListServer.SetSelected(val, false);
+            }
+        }
+
+        private void buttonSelectAll_Click(object sender, EventArgs e)
+        {
+            for (int val = 0; val < listBoxAudioListServer.Items.Count; val++)
+            {
+                listBoxAudioListServer.SetSelected(val, true);
+            }
+        }
+
+        private void buttonAddAudiosToServer_Click(object sender, EventArgs e)
+        {
+            if (_audioListServerDownloaded)
+            {
+                var filesPath = GetFilePathFromDialog();
+                var operationDetails = new List<OperationDetails>();
+                if (filesPath.Count() > 0)
+                {
+                    foreach (var file in filesPath)
                     {
-                        _raiseRichTextInsertMessage?.Invoke(this, (false, "Archivo de audio ya existente en la lista."));
+                        if (_audioListServer.Any(x => x.AudioName == Path.GetFileName(file)))
+                        {
+                            _raiseRichTextInsertMessage?.Invoke(this, (false, "Archivo de audio ya existente en la lista. Audio: " + Path.GetFileName(file)));
+                        }
+                        else
+                        {
+                            operationDetails.Add(new OperationDetails { AudioName = Path.GetFileName(file), Operation = OperationDetails.OPERATIONS.SERVER_UPLOAD_AUDIO, PathFileAudio = file });
+                        }
                     }
-                    else
-                    {
-                        _audioOperationList.Add(new AudioOperation { Name = Path.GetFileName(file), Operation = AudioOperation.OPERATIONS.UPLOAD, PathFileAudio = file });
-                        _raiseRichTextInsertMessage?.Invoke(this, (true, "Archivo de audio agregado a la lista."));
-                    }
+
+                    operationDetails.Add(new OperationDetails { Operation = OperationDetails.OPERATIONS.SERVER_GET_AUDIO_LIST });
                 }
+
+                if (operationDetails.Count() > 0)
+                {
+                    LaunchOperationWaitForm(operationDetails, OPERATION_UPDATE.SERVER);
+                }
+            }
+            else
+            {
+                _raiseRichTextInsertMessage?.Invoke(this, (false, "Error debe descargar una lista de audio del servidor."));
             }
         }
 
@@ -179,27 +244,144 @@ namespace WinFormsAppMusicStoreAdmin
             return files;
         }
 
-        private bool areTheyChancehsToPush()
+        private void buttonSynchronizeAllStores_Click(object sender, EventArgs e)
         {
-            if (JsonSerializer.Serialize(_audioOperationList) != JsonSerializer.Serialize(_audioOperationListCompareChanges))
+            var operationDetails = new List<OperationDetails> { new OperationDetails { Operation = OperationDetails.OPERATIONS.SERVER_SYNCHRONIZE_STORES } };
+            LaunchOperationWaitForm(operationDetails, OPERATION_UPDATE.NONE);
+        }
+
+        private void buttonAddAudioToAudioListStore_Click(object sender, EventArgs e)
+        {
+            if (_audioListStoreDownloaded)
+            {
+                var listSelectedAudioServer = listBoxAudioListServer.SelectedItems;
+                foreach (var audioServer in listSelectedAudioServer)
+                {
+                    if (IsAudioInAudioListStore((OperationDetails)audioServer) == false)
+                    {
+                        _audioListStore.Add((OperationDetails)audioServer);
+                    }
+                    else
+                    {
+                        _raiseRichTextInsertMessage?.Invoke(this, (false, "Error archivo ya en la lista de la tienda, audio: " + ((OperationDetails)audioServer).AudioName));
+                    }
+                }
+            }
+            else
+            {
+                _raiseRichTextInsertMessage?.Invoke(this, (false, "Error debe descargar una lista de audio de tienda."));
+            }
+        }
+
+        private bool IsAudioInAudioListStore(OperationDetails audioServer)
+        {
+            foreach (var item in listBoxAudioListStore.Items)
+            {
+                if (((OperationDetails)item).AudioName == audioServer.AudioName)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void comboBoxStore_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxStore.SelectedIndex != -1)
+            {
+                var operationDetails = new List<OperationDetails> { new OperationDetails { Operation = OperationDetails.OPERATIONS.STORE_GET_AUDIO_LIST, StoreCode = ((Store)comboBoxStore.SelectedItem).code } };
+                LaunchOperationWaitForm(operationDetails, OPERATION_UPDATE.STORE);
+            }
+        }
+
+        private void BindListboxStore(List<OperationDetails> audioList)
+        {
+            _audioListStore = new BindingList<OperationDetails>(audioList);
+            _audioListStoreChange = new BindingList<OperationDetails>(new List<OperationDetails>(audioList));
+            _bindingAudioListStore.DataSource = _audioListStore;
+            _bindingAudioListStore.DataSource = _audioListStore;
+            listBoxAudioListStore.DataSource = _bindingAudioListStore;
+            listBoxAudioListStore.DisplayMember = "AudioName";
+        }
+
+        private void buttonMoveDownAudioListStore_Click(object sender, EventArgs e)
+        {
+            var itemIndex = listBoxAudioListStore.SelectedIndex;
+            if (itemIndex > -1 && itemIndex < listBoxAudioListStore.Items.Count - 1)
+            {
+                Swap(itemIndex, itemIndex + 1);
+                listBoxAudioListStore.SelectedIndex = itemIndex + 1;
+            }
+        }
+
+        private void buttonMoveUpAudioListStore_Click(object sender, EventArgs e)
+        {
+            var itemIndex = listBoxAudioListStore.SelectedIndex;
+            if (itemIndex > -1 && itemIndex != 0)
+            {
+                Swap(itemIndex, itemIndex - 1);
+                listBoxAudioListStore.SelectedIndex = itemIndex - 1;
+            }
+        }
+
+        private void Swap(int i, int j)
+        {
+            OperationDetails temp = _audioListStore[i];
+            _audioListStore[i] = _audioListStore[j];
+            _audioListStore[j] = temp;
+        }
+
+        private void buttonDeleteAudioListStore_Click(object sender, EventArgs e)
+        {
+            if (_audioListStore != null && _audioListStore.Count > 0)
+            {
+                _audioListStore.RemoveAt(listBoxAudioListStore.SelectedIndex);
+            }
+        }
+
+        private void buttonDeleteAllAudioListStore_Click(object sender, EventArgs e)
+        {
+            if (_audioListStore != null && _audioListStore.Count > 0)
+            {
+                while (_audioListStore.Count > 0)
+                {
+                    _audioListStore.RemoveAt(0);
+                }
+            }
+        }
+
+        private void buttonUploadAudioListStore_Click(object sender, EventArgs e)
+        {
+            if (AreTheyChangesToUpload())
+            {
+                var operationDetails = new List<OperationDetails> {
+                    new OperationDetails {
+                        Operation = OperationDetails.OPERATIONS.STORE_SYNCHRONIZE_LIST_AUDIO,
+                        AudioList = String.Join("\r\n",_audioListStore.Select(x => x.AudioName).ToArray()),
+                        StoreCode = ((Store)comboBoxStore.SelectedItem).code
+                    }
+                };
+                LaunchOperationWaitForm(operationDetails, OPERATION_UPDATE.STORE);
+            }
+            else
+            {
+                _raiseRichTextInsertMessage(this, (false, "No hay cambios en la lista de audio de tienda."));
+            }
+        }
+
+        private bool AreTheyChangesToUpload()
+        {
+            if (JsonSerializer.Serialize(_audioListStore) != JsonSerializer.Serialize(_audioListStoreChange))
             {
                 return true;
             }
             return false;
         }
 
-        private async void buttonPushToServer_Click(object sender, EventArgs e)
+        private void buttonRefreshListStore_Click(object sender, EventArgs e)
         {
-            if (areTheyChancehsToPush())
-            {
-                FormWait form = new FormWait(_services, _fileManager, new List<AudioOperation>(_audioOperationList), _raiseRichTextInsertMessage, FormWait.TypeOperation.PushToServer);
-                form.ShowDialog();
-                await LoadAudioFromServer();
-            }
-            else
-            {
-                _raiseRichTextInsertMessage(this, (false, "No hay cambios en la lista de audio."));
-            }
+            comboBoxStore_SelectedIndexChanged(this, null);
         }
     }
 }

@@ -1,85 +1,109 @@
 ﻿using ClassLibraryModels;
 using System.Text;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace ClassLibraryFiles
 {
     public class FileManager : IFileManager
     {
-        private readonly string AUIDO_LIST_PATH = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MusicStore\\data\\audioList.bin";
-        private readonly string AUIDO_PATH = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MusicStore\\data\\audio\\";
-        private readonly string MUSIC_STORE_PATH = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MusicStore";
-        private readonly string MUSIC_STORE_DATA_PATH = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\MusicStore\\data";
+        private readonly string AUDIO_STORE_ADMIN_PATH = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\AudioStoreAdmin\\data";
 
-        public void CreateDictories()
+        public string GetAudioStoreAdminPath()
+        { 
+            return AUDIO_STORE_ADMIN_PATH; 
+        }
+
+        public void CreateDictoryAndFile(string storeCode)
         {
-            if(!Directory.Exists(MUSIC_STORE_PATH))
+            if (!Directory.Exists(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}"))
             {
-                Directory.CreateDirectory(MUSIC_STORE_PATH);
+                Directory.CreateDirectory(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}");
             }
 
-            if (!Directory.Exists(MUSIC_STORE_DATA_PATH))
+            if (!Directory.Exists(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}" + "\\audio"))
             {
-                Directory.CreateDirectory(MUSIC_STORE_DATA_PATH);
+                Directory.CreateDirectory(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}" + "\\audio");
             }
 
-            if (!Directory.Exists(AUIDO_PATH))
+            if (!File.Exists(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}\\audioList{storeCode}.bin"))
             {
-                Directory.CreateDirectory(AUIDO_PATH);
+                File.Create(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}\\audioList{storeCode}.bin");
             }
         }
 
-        public string GetAudioListPath()
+        public void DeleteDictory(string storeCode)
         {
-            return AUIDO_LIST_PATH;
+            Directory.Delete(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}", true);
         }
 
-        public string GetAudioPath()
+        public void CreateDictoriesAndFiles(List<Store> stores)
         {
-            return AUIDO_PATH;
-        }
-
-        public async Task<GeneralAnswer<List<AudioOperation>>> GetAudioList()
-        {
-            List<AudioOperation> list = new();
-            try
+            if (!Directory.Exists(AUDIO_STORE_ADMIN_PATH))
             {
-                if (File.Exists(AUIDO_LIST_PATH))
+                Directory.CreateDirectory(AUDIO_STORE_ADMIN_PATH);
+            }
+
+            foreach (Store store in stores)
+            {
+                if (!Directory.Exists(AUDIO_STORE_ADMIN_PATH + $"\\{store.code}"))
                 {
-                    new List<string>(await File.ReadAllLinesAsync(AUIDO_LIST_PATH)).ForEach(x => list.Add(new AudioOperation { Name = x }));
-                    return new GeneralAnswer<List<AudioOperation>> { status = true, statusMessage = "Audios obtenidos de archivo del equipo.", data = list };
+                    Directory.CreateDirectory(AUDIO_STORE_ADMIN_PATH + $"\\{store.code}");
                 }
 
-                return new GeneralAnswer<List<AudioOperation>> { status = false, statusMessage = "Archivo de audio no existe en el equipo.", data = list };
+                if (!Directory.Exists(AUDIO_STORE_ADMIN_PATH + $"\\{store.code}" + "\\audio"))
+                {
+                    Directory.CreateDirectory(AUDIO_STORE_ADMIN_PATH + $"\\{store.code}" + "\\audio");
+                }
+
+                if (!File.Exists(AUDIO_STORE_ADMIN_PATH + $"\\{store.code}\\audioList{store.code}.bin"))
+                {
+                    File.Create(AUDIO_STORE_ADMIN_PATH + $"\\{store.code}\\audioList{store.code}.bin");
+                }
+            }
+        }
+
+        public async Task<GeneralAnswer<List<OperationDetails>>> GetAudioList(string storeCode)
+        {
+            List<OperationDetails> list = new();
+            try
+            {
+                if (File.Exists(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}\\audioList{storeCode}.txt"))
+                {
+                    new List<string>(await File.ReadAllLinesAsync(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}\\audioList{storeCode}.txt")).ForEach(x => list.Add(new OperationDetails { AudioName = x }));
+                    return new GeneralAnswer<List<OperationDetails>> { status = true, statusMessage = "Audios obtenidos de archivo del equipo.", data = list };
+                }
+
+                return new GeneralAnswer<List<OperationDetails>> { status = false, statusMessage = "Archivo de audio no existe en el equipo.", data = list };
             }
             catch (Exception ex)
             {
-                return new GeneralAnswer<List<AudioOperation>> { status = false, statusMessage = "Error al obtener archivo de audio del equipo, Excepcion: " + ex.Message, data = list };
+                return new GeneralAnswer<List<OperationDetails>> { status = false, statusMessage = "Error al obtener archivo de audio del equipo, Excepcion: " + ex.Message, data = list };
             }
         }
 
-        public GeneralAnswer<object> WriteAudioListToBinaryFile(string audioList)
+        public GeneralAnswer<object> WriteAudioListToBinaryFile(string audioList, string storeCode)
         {
             try
             {
-                using (BinaryWriter binWriter = new BinaryWriter(new FileStream(AUIDO_LIST_PATH, FileMode.Create), Encoding.UTF8))
+                using (BinaryWriter binWriter = new BinaryWriter(new FileStream(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}\\audioList{storeCode}.bin", FileMode.Create), Encoding.UTF8))
                 {
                     var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(audioList);
                     binWriter.Write(System.Convert.ToBase64String(plainTextBytes));
                 }
-                return new GeneralAnswer<object>(true, "Lista de Audio escritas en archivo binario.", null);
+                return new GeneralAnswer<object>(true, "Lista de Audio escrita en archivo binario.", null);
             }
             catch(Exception ex)
             {
-                return new GeneralAnswer<object> (false, "Error escribiendo Lista de Audio a archivo binario.", null);
+                return new GeneralAnswer<object> (false, "Error escribiendo Lista de Audio a archivo binario. Excepcion: " + ex.Message, null);
             }   
         }
 
-        public GeneralAnswer<List<string>> ReadAudioListFromBinaryFile()
+        public GeneralAnswer<List<string>> ReadAudioListFromBinaryFile(string storeCode)
         {
             try
             {
                 List<string> audioList = new List<string>();
-                using (BinaryReader binReader = new BinaryReader(File.OpenRead(AUIDO_LIST_PATH), Encoding.UTF8))
+                using (BinaryReader binReader = new BinaryReader(File.OpenRead(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}\\audioList{storeCode}.bin"), Encoding.UTF8))
                 {
                     var base64EncodedBytes = System.Convert.FromBase64String(binReader.ReadString());
                     audioList = new List<string>(System.Text.Encoding.UTF8.GetString(base64EncodedBytes).Split(Environment.NewLine));
@@ -92,10 +116,10 @@ namespace ClassLibraryFiles
             }
         }
 
-        public void EraseAudiosNotInAudioList(List<string> audioList)
+        public void EraseAudiosNotInAudioList(List<string> audioList, string storeCode)
         {
             List<string> listAudioPc = new List<string>();
-            foreach (var item in Directory.GetFiles(AUIDO_PATH))
+            foreach (var item in Directory.GetFiles(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}\\audio"))
             {
                 listAudioPc.Add(Path.GetFileName(item));
             }
@@ -104,7 +128,7 @@ namespace ClassLibraryFiles
 
             foreach (var audio in notInAudioList)
             {
-                foreach (var item in Directory.GetFiles(AUIDO_PATH))
+                foreach (var item in Directory.GetFiles(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}\\audio"))
                 {
                     if(audio == Path.GetFileName(item))
                     {
@@ -114,10 +138,10 @@ namespace ClassLibraryFiles
             }
         }
 
-        public List<string> GetAudioListToDownload(List<string> listAudioFormServer)
+        public List<string> GetAudioListToDownload(List<string> listAudioFormServer, string storeCode)
         {
             List<string> listAudioPc = new List<string>();
-            foreach(var item in Directory.GetFiles(AUIDO_PATH))
+            foreach(var item in Directory.GetFiles(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}\\audio"))
             {
                 listAudioPc.Add(Path.GetFileName(item));
             }
@@ -125,5 +149,6 @@ namespace ClassLibraryFiles
             return listAudioFormServer.Except(listAudioPc).ToList();
 
         }
+        
     }
 }

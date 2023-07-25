@@ -35,6 +35,7 @@
             buttonRegister = new Button();
             buttonPlayer = new Button();
             buttonClose = new Button();
+            buttonTools = new Button();
             buttonMusic = new Button();
             pictureBox1 = new PictureBox();
             panel6 = new Panel();
@@ -66,6 +67,7 @@
             panel1.Controls.Add(buttonRegister);
             panel1.Controls.Add(buttonPlayer);
             panel1.Controls.Add(buttonClose);
+            panel1.Controls.Add(buttonTools);
             panel1.Controls.Add(buttonMusic);
             panel1.Controls.Add(pictureBox1);
             panel1.Dock = DockStyle.Left;
@@ -83,7 +85,7 @@
             buttonUser.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             buttonUser.ForeColor = Color.White;
             buttonUser.ImageAlign = ContentAlignment.MiddleRight;
-            buttonUser.Location = new Point(0, 330);
+            buttonUser.Location = new Point(0, 376);
             buttonUser.Name = "buttonUser";
             buttonUser.Size = new Size(200, 46);
             buttonUser.TabIndex = 8;
@@ -101,7 +103,7 @@
             buttonStore.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             buttonStore.ForeColor = Color.White;
             buttonStore.ImageAlign = ContentAlignment.MiddleRight;
-            buttonStore.Location = new Point(0, 284);
+            buttonStore.Location = new Point(0, 330);
             buttonStore.Name = "buttonStore";
             buttonStore.Size = new Size(200, 46);
             buttonStore.TabIndex = 10;
@@ -119,7 +121,7 @@
             buttonRegister.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             buttonRegister.ForeColor = Color.White;
             buttonRegister.ImageAlign = ContentAlignment.MiddleRight;
-            buttonRegister.Location = new Point(0, 238);
+            buttonRegister.Location = new Point(0, 284);
             buttonRegister.Name = "buttonRegister";
             buttonRegister.Size = new Size(200, 46);
             buttonRegister.TabIndex = 5;
@@ -137,7 +139,7 @@
             buttonPlayer.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             buttonPlayer.ForeColor = Color.White;
             buttonPlayer.ImageAlign = ContentAlignment.MiddleRight;
-            buttonPlayer.Location = new Point(0, 192);
+            buttonPlayer.Location = new Point(0, 238);
             buttonPlayer.Name = "buttonPlayer";
             buttonPlayer.Size = new Size(200, 46);
             buttonPlayer.TabIndex = 9;
@@ -164,6 +166,24 @@
             buttonClose.TextAlign = ContentAlignment.MiddleLeft;
             buttonClose.UseVisualStyleBackColor = false;
             buttonClose.Click += buttonClose_Click;
+            // 
+            // buttonTools
+            // 
+            buttonTools.BackColor = Color.RoyalBlue;
+            buttonTools.Dock = DockStyle.Top;
+            buttonTools.FlatAppearance.BorderSize = 0;
+            buttonTools.FlatStyle = FlatStyle.Flat;
+            buttonTools.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonTools.ForeColor = Color.White;
+            buttonTools.ImageAlign = ContentAlignment.MiddleRight;
+            buttonTools.Location = new Point(0, 192);
+            buttonTools.Name = "buttonTools";
+            buttonTools.Size = new Size(200, 46);
+            buttonTools.TabIndex = 11;
+            buttonTools.Text = "HERRAMIENTAS";
+            buttonTools.TextAlign = ContentAlignment.MiddleLeft;
+            buttonTools.UseVisualStyleBackColor = false;
+            buttonTools.Click += buttonTools_Click;
             // 
             // buttonMusic
             // 
@@ -201,7 +221,7 @@
             panel6.Dock = DockStyle.Fill;
             panel6.Location = new Point(0, 0);
             panel6.Name = "panel6";
-            panel6.Size = new Size(1180, 680);
+            panel6.Size = new Size(1240, 675);
             panel6.TabIndex = 2;
             // 
             // panelChildForm
@@ -209,7 +229,7 @@
             panelChildForm.Dock = DockStyle.Fill;
             panelChildForm.Location = new Point(0, 0);
             panelChildForm.Name = "panelChildForm";
-            panelChildForm.Size = new Size(1180, 680);
+            panelChildForm.Size = new Size(1240, 675);
             panelChildForm.TabIndex = 3;
             // 
             // panel2
@@ -219,7 +239,7 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1180, 63);
+            panel2.Size = new Size(1240, 68);
             panel2.TabIndex = 2;
             // 
             // panel5
@@ -228,7 +248,7 @@
             panel5.Dock = DockStyle.Fill;
             panel5.Location = new Point(118, 0);
             panel5.Name = "panel5";
-            panel5.Size = new Size(1062, 63);
+            panel5.Size = new Size(1122, 68);
             panel5.TabIndex = 4;
             // 
             // richTextBoxStatusMessages
@@ -239,7 +259,7 @@
             richTextBoxStatusMessages.Location = new Point(0, 0);
             richTextBoxStatusMessages.Name = "richTextBoxStatusMessages";
             richTextBoxStatusMessages.ReadOnly = true;
-            richTextBoxStatusMessages.Size = new Size(1062, 63);
+            richTextBoxStatusMessages.Size = new Size(1122, 68);
             richTextBoxStatusMessages.TabIndex = 0;
             richTextBoxStatusMessages.Text = "";
             // 
@@ -250,7 +270,7 @@
             panel3.Dock = DockStyle.Left;
             panel3.Location = new Point(0, 0);
             panel3.Name = "panel3";
-            panel3.Size = new Size(118, 63);
+            panel3.Size = new Size(118, 68);
             panel3.TabIndex = 2;
             // 
             // label1
@@ -259,7 +279,7 @@
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             label1.Location = new Point(5, 21);
             label1.Name = "label1";
-            label1.Size = new Size(80, 21);
+            label1.Size = new Size(100, 28);
             label1.TabIndex = 0;
             label1.Text = "ESTATUS:";
             // 
@@ -280,17 +300,17 @@
             // 
             splitContainer.Panel2.Controls.Add(panel2);
             splitContainer.Panel2MinSize = 45;
-            splitContainer.Size = new Size(1182, 753);
-            splitContainer.SplitterDistance = 682;
+            splitContainer.Size = new Size(1242, 753);
+            splitContainer.SplitterDistance = 677;
             splitContainer.SplitterWidth = 6;
             splitContainer.TabIndex = 3;
             // 
             // FormMain
             // 
-            AutoScaleDimensions = new SizeF(9F, 20F);
+            AutoScaleDimensions = new SizeF(12F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1382, 753);
+            ClientSize = new Size(1442, 753);
             Controls.Add(splitContainer);
             Controls.Add(panel1);
             Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
@@ -331,5 +351,6 @@
         private Label label1;
         private SplitContainer splitContainer;
         private Button buttonStore;
+        private Button buttonTools;
     }
 }
