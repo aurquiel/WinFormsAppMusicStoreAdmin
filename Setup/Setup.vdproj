@@ -49,6 +49,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -65,6 +73,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -192,9 +208,9 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Music Store Admin"
-        "ProductCode" = "8:{260355D0-4549-4E7B-B2D8-DCE2B62C435D}"
+        "ProductCode" = "8:{694479FE-A8D9-4D67-91A8-F25F291DC94D}"
         "PackageCode" = "8:{95BCA53A-E503-44AE-99E4-E2C92A7D045E}"
-        "UpgradeCode" = "8:{AE11C0CD-E7DD-4FC7-90E0-ACB41C3B621E}"
+        "UpgradeCode" = "8:{DA879670-A5DB-48C1-8CD9-1242C63210F7}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"

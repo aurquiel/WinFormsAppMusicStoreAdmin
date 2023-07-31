@@ -221,7 +221,7 @@
             panel6.Dock = DockStyle.Fill;
             panel6.Location = new Point(0, 0);
             panel6.Name = "panel6";
-            panel6.Size = new Size(1240, 675);
+            panel6.Size = new Size(1240, 685);
             panel6.TabIndex = 2;
             // 
             // panelChildForm
@@ -229,7 +229,7 @@
             panelChildForm.Dock = DockStyle.Fill;
             panelChildForm.Location = new Point(0, 0);
             panelChildForm.Name = "panelChildForm";
-            panelChildForm.Size = new Size(1240, 675);
+            panelChildForm.Size = new Size(1240, 685);
             panelChildForm.TabIndex = 3;
             // 
             // panel2
@@ -239,7 +239,7 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1240, 68);
+            panel2.Size = new Size(1240, 58);
             panel2.TabIndex = 2;
             // 
             // panel5
@@ -248,7 +248,7 @@
             panel5.Dock = DockStyle.Fill;
             panel5.Location = new Point(118, 0);
             panel5.Name = "panel5";
-            panel5.Size = new Size(1122, 68);
+            panel5.Size = new Size(1122, 58);
             panel5.TabIndex = 4;
             // 
             // richTextBoxStatusMessages
@@ -259,7 +259,7 @@
             richTextBoxStatusMessages.Location = new Point(0, 0);
             richTextBoxStatusMessages.Name = "richTextBoxStatusMessages";
             richTextBoxStatusMessages.ReadOnly = true;
-            richTextBoxStatusMessages.Size = new Size(1122, 68);
+            richTextBoxStatusMessages.Size = new Size(1122, 58);
             richTextBoxStatusMessages.TabIndex = 0;
             richTextBoxStatusMessages.Text = "";
             // 
@@ -270,7 +270,7 @@
             panel3.Dock = DockStyle.Left;
             panel3.Location = new Point(0, 0);
             panel3.Name = "panel3";
-            panel3.Size = new Size(118, 68);
+            panel3.Size = new Size(118, 58);
             panel3.TabIndex = 2;
             // 
             // label1
@@ -279,7 +279,7 @@
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             label1.Location = new Point(5, 21);
             label1.Name = "label1";
-            label1.Size = new Size(100, 28);
+            label1.Size = new Size(80, 21);
             label1.TabIndex = 0;
             label1.Text = "ESTATUS:";
             // 
@@ -301,13 +301,13 @@
             splitContainer.Panel2.Controls.Add(panel2);
             splitContainer.Panel2MinSize = 45;
             splitContainer.Size = new Size(1242, 753);
-            splitContainer.SplitterDistance = 677;
+            splitContainer.SplitterDistance = 687;
             splitContainer.SplitterWidth = 6;
             splitContainer.TabIndex = 3;
             // 
             // FormMain
             // 
-            AutoScaleDimensions = new SizeF(12F, 25F);
+            AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1442, 753);

@@ -46,6 +46,8 @@
             buttonAddAudioToAudioListStore = new Button();
             tableLayoutPanel6 = new TableLayoutPanel();
             panel9 = new Panel();
+            buttonSelectAllAudioListStore = new Button();
+            buttonUnselectAllAudioListStore = new Button();
             buttonRefreshListStore = new Button();
             comboBoxStore = new ComboBox();
             buttonUploadAudioListStore = new Button();
@@ -256,7 +258,7 @@
             // 
             listBoxAudioListServer.Dock = DockStyle.Fill;
             listBoxAudioListServer.FormattingEnabled = true;
-            listBoxAudioListServer.ItemHeight = 20;
+            listBoxAudioListServer.ItemHeight = 15;
             listBoxAudioListServer.Location = new Point(3, 3);
             listBoxAudioListServer.Name = "listBoxAudioListServer";
             listBoxAudioListServer.SelectionMode = SelectionMode.MultiSimple;
@@ -308,6 +310,8 @@
             // 
             // panel9
             // 
+            panel9.Controls.Add(buttonSelectAllAudioListStore);
+            panel9.Controls.Add(buttonUnselectAllAudioListStore);
             panel9.Controls.Add(buttonRefreshListStore);
             panel9.Controls.Add(comboBoxStore);
             panel9.Controls.Add(buttonUploadAudioListStore);
@@ -320,6 +324,36 @@
             panel9.Name = "panel9";
             panel9.Size = new Size(448, 39);
             panel9.TabIndex = 23;
+            // 
+            // buttonSelectAllAudioListStore
+            // 
+            buttonSelectAllAudioListStore.BackColor = Color.White;
+            buttonSelectAllAudioListStore.FlatStyle = FlatStyle.Flat;
+            buttonSelectAllAudioListStore.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonSelectAllAudioListStore.ForeColor = Color.Black;
+            buttonSelectAllAudioListStore.Image = Properties.Resources.selectAll;
+            buttonSelectAllAudioListStore.Location = new Point(170, 4);
+            buttonSelectAllAudioListStore.Name = "buttonSelectAllAudioListStore";
+            buttonSelectAllAudioListStore.Size = new Size(32, 27);
+            buttonSelectAllAudioListStore.TabIndex = 28;
+            buttonSelectAllAudioListStore.TextAlign = ContentAlignment.MiddleLeft;
+            buttonSelectAllAudioListStore.UseVisualStyleBackColor = false;
+            buttonSelectAllAudioListStore.Click += buttonSelectAllAudioListStore_Click;
+            // 
+            // buttonUnselectAllAudioListStore
+            // 
+            buttonUnselectAllAudioListStore.BackColor = Color.White;
+            buttonUnselectAllAudioListStore.FlatStyle = FlatStyle.Flat;
+            buttonUnselectAllAudioListStore.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonUnselectAllAudioListStore.ForeColor = Color.Black;
+            buttonUnselectAllAudioListStore.Image = Properties.Resources.unselectAll;
+            buttonUnselectAllAudioListStore.Location = new Point(132, 4);
+            buttonUnselectAllAudioListStore.Name = "buttonUnselectAllAudioListStore";
+            buttonUnselectAllAudioListStore.Size = new Size(32, 27);
+            buttonUnselectAllAudioListStore.TabIndex = 27;
+            buttonUnselectAllAudioListStore.TextAlign = ContentAlignment.MiddleLeft;
+            buttonUnselectAllAudioListStore.UseVisualStyleBackColor = false;
+            buttonUnselectAllAudioListStore.Click += buttonUnselectAllAudioListStore_Click;
             // 
             // buttonRefreshListStore
             // 
@@ -343,7 +377,7 @@
             comboBoxStore.FormattingEnabled = true;
             comboBoxStore.Location = new Point(3, 6);
             comboBoxStore.Name = "comboBoxStore";
-            comboBoxStore.Size = new Size(85, 25);
+            comboBoxStore.Size = new Size(85, 20);
             comboBoxStore.TabIndex = 22;
             comboBoxStore.SelectedIndexChanged += comboBoxStore_SelectedIndexChanged;
             // 
@@ -370,7 +404,7 @@
             buttonMoveDownAudioListStore.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
             buttonMoveDownAudioListStore.ForeColor = Color.Black;
             buttonMoveDownAudioListStore.Image = Properties.Resources.downArrow;
-            buttonMoveDownAudioListStore.Location = new Point(132, 4);
+            buttonMoveDownAudioListStore.Location = new Point(208, 4);
             buttonMoveDownAudioListStore.Name = "buttonMoveDownAudioListStore";
             buttonMoveDownAudioListStore.Size = new Size(32, 27);
             buttonMoveDownAudioListStore.TabIndex = 15;
@@ -385,7 +419,7 @@
             buttonMoveUpAudioListStore.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
             buttonMoveUpAudioListStore.ForeColor = Color.Black;
             buttonMoveUpAudioListStore.Image = Properties.Resources.upArrow;
-            buttonMoveUpAudioListStore.Location = new Point(169, 4);
+            buttonMoveUpAudioListStore.Location = new Point(245, 4);
             buttonMoveUpAudioListStore.Name = "buttonMoveUpAudioListStore";
             buttonMoveUpAudioListStore.Size = new Size(32, 27);
             buttonMoveUpAudioListStore.TabIndex = 16;
@@ -400,7 +434,7 @@
             buttonDeleteAudioAudioListStore.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
             buttonDeleteAudioAudioListStore.ForeColor = Color.Red;
             buttonDeleteAudioAudioListStore.Image = Properties.Resources.erase;
-            buttonDeleteAudioAudioListStore.Location = new Point(206, 4);
+            buttonDeleteAudioAudioListStore.Location = new Point(282, 4);
             buttonDeleteAudioAudioListStore.Name = "buttonDeleteAudioAudioListStore";
             buttonDeleteAudioAudioListStore.Size = new Size(32, 27);
             buttonDeleteAudioAudioListStore.TabIndex = 17;
@@ -415,7 +449,7 @@
             buttonDeleteAllAudioAudioListStore.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
             buttonDeleteAllAudioAudioListStore.ForeColor = Color.FromArgb(41, 10, 10);
             buttonDeleteAllAudioAudioListStore.Image = Properties.Resources.eraseAll;
-            buttonDeleteAllAudioAudioListStore.Location = new Point(243, 4);
+            buttonDeleteAllAudioAudioListStore.Location = new Point(319, 4);
             buttonDeleteAllAudioAudioListStore.Name = "buttonDeleteAllAudioAudioListStore";
             buttonDeleteAllAudioAudioListStore.Size = new Size(32, 27);
             buttonDeleteAllAudioAudioListStore.TabIndex = 18;
@@ -427,9 +461,10 @@
             // 
             listBoxAudioListStore.Dock = DockStyle.Fill;
             listBoxAudioListStore.FormattingEnabled = true;
-            listBoxAudioListStore.ItemHeight = 20;
+            listBoxAudioListStore.ItemHeight = 15;
             listBoxAudioListStore.Location = new Point(3, 3);
             listBoxAudioListStore.Name = "listBoxAudioListStore";
+            listBoxAudioListStore.SelectionMode = SelectionMode.MultiSimple;
             listBoxAudioListStore.Size = new Size(448, 468);
             listBoxAudioListStore.TabIndex = 1;
             // 
@@ -504,6 +539,8 @@
         private Button buttonUnselectAll;
         private Button buttonSelectAll;
         private Button buttonRefreshListStore;
+        private Button buttonSelectAllAudioListStore;
+        private Button buttonUnselectAllAudioListStore;
     }
 }
 #endregion

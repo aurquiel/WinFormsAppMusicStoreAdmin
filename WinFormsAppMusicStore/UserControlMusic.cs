@@ -307,20 +307,34 @@ namespace WinFormsAppMusicStoreAdmin
 
         private void buttonMoveDownAudioListStore_Click(object sender, EventArgs e)
         {
+            if (listBoxAudioListStore.SelectedItems.Count > 1)
+            {
+                _raiseRichTextInsertMessage?.Invoke(this, (false, "Error debe seleccionar un solo elemento."));
+                return;
+            }
+
             var itemIndex = listBoxAudioListStore.SelectedIndex;
             if (itemIndex > -1 && itemIndex < listBoxAudioListStore.Items.Count - 1)
             {
                 Swap(itemIndex, itemIndex + 1);
+                listBoxAudioListStore.ClearSelected();
                 listBoxAudioListStore.SelectedIndex = itemIndex + 1;
             }
         }
 
         private void buttonMoveUpAudioListStore_Click(object sender, EventArgs e)
         {
+            if (listBoxAudioListStore.SelectedItems.Count > 1)
+            {
+                _raiseRichTextInsertMessage?.Invoke(this, (false, "Error debe seleccionar un solo elemento."));
+                return;
+            }
+
             var itemIndex = listBoxAudioListStore.SelectedIndex;
             if (itemIndex > -1 && itemIndex != 0)
             {
                 Swap(itemIndex, itemIndex - 1);
+                listBoxAudioListStore.ClearSelected();
                 listBoxAudioListStore.SelectedIndex = itemIndex - 1;
             }
         }
@@ -336,7 +350,12 @@ namespace WinFormsAppMusicStoreAdmin
         {
             if (_audioListStore != null && _audioListStore.Count > 0)
             {
-                _audioListStore.RemoveAt(listBoxAudioListStore.SelectedIndex);
+                var items = listBoxAudioListStore.SelectedIndices.Cast<int>().ToList();
+                for (int j = items.Count - 1; j > -1; j--)
+                {
+                    int a = items[j];
+                    _audioListStore.RemoveAt(a);
+                }
             }
         }
 
@@ -382,6 +401,22 @@ namespace WinFormsAppMusicStoreAdmin
         private void buttonRefreshListStore_Click(object sender, EventArgs e)
         {
             comboBoxStore_SelectedIndexChanged(this, null);
+        }
+
+        private void buttonUnselectAllAudioListStore_Click(object sender, EventArgs e)
+        {
+            for (int val = 0; val < listBoxAudioListStore.Items.Count; val++)
+            {
+                listBoxAudioListStore.SetSelected(val, false);
+            }
+        }
+
+        private void buttonSelectAllAudioListStore_Click(object sender, EventArgs e)
+        {
+            for (int val = 0; val < listBoxAudioListStore.Items.Count; val++)
+            {
+                listBoxAudioListStore.SetSelected(val, true);
+            }
         }
     }
 }
