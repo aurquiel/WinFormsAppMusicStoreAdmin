@@ -27,13 +27,14 @@ namespace ClassLibraryFiles
 
             if (!File.Exists(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}\\audioList{storeCode}.bin"))
             {
-                File.Create(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}\\audioList{storeCode}.bin");
+                var s = File.Create(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}\\audioList{storeCode}.bin");
+                s.Close();
             }
         }
 
         public void DeleteDictory(string storeCode)
         {
-            if (!Directory.Exists(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}"))
+            if (Directory.Exists(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}"))
             {
                 Directory.Delete(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}", true);
             }
@@ -60,7 +61,8 @@ namespace ClassLibraryFiles
 
                 if (!File.Exists(AUDIO_STORE_ADMIN_PATH + $"\\{store.code}\\audioList{store.code}.bin"))
                 {
-                    File.Create(AUDIO_STORE_ADMIN_PATH + $"\\{store.code}\\audioList{store.code}.bin");
+                    var s = File.Create(AUDIO_STORE_ADMIN_PATH + $"\\{store.code}\\audioList{store.code}.bin");
+                    s.Close() ;
                 }
             }
         }
