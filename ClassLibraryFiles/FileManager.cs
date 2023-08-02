@@ -33,7 +33,10 @@ namespace ClassLibraryFiles
 
         public void DeleteDictory(string storeCode)
         {
-            Directory.Delete(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}", true);
+            if (!Directory.Exists(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}"))
+            {
+                Directory.Delete(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}", true);
+            }
         }
 
         public void CreateDictoriesAndFiles(List<Store> stores)

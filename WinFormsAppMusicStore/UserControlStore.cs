@@ -137,6 +137,7 @@ namespace WinFormsAppMusicStoreAdmin
             var result = await _services.StoreService.StoreCrete(new Store { code = textBoxStoreAddCode.Text, creationDateTime = DateTime.Now });
             if (result.status)
             {
+                _fileManager.CreateDictoryAndFile(textBoxStoreAddCode.Text);
                 buttonStoreRefreshData_Click(null, null);
                 comboBoxStoreEdit.SelectedIndex = -1;
                 textBoxStoreEditCode.Text = string.Empty;

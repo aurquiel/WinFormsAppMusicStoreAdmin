@@ -267,6 +267,7 @@ namespace WinFormsAppMusicStoreAdmin
                         _raiseRichTextInsertMessage?.Invoke(this, (false, "Error archivo ya en la lista de la tienda, audio: " + ((OperationDetails)audioServer).AudioName));
                     }
                 }
+                listBoxAudioListStore.ClearSelected();
             }
             else
             {
