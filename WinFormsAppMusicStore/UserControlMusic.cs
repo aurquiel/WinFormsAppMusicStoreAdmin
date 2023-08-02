@@ -161,6 +161,7 @@ namespace WinFormsAppMusicStoreAdmin
                 if (operationDetails.Count > 0)
                 {
                     LaunchOperationWaitForm(operationDetails, OPERATION_UPDATE.SERVER);
+                    comboBoxStore_SelectedIndexChanged(this, null);
                 }
             }
             else
