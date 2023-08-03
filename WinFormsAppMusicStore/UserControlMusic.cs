@@ -32,6 +32,8 @@ namespace WinFormsAppMusicStoreAdmin
         ToolTip toolTipButtonSynchronizeAllStores = new ToolTip();
         ToolTip toolTipButtonAddAudioToAudioListStore = new ToolTip();
         ToolTip toolTipButtonRefreshListStore = new ToolTip();
+        ToolTip toolTipButtonUnselectAllStoreAudiList = new ToolTip();
+        ToolTip toolTipButtonSelectAllStoreAudiList = new ToolTip();
         ToolTip toolTipButtonMoveDown = new ToolTip();
         ToolTip toolTipButtonMoveUp = new ToolTip();
         ToolTip toolTipButtonDeleteAudioAudioListStore = new ToolTip();
@@ -64,11 +66,13 @@ namespace WinFormsAppMusicStoreAdmin
             toolTipButtonPullFromServer.SetToolTip(buttonPullAudioListFromServer, "Descargar lista de audio del servidor.");
             toolTipButtonRemoveAudioFromServer.SetToolTip(buttonRemoveAudioFromServer, "Remover audio del servidor.");
             toolTipButtonUnselectAll.SetToolTip(buttonUnselectAll, "Deseleccionar todos.");
-            toolTipButtonSelectAll.SetToolTip(buttonUnselectAll, "Seleccionar todos.");
+            toolTipButtonSelectAll.SetToolTip(buttonSelectAll, "Seleccionar todos.");
             toolTipButtonAddAudiosToServer.SetToolTip(buttonAddAudiosToServer, "Agregar audios.");
             toolTipButtonSynchronizeAllStores.SetToolTip(buttonSynchronizeAllStores, "Sincronizar lista de audio de las tiendas.");
             toolTipButtonAddAudioToAudioListStore.SetToolTip(buttonAddAudioToAudioListStore, "Agregar Audios a Lista de Audio Tienda.");
             toolTipButtonRefreshListStore.SetToolTip(buttonRefreshListStore, "Actualizar a Lista de Audio Tienda.");
+            toolTipButtonUnselectAllStoreAudiList.SetToolTip(buttonSelectAllAudioListStore, "Deseleccionar todos.");
+            toolTipButtonSelectAllStoreAudiList.SetToolTip(buttonSelectAllAudioListStore, "Seleccionar todos.");
             toolTipButtonMoveDown.SetToolTip(buttonMoveDownAudioListStore, "Desplazar abajo.");
             toolTipButtonMoveUp.SetToolTip(buttonMoveUpAudioListStore, "Desplazar arriba.");
             toolTipButtonDeleteAudioAudioListStore.SetToolTip(buttonDeleteAudioAudioListStore, "Eliminar Audio.");
