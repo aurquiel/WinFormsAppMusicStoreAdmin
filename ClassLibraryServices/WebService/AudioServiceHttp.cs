@@ -65,7 +65,14 @@ namespace ClassLibraryServices.WebService
         {
             var result = await AudioHttp.UploadAudio(_webParams, pathFile);
 
-            return new GeneralAnswer<object>(result.Item1, result.Item2, null);
+            if (result.Item1) //Obtenido del servidor
+            {
+                return new GeneralAnswer<object>(result.Item3.status, result.Item3.statusMessage, result.Item3.data);
+            }
+            else // No Obtenido del servidor
+            {
+                return new GeneralAnswer<object>(result.Item1, result.Item2, null);
+            }
         }
 
         public async Task<GeneralAnswer<object>> DownloadAudioServer(string storeCode, string audioName)

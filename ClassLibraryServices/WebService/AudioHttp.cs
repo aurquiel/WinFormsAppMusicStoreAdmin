@@ -188,10 +188,12 @@ namespace ClassLibraryServices.WebService
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
+                    var result = await response.Content.ReadAsStringAsync();
+
                     return (
                         true,
                         "Audio subido con exito al servidor servidor.",
-                        null);
+                        JsonSerializer.Deserialize<GeneralAnswer<object>>(result));
                 }
                 else
                 {
