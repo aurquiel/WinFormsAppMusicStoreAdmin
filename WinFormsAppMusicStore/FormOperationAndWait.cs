@@ -2,6 +2,7 @@
 using ClassLibraryModels;
 using ClassLibraryServices;
 using Microsoft.VisualBasic.Devices;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Data;
 using System.IO;
 
@@ -13,7 +14,8 @@ namespace WinFormsAppMusicStoreAdmin
         private IFileManager _fileManager;
         private List<OperationDetails> _operationDetails;
         private EventHandler<(bool, string)> _raiseRichTextInsertMessage;
-
+        private CancellationTokenSource _tokenSource = new CancellationTokenSource();
+        private CancellationToken _token;
         public List<OperationDetails> AudioList = new List<OperationDetails>();
 
         public FormOperationAndWait(IServices services, IFileManager fileManager, List<OperationDetails> operationDetails, EventHandler<(bool, string)> raiseRichTextInsertMessage)
@@ -22,23 +24,34 @@ namespace WinFormsAppMusicStoreAdmin
             _fileManager = fileManager;
             _operationDetails = operationDetails;
             _raiseRichTextInsertMessage = raiseRichTextInsertMessage;
+            _token = _tokenSource.Token;
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterParent;
             labelTotalNumber.Text = _operationDetails.Count.ToString();
         }
 
+        private void FormOperationAndWait_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _tokenSource.Cancel();
+        }
+
         private async void FormWait_Shown(object sender, EventArgs e)
         {
             await Task.Delay(500);
-            await DoOperations();
+            await DoOperations(_token);
             Close();
         }
 
-        private async Task DoOperations()
+        private async Task DoOperations(CancellationToken token)
         {
             int actualNumberOperation = 0;
             foreach (var operation in _operationDetails)
             {
+                if (token.IsCancellationRequested)
+                {
+                    return;
+                }
+
                 switch (operation.Operation)
                 {
                     case OperationDetails.OPERATIONS.SERVER_GET_AUDIO_LIST:
@@ -46,7 +59,7 @@ namespace WinFormsAppMusicStoreAdmin
                             labelOperation.Text = "Descargado Lista de Audio del servidor.";
                             SetLabelActualNumber(ref actualNumberOperation);
                             await Task.Delay(300);
-                            var result = await _services.AudioService.DownloadAudioListServer();
+                            var result = await _services.AudioService.DownloadAudioListServer(token);
                             _raiseRichTextInsertMessage?.Invoke(this, (result.status, result.statusMessage));
                             if (result.status)
                             {
@@ -72,7 +85,7 @@ namespace WinFormsAppMusicStoreAdmin
                             labelOperation.Text = "Subiendo audio al servidor. Audio: " + operation.AudioName;
                             SetLabelActualNumber(ref actualNumberOperation);
                             await Task.Delay(300);
-                            var result = await _services.AudioService.UploadAudioServer(operation.PathFileAudio);
+                            var result = await _services.AudioService.UploadAudioServer(operation.PathFileAudio, token);
                             _raiseRichTextInsertMessage?.Invoke(this, (result.status, result.statusMessage));
                             break;
                         }
@@ -81,7 +94,7 @@ namespace WinFormsAppMusicStoreAdmin
                             labelOperation.Text = "Eliminando audio del servidor. Audio: " + operation.AudioName;
                             SetLabelActualNumber(ref actualNumberOperation);
                             await Task.Delay(300);
-                            var result = await _services.AudioService.DeleteAudioServer(operation.AudioName);
+                            var result = await _services.AudioService.DeleteAudioServer(operation.AudioName, token);
                             _raiseRichTextInsertMessage?.Invoke(this, (result.status, result.statusMessage));
                             break;
                         }
@@ -90,7 +103,7 @@ namespace WinFormsAppMusicStoreAdmin
                             labelOperation.Text = "Sincronizando Listas de Audios de las Tiendas";
                             SetLabelActualNumber(ref actualNumberOperation);
                             await Task.Delay(300);
-                            var result = await _services.AudioService.SynchronizeAudioListAllStore();
+                            var result = await _services.AudioService.SynchronizeAudioListAllStore(token);
                             _raiseRichTextInsertMessage?.Invoke(this, (result.status, result.statusMessage));
                             break;
                         }
@@ -99,7 +112,7 @@ namespace WinFormsAppMusicStoreAdmin
                             labelOperation.Text = $"Descargado Lista de Audio de la tienda {operation.StoreCode}.";
                             SetLabelActualNumber(ref actualNumberOperation);
                             await Task.Delay(300);
-                            var result = await _services.AudioService.DownloadAudioListStore(operation.StoreCode);
+                            var result = await _services.AudioService.DownloadAudioListStore(operation.StoreCode, token);
                             _raiseRichTextInsertMessage?.Invoke(this, (result.status, result.statusMessage));
                             if (result.status)
                             {
@@ -125,7 +138,7 @@ namespace WinFormsAppMusicStoreAdmin
                             labelOperation.Text = $"Sincronizando Lista de Audio de la tienda {operation.StoreCode}.";
                             SetLabelActualNumber(ref actualNumberOperation);
                             await Task.Delay(300);
-                            var result = await _services.AudioService.SynchronizeAudioListStore(operation.AudioList, operation.StoreCode);
+                            var result = await _services.AudioService.SynchronizeAudioListStore(operation.AudioList, operation.StoreCode, token);
                             _raiseRichTextInsertMessage?.Invoke(this, (result.status, result.statusMessage));
                             if (result.status)
                             {
@@ -175,7 +188,7 @@ namespace WinFormsAppMusicStoreAdmin
                             labelOperation.Text = $"Obteniendo Lista de Audio del servidor, tienda {operation.StoreCode}.";
                             SetLabelActualNumber(ref actualNumberOperation);
                             await Task.Delay(300);
-                            var result = await _services.AudioService.DownloadAudioListStore(operation.StoreCode);
+                            var result = await _services.AudioService.DownloadAudioListStore(operation.StoreCode, token);
                             if (result.status)
                             {
                                 var audioListArray = result.data.Split(Environment.NewLine);
@@ -201,8 +214,12 @@ namespace WinFormsAppMusicStoreAdmin
                                             labelOperation.Text = $"Descargando audio: {audio}.";
                                             SetLabelActualNumber(ref actualNumberOperation);
                                             await Task.Delay(300);
-                                            var resultDownload = await _services.AudioService.DownloadAudioServer(operation.StoreCode, audio);
+                                            var resultDownload = await _services.AudioService.DownloadAudioServer(operation.StoreCode, audio, token);
                                             _raiseRichTextInsertMessage?.Invoke(this, (resultDownload.status, resultDownload.statusMessage));
+                                            if (token.IsCancellationRequested)
+                                            {
+                                                return;
+                                            }
                                         }
                                     }
 
@@ -230,5 +247,7 @@ namespace WinFormsAppMusicStoreAdmin
             previousNumber++;
             labelActualNumber.Text = previousNumber.ToString();
         }
+
+        
     }
 }
