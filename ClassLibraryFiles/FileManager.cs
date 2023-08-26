@@ -69,13 +69,13 @@ namespace ClassLibraryFiles
 
        
 
-        public GeneralAnswer<object> WriteAudioListToBinaryFile(string audioList, string storeCode)
+        public GeneralAnswer<object> WriteAudioListToBinaryFile(List<AudioFileDTO> audioList, string storeCode)
         {
             try
             {
                 using (BinaryWriter binWriter = new BinaryWriter(new FileStream(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}\\audioList{storeCode}.bin", FileMode.Create), Encoding.UTF8))
                 {
-                    var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(audioList);
+                    var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(String.Join(Environment.NewLine, audioList.Select(x => x.name).ToArray()));
                     binWriter.Write(System.Convert.ToBase64String(plainTextBytes));
                 }
                 return new GeneralAnswer<object>(true, "Lista de Audio escrita en archivo binario.", null);
@@ -86,7 +86,7 @@ namespace ClassLibraryFiles
             }   
         }
 
-        public GeneralAnswer<List<string>> ReadAudioListFromBinaryFile(string storeCode)
+        public GeneralAnswer<List<AudioFileDTO>> ReadAudioListFromBinaryFile(string storeCode)
         {
             try
             {
@@ -96,11 +96,17 @@ namespace ClassLibraryFiles
                     var base64EncodedBytes = System.Convert.FromBase64String(binReader.ReadString());
                     audioList = new List<string>(System.Text.Encoding.UTF8.GetString(base64EncodedBytes).Split(Environment.NewLine));
                 }
-                return new GeneralAnswer<List<string>>(true, "Lista de Audio obtenida de archivo binario.", audioList);
+                var audioFiles = new List<AudioFileDTO>();
+                foreach (var audio in audioList)
+                {
+                    audioFiles.Add(new AudioFileDTO { name = audio, path = Path.Combine(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}" + "\\audio", audio) });
+                }
+
+                return new GeneralAnswer<List<AudioFileDTO>>(true, "Lista de Audio obtenida de archivo binario.", audioFiles);
             }
             catch (Exception ex)
             {
-                return new GeneralAnswer<List<string>>(false, "Error al  obtener Lista de Audio de archivo binario. Excepcion: " + ex.Message, null);
+                return new GeneralAnswer<List<AudioFileDTO>>(false, "Error al  obtener Lista de Audio de archivo binario. Excepcion: " + ex.Message, null);
             }
         }
 

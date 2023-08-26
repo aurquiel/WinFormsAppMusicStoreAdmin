@@ -1,16 +1,12 @@
 ﻿using ClassLibraryExcel;
-using ClassLibraryFiles;
 using ClassLibraryModels;
 using ClassLibraryServices;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
+using LiveChartsCore.SkiaSharpView.VisualElements;
 
 namespace WinFormsAppMusicStoreAdmin
 {
@@ -28,106 +24,204 @@ namespace WinFormsAppMusicStoreAdmin
             _service = services;
             _users = users;
             _stores = new List<Store>(stores).Where(x => x.code != "0000").ToList();
-            dateTimePickerStoreNoRegister.Value = DateTime.Now;
-            dateTimePickerRegisterInit.Value = DateTime.Now;
-            dateTimePickerRegisterFinal.Value = DateTime.Now;
+            dateTimePickerDate.Value = DateTime.Now;
             _raiseRichTextInsertMessage = raiseRichTextInsertMessage;
             LoadComboBoxStores();
         }
 
         private void LoadComboBoxStores()
         {
-            comboBoxRegisterStore.DataSource = new List<Store>(_stores);
-            comboBoxRegisterStore.DisplayMember = "code";
-            comboBoxRegisterStore.ValueMember = "id";
-
-            comboBoxRegisterDelete.DataSource = new List<Store>(_stores);
-            comboBoxRegisterDelete.DisplayMember = "code";
-            comboBoxRegisterDelete.ValueMember = "id";
+            comboBoxStore.DataSource = new List<Store>(_stores);
+            comboBoxStore.DisplayMember = "code";
+            comboBoxStore.ValueMember = "id";
         }
 
-        private async void buttonRegisterNoStoreSearch_Click(object sender, EventArgs e)
+        private async void buttonSearchRegisters_Click(object sender, EventArgs e)
         {
-            var result = await _service.RegisterService.GetRegisterByDate(dateTimePickerStoreNoRegister.Value.Date);
-            _raiseRichTextInsertMessage?.Invoke(this, (result.status, result.statusMessage));
-            if (result.status)
+            if (comboBoxStore.SelectedIndex != -1)
             {
-                List<Store> storesCode = new List<Store>();
-                foreach (var item in result.data)
+                var result = await _service.RegisterService.GetRegisterByMonth(((Store)comboBoxStore.SelectedItem).id, dateTimePickerDate.Value.Date);
+                _raiseRichTextInsertMessage?.Invoke(this, (result.status, result.statusMessage));
+
+                if (result.status)
                 {
-                    storesCode.Add(new Store { id = item.storeId });
+                    CreateChartWeek(result.data);
+                    CreateChartMonth(result.data);
+                    LoadRegistersGrid(result.data);
                 }
+            }
+            else
+            {
+                _raiseRichTextInsertMessage?.Invoke(this, (false, "Error debe seleccionar una tienda."));
+            }
+        }
 
-                List<string> storesExcept = new List<string>();
-                foreach (var store in _stores)
+        private void CreateChartWeek(List<Register> registers)
+        {
+            var datesWeek = GetXAxesDateWeek();
+            cartesianChartWeek.XAxes = new List<Axis>
+            {
+                new Axis
                 {
-                    bool flag = false;
-                    foreach (var storeC in storesCode)
-                    {
-                        if (storeC.id == store.id)
-                        {
-                            flag = true;
-                            break;
-                        }
-                    }
+                    // Use the labels property to define named labels.
+                    Labels = datesWeek.Keys.ToArray().Select(x => x.ToString("dd-MM-yyyy")).ToList(),
+                }
+            };
 
-                    if (flag == false)
+            for (int i = 0; i < registers.Count() - 1; i++)
+            {
+                if (registers[i].activity == 1 &&
+                    registers[i + 1].activity == 1 &&
+                    datesWeek.ContainsKey(registers[i].creationDateTime.Date))
+                {
+                    if (registers[i + 1].creationDateTime.Date == registers[i].creationDateTime.Date &&
+                        (registers[i + 1].creationDateTime - registers[i].creationDateTime).TotalMinutes >= 25 &&
+                        (registers[i + 1].creationDateTime - registers[i].creationDateTime).TotalMinutes <= 35)
                     {
-                        storesExcept.Add(store.code);
+                        datesWeek[registers[i].creationDateTime.Date] += 0.5; //aumento el registro en el diccionario
                     }
                 }
-
-                listBoxStoreNoRegister.DataSource = storesExcept;
             }
+
+            cartesianChartWeek.Series = new ISeries[]
+            {
+                    new LineSeries<double>
+                    {
+                        Values = datesWeek.Values.ToArray(),
+                        Fill = null,
+                        LineSmoothness = 1,
+                        GeometryFill = new SolidColorPaint(SKColors.AliceBlue),
+                        Stroke = new SolidColorPaint(SKColors.Blue) { StrokeThickness = 2},
+                        GeometryStroke = new SolidColorPaint(SKColors.Gray) { StrokeThickness = 4 }
+                    }
+            };
+
+            cartesianChartWeek.Title =
+            new LabelVisual
+            {
+                Text = "Horas reproducidas semanalmente",
+                TextSize = 20,
+                Padding = new LiveChartsCore.Drawing.Padding(15),
+                Paint = new SolidColorPaint(SKColors.DarkSlateGray)
+            };
         }
 
-        private bool ValidateInput()
+        private void CreateChartMonth(List<Register> registers)
         {
-            if (dateTimePickerRegisterInit.Value.Date > dateTimePickerRegisterFinal.Value.Date)
+            var datesMonth = GetXAxesDateMonth();
+            cartesianChartMonth.XAxes = new List<Axis>
             {
-                return false;
+                new Axis
+                {
+                    // Use the labels property to define named labels.
+                    Labels = datesMonth.Keys.ToArray().Select(x => x.ToString("dd")).ToList(),
+                }
+            };
+
+            for (int i = 0; i < registers.Count() - 1; i++)
+            {
+                if (registers[i].activity == 1 &&
+                    registers[i + 1].activity == 1 &&
+                    datesMonth.ContainsKey(registers[i].creationDateTime.Date))
+                {
+                    if (registers[i + 1].creationDateTime.Date == registers[i].creationDateTime.Date &&
+                        (registers[i + 1].creationDateTime - registers[i].creationDateTime).TotalMinutes >= 25 &&
+                        (registers[i + 1].creationDateTime - registers[i].creationDateTime).TotalMinutes <= 35)
+                    {
+                        datesMonth[registers[i].creationDateTime.Date] += 0.5; //aumento el registro en el diccionario
+                    }
+                }
             }
 
-            return true;
+            cartesianChartMonth.Series = new ISeries[]
+            {
+                    new LineSeries<double>
+                    {
+                        Values = datesMonth.Values.ToArray(),
+                        Fill = null,
+                        LineSmoothness = 1,
+                        GeometryFill = new SolidColorPaint(SKColors.AliceBlue),
+                        Stroke = new SolidColorPaint(SKColors.Blue) { StrokeThickness = 2},
+                        GeometryStroke = new SolidColorPaint(SKColors.Gray) { StrokeThickness = 4 }
+                    }
+            };
+
+            cartesianChartMonth.Title =
+            new LabelVisual
+            {
+                Text = "Horas reproducidas mensualmente",
+                TextSize = 20,
+                Padding = new LiveChartsCore.Drawing.Padding(15),
+                Paint = new SolidColorPaint(SKColors.DarkSlateGray)
+            };
         }
 
-        private async void buttonRegisterSearch_Click(object sender, EventArgs e)
+        private Dictionary<DateTime, double> GetXAxesDateWeek()
         {
-            if (ValidateInput() == false)
+            DateTime lunesDeLaSemana = dateTimePickerDate.Value.AddDays(-(int)dateTimePickerDate.Value.DayOfWeek);
+            lunesDeLaSemana = lunesDeLaSemana.AddDays(1);
+            DateTime domingoDeLaSemana = lunesDeLaSemana.AddDays(6);
+
+            var dic = new Dictionary<DateTime, double>();
+
+            for (DateTime diaSemana = lunesDeLaSemana; diaSemana <= domingoDeLaSemana; diaSemana = diaSemana.AddDays(1))
             {
-                _raiseRichTextInsertMessage?.Invoke(this, (false, "Error la fecha inicial no puede ser menor a la fecha final."));
-                return;
+                if (diaSemana.Month == dateTimePickerDate.Value.Month) // Verificar si el día de la semana pertenece al mismo mes
+                {
+                    dic.Add(diaSemana.Date, 0);
+                }
             }
 
-            var result = await _service.RegisterService.GetRegisters(((Store)comboBoxRegisterStore.SelectedItem).id, dateTimePickerRegisterInit.Value.Date, dateTimePickerRegisterFinal.Value.Date);
-            _raiseRichTextInsertMessage?.Invoke(this, (result.status, result.statusMessage));
-
-            if (result.status)
-            {
-                dataGridViewRegister.DataSource = result.data.Select(x => new RegisterDisplay { storeCode = _stores.Where(u => u.id == x.storeId).Select(u => u.code).FirstOrDefault(), operation = x.operation, creationDateTime = x.creationDateTime }).ToList();
-                dataGridViewRegister.Columns[0].HeaderText = "Tienda";
-                dataGridViewRegister.Columns[1].HeaderText = "Operacion";
-                dataGridViewRegister.Columns[2].HeaderText = "Tiempo Creacion";
-                dataGridViewRegister.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                dataGridViewRegister.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                dataGridViewRegister.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            }
+            return dic;
         }
 
-        private async void buttonRegisterDelete_Click(object sender, EventArgs e)
+        private Dictionary<DateTime, double> GetXAxesDateMonth()
         {
-            var result = await _service.RegisterService.RegisterDelete(((Store)comboBoxRegisterDelete.SelectedItem).id);
-            _raiseRichTextInsertMessage?.Invoke(this, (result.status, result.statusMessage));
+            DateTime primerDiaMes = new DateTime(dateTimePickerDate.Value.Year, dateTimePickerDate.Value.Month, 1);
+            DateTime ultimoDiaMes = primerDiaMes.AddMonths(1).AddDays(-1);
+
+            var dic = new Dictionary<DateTime, double>();
+            for (DateTime diaSemana = primerDiaMes; diaSemana <= ultimoDiaMes; diaSemana = diaSemana.AddDays(1))
+            {
+                if (diaSemana.Month == dateTimePickerDate.Value.Month) // Verificar si el día de la semana pertenece al mismo mes
+                {
+                    dic.Add(diaSemana.Date, 0);
+                }
+            }
+
+            return dic;
+        }
+
+        private void LoadRegistersGrid(List<Register> registers)
+        {
+            dataGridViewRegisters.DataSource = registers.Select(x => new RegisterDisplay { storeCode = _stores.Where(u => u.id == x.storeId).Select(u => u.code).FirstOrDefault(), activity = x.activity == 1 ? "Reproduciendo" : "Detenido", message = x.message, creationDateTime = x.creationDateTime }).ToList();
+            dataGridViewRegisters.Columns[0].HeaderText = "Tienda";
+            dataGridViewRegisters.Columns[1].HeaderText = "Actividad";
+            dataGridViewRegisters.Columns[2].HeaderText = "Mensaje";
+            dataGridViewRegisters.Columns[3].HeaderText = "Tiempo Creacion";
+            dataGridViewRegisters.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dataGridViewRegisters.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dataGridViewRegisters.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dataGridViewRegisters.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+        }
+
+        private async void buttonEraseRegisters_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show($"¿Está seguro de eliminar todos los registros de la tienda {((Store)comboBoxStore.SelectedItem).code}?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                var result = await _service.RegisterService.RegisterDelete(((Store)comboBoxStore.SelectedItem).id);
+                _raiseRichTextInsertMessage?.Invoke(this, (result.status, result.statusMessage));
+            }
         }
 
         private async void buttonExportToExcel_Click(object sender, EventArgs e)
         {
-            if(dataGridViewRegister.DataSource != null && ((List<RegisterDisplay>)dataGridViewRegister.DataSource).Count > 0)
+            if (dataGridViewRegisters.DataSource != null && ((List<RegisterDisplay>)dataGridViewRegisters.DataSource).Count > 0)
             {
                 string savePathFile = GetSavePathExcel();
                 if (savePathFile != string.Empty)
                 {
-                    var result = await ManageExcel.CreateReportStore((List<RegisterDisplay>)dataGridViewRegister.DataSource, savePathFile);
+                    var result = await ManageExcel.CreateReportStore((List<RegisterDisplay>)dataGridViewRegisters.DataSource, savePathFile);
                     _raiseRichTextInsertMessage?.Invoke(this, (result.status, result.statusMessage));
                 }
                 else
@@ -143,7 +237,7 @@ namespace WinFormsAppMusicStoreAdmin
 
         private string GetSavePathExcel()
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            System.Windows.Forms.SaveFileDialog saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             saveFileDialog.Title = "Save XLSX File";
             saveFileDialog.CheckFileExists = false;
@@ -162,5 +256,7 @@ namespace WinFormsAppMusicStoreAdmin
                 return string.Empty;
             }
         }
+
+        
     }
 }

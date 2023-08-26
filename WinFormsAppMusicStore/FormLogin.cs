@@ -43,7 +43,7 @@ namespace WinFormsAppMusicStoreAdmin
             catch (Exception ex)
             {
                 _logger.Error(ex, "Error al obtner timeout del webserice del archivo de configuracion", null);
-                return 25; 
+                return 25;
             }
         }
 

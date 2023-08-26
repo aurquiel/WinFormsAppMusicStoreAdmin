@@ -1,9 +1,11 @@
-﻿using ClassLibraryFiles;
+﻿using ChainOfResponsibilityClassLibrary;
+using ClassLibraryFiles;
 using ClassLibraryModels;
 using ClassLibraryServices;
 using System.ComponentModel;
 using System.Windows.Media;
 using System.Windows.Threading;
+using static ChainOfResponsibilityClassLibrary.OperationTypes;
 
 namespace WinFormsAppMusicStoreAdmin
 {
@@ -15,13 +17,12 @@ namespace WinFormsAppMusicStoreAdmin
         private List<Store> _stores;
 
         private BindingSource _bindingAudioListPlayer = new BindingSource();
-        private BindingList<OperationDetails> _audioListPlayer = new BindingList<OperationDetails>();
+        private BindingList<AudioFileDTO> _audioListPlayer = new BindingList<AudioFileDTO>();
 
         private MediaPlayer player = new MediaPlayer();
         private bool isPaused = false;
         TimeSpan _position;
         DispatcherTimer _timer = new DispatcherTimer();
-
 
         //Tooltips
         ToolTip toolTipButtonPullFromServer = new ToolTip();
@@ -67,18 +68,18 @@ namespace WinFormsAppMusicStoreAdmin
             }
         }
 
-        private void LaunchOperationWaitForm(List<OperationDetails> operationDetails)
+        private void LaunchOperationWaitForm(List<Operation> operations)
         {
             FormOperationAndWait formWait = new FormOperationAndWait(
                 _services,
                 _fileManager,
-                operationDetails,
+                operations,
                 _raiseRichTextInsertMessage);
             formWait.ShowDialog();
 
-            if (formWait.AudioList != null)
+            if (formWait.AudioFileListDownloaded != null)
             {
-                BindListbox(formWait.AudioList);
+                BindListbox(formWait.AudioFileListDownloaded);
                 listBoxAudio.ClearSelected();
             }
             else
@@ -90,13 +91,10 @@ namespace WinFormsAppMusicStoreAdmin
         private void LoadAudioListFromBinaryFile()
         {
             InitMediaPlayer();
-            var operationDetailsList = new List<OperationDetails> { 
-                new OperationDetails { 
-                    Operation = OperationDetails.OPERATIONS.PLAYER_GET_AUDIO_LIST_STORE_PC,
-                    StoreCode = ((Store)comboBoxStore.SelectedItem).code
-                } 
+            var op = new List<Operation> {
+                new Operation (OPERATIONS.PLAYER_GET_AUDIO_LIST_STORE_PC, ((Store)comboBoxStore.SelectedItem).code, new List<AudioFileDTO>())
             };
-            LaunchOperationWaitForm(operationDetailsList);
+            LaunchOperationWaitForm(op);
         }
 
         private void buttonPullFromServer_Click(object sender, EventArgs e)
@@ -104,13 +102,10 @@ namespace WinFormsAppMusicStoreAdmin
             if (comboBoxStore.SelectedIndex != -1)
             {
                 InitMediaPlayer();
-                var operationDetailsList = new List<OperationDetails> {
-                new OperationDetails {
-                    Operation = OperationDetails.OPERATIONS.PLAYER_GET_AUDIO_LIST_STORE_SERVER,
-                    StoreCode = ((Store)comboBoxStore.SelectedItem).code
-                }
-            };
-                LaunchOperationWaitForm(operationDetailsList);
+                var op = new List<Operation> {
+                new Operation(OPERATIONS.PLAYER_GET_AUDIO_LIST_STORE_SERVER, ((Store)comboBoxStore.SelectedItem).code, new List<AudioFileDTO>())
+                };
+                LaunchOperationWaitForm(op);
             }
             else
             {
@@ -156,12 +151,12 @@ namespace WinFormsAppMusicStoreAdmin
             _raiseRichTextInsertMessage?.Invoke(this, (false, "Error al reproducir archvio de audio. Excepcion: " + e.ErrorException.Message));
         }
 
-        private void BindListbox(List<OperationDetails> audioOperationList)
+        private void BindListbox(List<AudioFileDTO> audioOperationList)
         {
-            _audioListPlayer = new BindingList<OperationDetails>(audioOperationList);
+            _audioListPlayer = new BindingList<AudioFileDTO>(audioOperationList);
             _bindingAudioListPlayer.DataSource = _audioListPlayer;
             listBoxAudio.DataSource = _bindingAudioListPlayer;
-            listBoxAudio.DisplayMember = "AudioName";
+            listBoxAudio.DisplayMember = "name";
         }
         private void PlayNextAudio()
         {
@@ -200,7 +195,7 @@ namespace WinFormsAppMusicStoreAdmin
                 var selectedItem = listBoxAudio.SelectedItem;
                 if (selectedItem != null)
                 {
-                    player.Open(new Uri(((OperationDetails)selectedItem).PathFileAudio));
+                    player.Open(new Uri(((AudioFileDTO)selectedItem).path));
                 }
             }
             isPaused = false;
@@ -236,7 +231,7 @@ namespace WinFormsAppMusicStoreAdmin
                 var selectedItem = listBoxAudio.SelectedItem;
                 if (selectedItem != null)
                 {
-                    player.Open(new Uri(((OperationDetails)selectedItem).PathFileAudio));
+                    player.Open(new Uri(((AudioFileDTO)selectedItem).path));
                 }
                 buttonPlay_Click(null, null);
             }

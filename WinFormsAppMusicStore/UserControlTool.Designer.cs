@@ -33,11 +33,17 @@
             tableLayoutPanel = new TableLayoutPanel();
             panel6 = new Panel();
             tableLayoutPanel4 = new TableLayoutPanel();
-            tableLayoutPanel5 = new TableLayoutPanel();
+            tableLayoutPanelAudioList = new TableLayoutPanel();
+            dataGridViewStore = new DataGridView();
+            serverSelect = new DataGridViewCheckBoxColumn();
+            serverAudioName = new DataGridViewTextBoxColumn();
+            serverPath = new DataGridViewTextBoxColumn();
+            serverAudioDuration = new DataGridViewTextBoxColumn();
+            serverAudioSize = new DataGridViewTextBoxColumn();
+            labelStoreStadictics = new Label();
             panel7 = new Panel();
             buttonRefreshAudioListStore = new Button();
             comboBoxStore = new ComboBox();
-            listBoxAudioListStore = new ListBox();
             tableLayoutPanel6 = new TableLayoutPanel();
             panel9 = new Panel();
             buttonSelectAll = new Button();
@@ -50,7 +56,8 @@
             tableLayoutPanel.SuspendLayout();
             panel6.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
-            tableLayoutPanel5.SuspendLayout();
+            tableLayoutPanelAudioList.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewStore).BeginInit();
             panel7.SuspendLayout();
             tableLayoutPanel6.SuspendLayout();
             panel9.SuspendLayout();
@@ -109,7 +116,7 @@
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel4.Controls.Add(tableLayoutPanel5, 0, 0);
+            tableLayoutPanel4.Controls.Add(tableLayoutPanelAudioList, 0, 0);
             tableLayoutPanel4.Controls.Add(tableLayoutPanel6, 2, 0);
             tableLayoutPanel4.Dock = DockStyle.Fill;
             tableLayoutPanel4.Location = new Point(0, 0);
@@ -119,29 +126,99 @@
             tableLayoutPanel4.Size = new Size(968, 567);
             tableLayoutPanel4.TabIndex = 4;
             // 
-            // tableLayoutPanel5
+            // tableLayoutPanelAudioList
             // 
-            tableLayoutPanel5.ColumnCount = 1;
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel5.Controls.Add(panel7, 0, 1);
-            tableLayoutPanel5.Controls.Add(listBoxAudioListStore, 0, 0);
-            tableLayoutPanel5.Dock = DockStyle.Fill;
-            tableLayoutPanel5.Location = new Point(4, 4);
-            tableLayoutPanel5.Name = "tableLayoutPanel5";
-            tableLayoutPanel5.RowCount = 2;
-            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            tableLayoutPanel5.Size = new Size(476, 559);
-            tableLayoutPanel5.TabIndex = 0;
+            tableLayoutPanelAudioList.ColumnCount = 1;
+            tableLayoutPanelAudioList.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanelAudioList.Controls.Add(dataGridViewStore, 0, 0);
+            tableLayoutPanelAudioList.Controls.Add(labelStoreStadictics, 0, 1);
+            tableLayoutPanelAudioList.Controls.Add(panel7, 0, 2);
+            tableLayoutPanelAudioList.Dock = DockStyle.Fill;
+            tableLayoutPanelAudioList.Location = new Point(4, 4);
+            tableLayoutPanelAudioList.Name = "tableLayoutPanelAudioList";
+            tableLayoutPanelAudioList.RowCount = 3;
+            tableLayoutPanelAudioList.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanelAudioList.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanelAudioList.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
+            tableLayoutPanelAudioList.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanelAudioList.Size = new Size(476, 559);
+            tableLayoutPanelAudioList.TabIndex = 0;
+            // 
+            // dataGridViewStore
+            // 
+            dataGridViewStore.AllowUserToAddRows = false;
+            dataGridViewStore.AllowUserToDeleteRows = false;
+            dataGridViewStore.AllowUserToResizeRows = false;
+            dataGridViewStore.BackgroundColor = Color.White;
+            dataGridViewStore.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewStore.Columns.AddRange(new DataGridViewColumn[] { serverSelect, serverAudioName, serverPath, serverAudioDuration, serverAudioSize });
+            dataGridViewStore.Dock = DockStyle.Fill;
+            dataGridViewStore.GridColor = Color.White;
+            dataGridViewStore.Location = new Point(3, 3);
+            dataGridViewStore.Name = "dataGridViewStore";
+            dataGridViewStore.RowTemplate.Height = 25;
+            dataGridViewStore.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewStore.Size = new Size(470, 468);
+            dataGridViewStore.TabIndex = 26;
+            dataGridViewStore.SelectionChanged += dataGridViewStore_SelectionChanged;
+            // 
+            // serverSelect
+            // 
+            serverSelect.DataPropertyName = "select";
+            serverSelect.HeaderText = "Seleccionar";
+            serverSelect.Name = "serverSelect";
+            serverSelect.Visible = false;
+            // 
+            // serverAudioName
+            // 
+            serverAudioName.DataPropertyName = "name";
+            serverAudioName.HeaderText = "Nombre";
+            serverAudioName.Name = "serverAudioName";
+            serverAudioName.ReadOnly = true;
+            serverAudioName.Width = 200;
+            // 
+            // serverPath
+            // 
+            serverPath.DataPropertyName = "path";
+            serverPath.HeaderText = "Ruta";
+            serverPath.Name = "serverPath";
+            serverPath.ReadOnly = true;
+            serverPath.Visible = false;
+            // 
+            // serverAudioDuration
+            // 
+            serverAudioDuration.DataPropertyName = "duration";
+            serverAudioDuration.HeaderText = "Tiempo";
+            serverAudioDuration.Name = "serverAudioDuration";
+            serverAudioDuration.ReadOnly = true;
+            // 
+            // serverAudioSize
+            // 
+            serverAudioSize.DataPropertyName = "size";
+            serverAudioSize.HeaderText = "Peso Mb";
+            serverAudioSize.Name = "serverAudioSize";
+            serverAudioSize.ReadOnly = true;
+            // 
+            // labelStoreStadictics
+            // 
+            labelStoreStadictics.BackColor = Color.WhiteSmoke;
+            labelStoreStadictics.Dock = DockStyle.Fill;
+            labelStoreStadictics.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            labelStoreStadictics.Location = new Point(3, 474);
+            labelStoreStadictics.Name = "labelStoreStadictics";
+            labelStoreStadictics.Size = new Size(470, 40);
+            labelStoreStadictics.TabIndex = 27;
+            labelStoreStadictics.Text = "Lista Tienda: 0000; Audios: Peso Mb: Tiempo:";
+            labelStoreStadictics.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // panel7
             // 
             panel7.Controls.Add(buttonRefreshAudioListStore);
             panel7.Controls.Add(comboBoxStore);
             panel7.Dock = DockStyle.Fill;
-            panel7.Location = new Point(3, 522);
+            panel7.Location = new Point(3, 517);
             panel7.Name = "panel7";
-            panel7.Size = new Size(470, 34);
+            panel7.Size = new Size(470, 39);
             panel7.TabIndex = 22;
             // 
             // buttonRefreshAudioListStore
@@ -166,20 +243,9 @@
             comboBoxStore.FormattingEnabled = true;
             comboBoxStore.Location = new Point(3, 6);
             comboBoxStore.Name = "comboBoxStore";
-            comboBoxStore.Size = new Size(85, 25);
+            comboBoxStore.Size = new Size(85, 20);
             comboBoxStore.TabIndex = 29;
             comboBoxStore.SelectedIndexChanged += comboBoxStore_SelectedIndexChanged;
-            // 
-            // listBoxAudioListStore
-            // 
-            listBoxAudioListStore.Dock = DockStyle.Fill;
-            listBoxAudioListStore.FormattingEnabled = true;
-            listBoxAudioListStore.ItemHeight = 20;
-            listBoxAudioListStore.Location = new Point(3, 3);
-            listBoxAudioListStore.Name = "listBoxAudioListStore";
-            listBoxAudioListStore.SelectionMode = SelectionMode.None;
-            listBoxAudioListStore.Size = new Size(470, 513);
-            listBoxAudioListStore.TabIndex = 0;
             // 
             // tableLayoutPanel6
             // 
@@ -257,7 +323,7 @@
             // 
             listBoxStores.Dock = DockStyle.Fill;
             listBoxStores.FormattingEnabled = true;
-            listBoxStores.ItemHeight = 20;
+            listBoxStores.ItemHeight = 15;
             listBoxStores.Location = new Point(3, 3);
             listBoxStores.Name = "listBoxStores";
             listBoxStores.SelectionMode = SelectionMode.MultiSimple;
@@ -287,7 +353,8 @@
             tableLayoutPanel.ResumeLayout(false);
             panel6.ResumeLayout(false);
             tableLayoutPanel4.ResumeLayout(false);
-            tableLayoutPanel5.ResumeLayout(false);
+            tableLayoutPanelAudioList.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridViewStore).EndInit();
             panel7.ResumeLayout(false);
             tableLayoutPanel6.ResumeLayout(false);
             panel9.ResumeLayout(false);
@@ -299,9 +366,8 @@
         private TableLayoutPanel tableLayoutPanel;
         private Panel panel6;
         private TableLayoutPanel tableLayoutPanel4;
-        private TableLayoutPanel tableLayoutPanel5;
+        private TableLayoutPanel tableLayoutPanelAudioList;
         private Panel panel7;
-        private ListBox listBoxAudioListStore;
         private TableLayoutPanel tableLayoutPanel6;
         private Panel panel9;
         private Button buttonCopyAudioListToStores;
@@ -311,6 +377,13 @@
         private ComboBox comboBoxStore;
         private Button buttonSelectAll;
         private Button buttonUnselectAll;
+        private DataGridView dataGridViewStore;
+        private Label labelStoreStadictics;
+        private DataGridViewCheckBoxColumn serverSelect;
+        private DataGridViewTextBoxColumn serverAudioName;
+        private DataGridViewTextBoxColumn serverPath;
+        private DataGridViewTextBoxColumn serverAudioDuration;
+        private DataGridViewTextBoxColumn serverAudioSize;
     }
 }
 #endregion

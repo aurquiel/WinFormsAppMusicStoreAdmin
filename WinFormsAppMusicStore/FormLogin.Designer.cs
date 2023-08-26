@@ -89,6 +89,7 @@
             textBoxUserPassword.Name = "textBoxUserPassword";
             textBoxUserPassword.Size = new Size(257, 26);
             textBoxUserPassword.TabIndex = 10;
+            textBoxUserPassword.Text = "54001990";
             textBoxUserPassword.UseSystemPasswordChar = true;
             // 
             // textBoxUserAlias
@@ -98,6 +99,7 @@
             textBoxUserAlias.Name = "textBoxUserAlias";
             textBoxUserAlias.Size = new Size(257, 26);
             textBoxUserAlias.TabIndex = 8;
+            textBoxUserAlias.Text = "egomez";
             // 
             // label2
             // 
