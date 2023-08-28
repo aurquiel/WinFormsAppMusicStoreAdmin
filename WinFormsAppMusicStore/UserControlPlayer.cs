@@ -49,7 +49,6 @@ namespace WinFormsAppMusicStoreAdmin
         private void WireUpEvents()
         {
             this._playNextAudio += PlayNextAudioEvent;
-
         }
 
         private void PlayNextAudioEvent(object sender, object e)
@@ -97,7 +96,7 @@ namespace WinFormsAppMusicStoreAdmin
 
         private void LoadAudioListFromBinaryFile()
         {
-            _player.StopNoNextAudio();
+            _player.Stop();
             progressBarAudio.Value = 0;
             labelTotalTime.Text = "00:00";
             labelCurrentTime.Text = "00:00";
@@ -111,7 +110,7 @@ namespace WinFormsAppMusicStoreAdmin
         {
             if (comboBoxStore.SelectedIndex != -1)
             {
-                _player.StopNoNextAudio();
+                _player.Stop();
                 progressBarAudio.Value = 0;
                 labelTotalTime.Text = "00:00";
                 labelCurrentTime.Text = "00:00";
@@ -198,7 +197,7 @@ namespace WinFormsAppMusicStoreAdmin
             {
                 listBoxAudio.SelectedIndex = 0;
             }
-            _player.StopNoNextAudio();
+            _player.Stop();
             progressBarAudio.Value = 0;
             labelCurrentTime.Text = "00:00";
             labelTotalTime.Text = "00:00";
@@ -214,7 +213,7 @@ namespace WinFormsAppMusicStoreAdmin
             int index = this.listBoxAudio.IndexFromPoint(e.Location);
             if (index != System.Windows.Forms.ListBox.NoMatches)
             {
-                _player.StopNoNextAudio();
+                _player.Stop();
                 var selectedItem = listBoxAudio.SelectedItem;
                 if (selectedItem != null)
                 {

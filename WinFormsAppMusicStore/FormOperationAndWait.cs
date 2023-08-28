@@ -15,8 +15,6 @@ namespace WinFormsAppMusicStoreAdmin
         private CancellationToken _token;
 
         public List<AudioFileDTO> AudioFileListDownloaded { get; private set; } = new List<AudioFileDTO>();
-        private List<AudioFileDTO> _audioFileListToOperate = new List<AudioFileDTO>();
-        private string _storeCode;
 
         private Handler h1;
         private Handler h2;
