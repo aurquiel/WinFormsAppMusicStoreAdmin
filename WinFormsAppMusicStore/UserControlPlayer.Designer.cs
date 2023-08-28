@@ -30,6 +30,9 @@
         {
             tableLayoutPanel = new TableLayoutPanel();
             panel2 = new Panel();
+            labelTotalTime = new Label();
+            label4 = new Label();
+            labelCurrentTime = new Label();
             comboBoxStore = new ComboBox();
             progressBarAudio = new ProgressBar();
             label2 = new Label();
@@ -70,6 +73,9 @@
             // panel2
             // 
             panel2.BackColor = Color.White;
+            panel2.Controls.Add(labelTotalTime);
+            panel2.Controls.Add(label4);
+            panel2.Controls.Add(labelCurrentTime);
             panel2.Controls.Add(comboBoxStore);
             panel2.Controls.Add(progressBarAudio);
             panel2.Controls.Add(label2);
@@ -84,6 +90,33 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(923, 51);
             panel2.TabIndex = 22;
+            // 
+            // labelTotalTime
+            // 
+            labelTotalTime.AutoSize = true;
+            labelTotalTime.Location = new Point(488, 25);
+            labelTotalTime.Name = "labelTotalTime";
+            labelTotalTime.Size = new Size(44, 20);
+            labelTotalTime.TabIndex = 32;
+            labelTotalTime.Text = "00:00";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(470, 25);
+            label4.Name = "label4";
+            label4.Size = new Size(12, 20);
+            label4.TabIndex = 31;
+            label4.Text = ":";
+            // 
+            // labelCurrentTime
+            // 
+            labelCurrentTime.AutoSize = true;
+            labelCurrentTime.Location = new Point(420, 25);
+            labelCurrentTime.Name = "labelCurrentTime";
+            labelCurrentTime.Size = new Size(44, 20);
+            labelCurrentTime.TabIndex = 30;
+            labelCurrentTime.Text = "00:00";
             // 
             // comboBoxStore
             // 
@@ -100,7 +133,7 @@
             // 
             progressBarAudio.BackColor = Color.White;
             progressBarAudio.ForeColor = Color.Blue;
-            progressBarAudio.Location = new Point(326, 18);
+            progressBarAudio.Location = new Point(326, 11);
             progressBarAudio.Name = "progressBarAudio";
             progressBarAudio.Size = new Size(309, 11);
             progressBarAudio.TabIndex = 28;
@@ -273,5 +306,8 @@
         private Panel panel5;
         private ProgressBar progressBarAudio;
         private ComboBox comboBoxStore;
+        private Label labelTotalTime;
+        private Label label4;
+        private Label labelCurrentTime;
     }
 }

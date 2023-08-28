@@ -5,7 +5,6 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
-	<UseWPF>true</UseWPF>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
@@ -87,6 +86,7 @@
     <ProjectReference Include="..\ChainOfResponsibilityClassLibrary\ChainOfResponsibilityClassLibrary.csproj" />
     <ProjectReference Include="..\ClassLibraryExcel\ClassLibraryExcel.csproj" />
     <ProjectReference Include="..\ClassLibraryFiles\ClassLibraryFiles.csproj" />
+    <ProjectReference Include="..\ClassLibraryPlayer\ClassLibraryPlayer.csproj" />
     <ProjectReference Include="..\ClassLibraryServices\ClassLibraryServices.csproj" />
   </ItemGroup>
 

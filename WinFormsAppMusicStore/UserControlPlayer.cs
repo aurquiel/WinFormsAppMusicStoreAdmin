@@ -1,10 +1,9 @@
 ﻿using ChainOfResponsibilityClassLibrary;
 using ClassLibraryFiles;
 using ClassLibraryModels;
+using ClassLibraryPlayer;
 using ClassLibraryServices;
 using System.ComponentModel;
-using System.Windows.Media;
-using System.Windows.Threading;
 using static ChainOfResponsibilityClassLibrary.OperationTypes;
 
 namespace WinFormsAppMusicStoreAdmin
@@ -19,35 +18,43 @@ namespace WinFormsAppMusicStoreAdmin
         private BindingSource _bindingAudioListPlayer = new BindingSource();
         private BindingList<AudioFileDTO> _audioListPlayer = new BindingList<AudioFileDTO>();
 
-        private MediaPlayer player = new MediaPlayer();
-        private bool isPaused = false;
-        TimeSpan _position;
-        DispatcherTimer _timer = new DispatcherTimer();
+        private Player _player;
+        private EventHandler _playNextAudio;
+        private System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
 
         //Tooltips
         ToolTip toolTipButtonPullFromServer = new ToolTip();
         ToolTip toolTipButtonPlay = new ToolTip();
         ToolTip toolTipButtonPause = new ToolTip();
         ToolTip toolTipButtonStop = new ToolTip();
-        
+
 
         public UserControlPlayer(IServices services, IFileManager fileManager, List<Store> stores, EventHandler<(bool, string)> raiseRichTextInsertMessage)
         {
             InitializeComponent();
+            WireUpEvents();
             CreateToolTips();
             _services = services;
             _fileManager = fileManager;
             _raiseRichTextInsertMessage = raiseRichTextInsertMessage;
+            _player = new Player(_playNextAudio, _raiseRichTextInsertMessage);
             _stores = stores;
-            player.MediaEnded += Player_MediaEnded;
-            player.MediaFailed += Player_MediaFailed;
-            player.MediaOpened += Player_MediaOpened;
-            player.Volume = 1;
-            trackBarVolume.Value = trackBarVolume.Maximum;
-            _timer.Interval = TimeSpan.FromMilliseconds(10);
-            _timer.Tick += new EventHandler(ticktock);
-            _timer.Start();
             LoadComboBoxStore();
+            trackBarVolume.Value = trackBarVolume.Maximum;
+            _timer.Interval = 200;
+            _timer.Tick += new EventHandler(TimerEventProcessor);
+            _timer.Start();
+        }
+
+        private void WireUpEvents()
+        {
+            this._playNextAudio += PlayNextAudioEvent;
+
+        }
+
+        private void PlayNextAudioEvent(object sender, object e)
+        {
+            PlayNextAudio();
         }
 
         private void LoadComboBoxStore()
@@ -90,7 +97,10 @@ namespace WinFormsAppMusicStoreAdmin
 
         private void LoadAudioListFromBinaryFile()
         {
-            InitMediaPlayer();
+            _player.StopNoNextAudio();
+            progressBarAudio.Value = 0;
+            labelTotalTime.Text = "00:00";
+            labelCurrentTime.Text = "00:00";
             var op = new List<Operation> {
                 new Operation (OPERATIONS.PLAYER_GET_AUDIO_LIST_STORE_PC, ((Store)comboBoxStore.SelectedItem).code, new List<AudioFileDTO>())
             };
@@ -101,7 +111,10 @@ namespace WinFormsAppMusicStoreAdmin
         {
             if (comboBoxStore.SelectedIndex != -1)
             {
-                InitMediaPlayer();
+                _player.StopNoNextAudio();
+                progressBarAudio.Value = 0;
+                labelTotalTime.Text = "00:00";
+                labelCurrentTime.Text = "00:00";
                 var op = new List<Operation> {
                 new Operation(OPERATIONS.PLAYER_GET_AUDIO_LIST_STORE_SERVER, ((Store)comboBoxStore.SelectedItem).code, new List<AudioFileDTO>())
                 };
@@ -113,13 +126,6 @@ namespace WinFormsAppMusicStoreAdmin
             }
         }
 
-        private void Player_MediaOpened(object? sender, EventArgs e)
-        {
-            _position = player.NaturalDuration.TimeSpan;
-            progressBarAudio.Minimum = 0;
-            progressBarAudio.Maximum = (int)_position.TotalSeconds;
-        }
-
         private void CreateToolTips()
         {
             toolTipButtonPullFromServer.SetToolTip(buttonPullFromServer, "Actualizar lista de reproduccion.");
@@ -128,27 +134,16 @@ namespace WinFormsAppMusicStoreAdmin
             toolTipButtonStop.SetToolTip(buttonStop, "Detener lista de audio.");
         }
 
-        void ticktock(object sender, EventArgs e)
+        void TimerEventProcessor(object sender, EventArgs e)
         {
-            progressBarAudio.Value = (int)player.Position.TotalSeconds;
-        }
-
-        private void InitMediaPlayer()
-        {
-            player.Stop();
-            player = new MediaPlayer();
-            player.MediaEnded += Player_MediaEnded;
-            player.MediaFailed += Player_MediaFailed;
-            player.MediaOpened += Player_MediaOpened;
-            player.Volume = 1;
-            trackBarVolume.Value = trackBarVolume.Maximum;
-        }
-
-        private void Player_MediaFailed(object? sender, ExceptionEventArgs e)
-        {
-            InitMediaPlayer();
-            PlayNextAudio();
-            _raiseRichTextInsertMessage?.Invoke(this, (false, "Error al reproducir archvio de audio. Excepcion: " + e.ErrorException.Message));
+            if (_player.IsPlaying())
+            {
+                progressBarAudio.Maximum = (int)_player.GetLength();
+                labelTotalTime.Text = _player.TotalTime().ToString("mm\\:ss");
+                int pos = (int)_player.GetPosition();
+                progressBarAudio.Value = pos > progressBarAudio.Maximum ? progressBarAudio.Maximum : pos;
+                labelCurrentTime.Text = _player.CurrentTime().ToString("mm\\:ss");
+            }
         }
 
         private void BindListbox(List<AudioFileDTO> audioOperationList)
@@ -178,11 +173,6 @@ namespace WinFormsAppMusicStoreAdmin
             }
         }
 
-        private void Player_MediaEnded(object? sender, EventArgs e)
-        {
-            PlayNextAudio();
-        }
-
         private void buttonPlay_Click(object sender, EventArgs e)
         {
             if (listBoxAudio.Items.Count > 0 && listBoxAudio.SelectedItems.Count == 0)
@@ -190,22 +180,16 @@ namespace WinFormsAppMusicStoreAdmin
                 listBoxAudio.SelectedIndex = 0;
             }
 
-            if (isPaused == false)
+            var selectedItem = listBoxAudio.SelectedItem;
+            if (selectedItem != null)
             {
-                var selectedItem = listBoxAudio.SelectedItem;
-                if (selectedItem != null)
-                {
-                    player.Open(new Uri(((AudioFileDTO)selectedItem).path));
-                }
+                _player.Play(((AudioFileDTO)selectedItem).path);
             }
-            isPaused = false;
-            player.Play();
         }
 
         private void buttonPause_Click(object sender, EventArgs e)
         {
-            isPaused = true;
-            player.Pause();
+            _player.Pause();
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
@@ -214,12 +198,15 @@ namespace WinFormsAppMusicStoreAdmin
             {
                 listBoxAudio.SelectedIndex = 0;
             }
-            player.Stop();
+            _player.StopNoNextAudio();
+            progressBarAudio.Value = 0;
+            labelCurrentTime.Text = "00:00";
+            labelTotalTime.Text = "00:00";
         }
 
         private void trackBarVolume_Scroll(object sender, EventArgs e)
         {
-            player.Volume = (trackBarVolume.Value / (double)100);
+            _player.SetVolume(trackBarVolume.Value / (double)100);
         }
 
         private void listBoxAudio_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -227,21 +214,20 @@ namespace WinFormsAppMusicStoreAdmin
             int index = this.listBoxAudio.IndexFromPoint(e.Location);
             if (index != System.Windows.Forms.ListBox.NoMatches)
             {
-                player.Stop();
+                _player.StopNoNextAudio();
                 var selectedItem = listBoxAudio.SelectedItem;
                 if (selectedItem != null)
                 {
-                    player.Open(new Uri(((AudioFileDTO)selectedItem).path));
+                    _player.Play(((AudioFileDTO)selectedItem).path);
                 }
-                buttonPlay_Click(null, null);
             }
         }
 
         private void progressBarAudio_MouseDown(object sender, MouseEventArgs e)
         {
-            if (player.NaturalDuration.HasTimeSpan)
+            if (_player.IsPlaying())
             {
-                player.Position = player.NaturalDuration.TimeSpan * e.X / progressBarAudio.Width;
+                _player.Seek(_player.GetLength() * e.X / progressBarAudio.Width);
             }
         }
     }
