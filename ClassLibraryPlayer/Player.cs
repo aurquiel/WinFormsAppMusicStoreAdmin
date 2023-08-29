@@ -33,7 +33,7 @@ namespace ClassLibraryPlayer
             }
         }
 
-        public void Play(string filePath)
+        public async Task<bool> Play(string filePath)
         {
             try
             {
@@ -47,11 +47,15 @@ namespace ClassLibraryPlayer
                     _outputDevice.Init(_audioFile);
                     _outputDevice.Play();
                 }
+
+                return true;
             }
             catch (Exception ex)
             {
+                await Task.Delay(100);
                 _raiseRichTextInsertMessage?.Invoke(this, (false, "Excepcion al reproducir audio: " + ex.Message));
                 _playNextAudio?.Invoke(this, null);
+                return false;
             }
         }
 
@@ -73,6 +77,11 @@ namespace ClassLibraryPlayer
         public void SetVolume(double value)
         {
             _outputDevice.Volume = (float)value;
+        }
+
+        public float GetVolume()
+        {
+            return _outputDevice.Volume;
         }
 
         public long GetLength()

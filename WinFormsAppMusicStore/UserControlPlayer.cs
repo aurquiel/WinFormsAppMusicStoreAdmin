@@ -21,6 +21,8 @@ namespace WinFormsAppMusicStoreAdmin
         private Player _player;
         private EventHandler _playNextAudio;
         private System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer();
+        private int numberOfErros = 0;
+
 
         //Tooltips
         ToolTip toolTipButtonPullFromServer = new ToolTip();
@@ -154,6 +156,12 @@ namespace WinFormsAppMusicStoreAdmin
         }
         private void PlayNextAudio()
         {
+            if (numberOfErros >= listBoxAudio.Items.Count)
+            {
+                numberOfErros = 0;
+                return;
+            }
+
             bool flag = false;
             if (listBoxAudio.SelectedIndex < listBoxAudio.Items.Count - 1)
             {
@@ -172,7 +180,7 @@ namespace WinFormsAppMusicStoreAdmin
             }
         }
 
-        private void buttonPlay_Click(object sender, EventArgs e)
+        private async void buttonPlay_Click(object sender, EventArgs e)
         {
             if (listBoxAudio.Items.Count > 0 && listBoxAudio.SelectedItems.Count == 0)
             {
@@ -182,7 +190,7 @@ namespace WinFormsAppMusicStoreAdmin
             var selectedItem = listBoxAudio.SelectedItem;
             if (selectedItem != null)
             {
-                _player.Play(((AudioFileDTO)selectedItem).path);
+                MaxNumberOfErrors(await _player.Play(((AudioFileDTO)selectedItem).path));
             }
         }
 
@@ -208,7 +216,7 @@ namespace WinFormsAppMusicStoreAdmin
             _player.SetVolume(trackBarVolume.Value / (double)100);
         }
 
-        private void listBoxAudio_MouseDoubleClick(object sender, MouseEventArgs e)
+        private async void listBoxAudio_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             int index = this.listBoxAudio.IndexFromPoint(e.Location);
             if (index != System.Windows.Forms.ListBox.NoMatches)
@@ -217,7 +225,7 @@ namespace WinFormsAppMusicStoreAdmin
                 var selectedItem = listBoxAudio.SelectedItem;
                 if (selectedItem != null)
                 {
-                    _player.Play(((AudioFileDTO)selectedItem).path);
+                    MaxNumberOfErrors(await _player.Play(((AudioFileDTO)selectedItem).path));
                 }
             }
         }
@@ -227,6 +235,18 @@ namespace WinFormsAppMusicStoreAdmin
             if (_player.IsPlaying())
             {
                 _player.Seek(_player.GetLength() * e.X / progressBarAudio.Width);
+            }
+        }
+
+        private void MaxNumberOfErrors(bool playStatus)
+        {
+            if(playStatus)
+            {
+                numberOfErros = 0;
+            }
+            else
+            {
+                numberOfErros++;
             }
         }
     }
