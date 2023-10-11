@@ -14,12 +14,12 @@ namespace ClassLibraryServices.WebService
         public IStoreService StoreService { get; set; }
         public IRegisterService RegisterService { get; set; }
 
-        private WebServiceParams _webParams;
+        private WebServiceParams22 _webParams;
         private IFileManager _fileManager;
 
         public WebService(string IP_WEB_SERVICE, int TIMEOUT_WEB_SERVICE, int TIMEOUT_WEB_SERVICE_HEAVY_TASK, IFileManager fileManager)
         {
-            _webParams = new WebServiceParams(IP_WEB_SERVICE, TIMEOUT_WEB_SERVICE, TIMEOUT_WEB_SERVICE_HEAVY_TASK);
+            _webParams = new WebServiceParams22(IP_WEB_SERVICE, TIMEOUT_WEB_SERVICE, TIMEOUT_WEB_SERVICE_HEAVY_TASK);
             UserService = new UserServiceHttp(_webParams);
             _fileManager = fileManager;
         }

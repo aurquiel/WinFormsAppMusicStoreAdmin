@@ -11,7 +11,7 @@ namespace ClassLibraryServices.WebService
 {
     internal static class UserHttp
     {
-        internal static async Task<(bool, string, GeneralAnswer<List<User>>)> UserGetAll(WebServiceParams _params)
+        internal static async Task<(bool, string, GeneralAnswerDto222<List<User22>>)> UserGetAll(WebServiceParams22 _params)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace ClassLibraryServices.WebService
                     return (
                     true,
                     "Respuesta del servidor obtenida con exito.",
-                    JsonSerializer.Deserialize<GeneralAnswer<List<User>>>(result));
+                    JsonSerializer.Deserialize<GeneralAnswerDto222<List<User22>>>(result));
                 }
                 else
                 {
@@ -45,11 +45,11 @@ namespace ClassLibraryServices.WebService
                 return (
                     false,
                     "Error al obtener Usuarios del servidor, Excepcion: " + ex.Message,
-                    new GeneralAnswer<List<User>>());
+                    new GeneralAnswerDto222<List<User22>>());
             }
         }
 
-        internal static async Task<(bool, string, GeneralAnswer<object>)> UserPost(User user, WebServiceParams _params)
+        internal static async Task<(bool, string, GeneralAnswerDto222<object>)> UserPost(User22 user, WebServiceParams22 _params)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace ClassLibraryServices.WebService
                     return (
                         true,
                         "Respuesta del servidor obtenida con exito.",
-                        JsonSerializer.Deserialize<GeneralAnswer<object>>(result));
+                        JsonSerializer.Deserialize<GeneralAnswerDto222<object>>(result));
                 }
                 else
                 {
@@ -84,11 +84,11 @@ namespace ClassLibraryServices.WebService
                 return (
                     false,
                     "Error al crear Usuario en el servidor, Excepcion: " + ex.Message,
-                    new GeneralAnswer<object>());
+                    new GeneralAnswerDto222<object>());
             }
         }
 
-        internal static async Task<(bool, string, GeneralAnswer<object>)> UserPut(User user, WebServiceParams _params)
+        internal static async Task<(bool, string, GeneralAnswerDto222<object>)> UserPut(User22 user, WebServiceParams22 _params)
         {
             try
             {
@@ -108,7 +108,7 @@ namespace ClassLibraryServices.WebService
                     return (
                         true,
                         "Respuesta del servidor obtenida con exito.",
-                        JsonSerializer.Deserialize<GeneralAnswer<object>>(result));
+                        JsonSerializer.Deserialize<GeneralAnswerDto222<object>>(result));
                 }
                 else
                 {
@@ -124,11 +124,11 @@ namespace ClassLibraryServices.WebService
                 return (
                     false,
                     "Error al actualizar Usuario en el servidor, Excepcion: " + ex.Message,
-                    new GeneralAnswer<object>());
+                    new GeneralAnswerDto222<object>());
             }
         }
 
-        internal static async Task<(bool, string, GeneralAnswer<object>)> UserDelete(User user, WebServiceParams _params)
+        internal static async Task<(bool, string, GeneralAnswerDto222<object>)> UserDelete(User22 user, WebServiceParams22 _params)
         {
             try
             {
@@ -153,7 +153,7 @@ namespace ClassLibraryServices.WebService
                     return (
                         true,
                         "Respuesta del servidor obtenida con exito.",
-                        JsonSerializer.Deserialize<GeneralAnswer<object>>(result));
+                        JsonSerializer.Deserialize<GeneralAnswerDto222<object>>(result));
                 }
                 else
                 {
@@ -168,7 +168,7 @@ namespace ClassLibraryServices.WebService
                 return (
                     false,
                     "Error al eliminar Usuario en el servidor, Excepcion: " + ex.Message,
-                    new GeneralAnswer<object>());
+                    new GeneralAnswerDto222<object>());
             }
         }
     }

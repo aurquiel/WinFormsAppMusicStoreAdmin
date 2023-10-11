@@ -6,7 +6,7 @@ namespace ClassLibraryServices.WebService
 {
     internal class UserAccessHttp
     {
-        internal static async Task<(bool, string, GeneralAnswer<UserToken>)> UserAccessPost(UserAccess userAccess, WebServiceParams _params)
+        internal static async Task<(bool, string, GeneralAnswerDto222<UserToken>)> UserAccessPost(UserAccess22 userAccess, WebServiceParams22 _params)
         {
             try
             {
@@ -25,7 +25,7 @@ namespace ClassLibraryServices.WebService
                     return (
                         true,
                         "Respuesta del servidor obtenida con exito.",
-                        JsonSerializer.Deserialize<GeneralAnswer<UserToken>>(result));
+                        JsonSerializer.Deserialize<GeneralAnswerDto222<UserToken>>(result));
                 }
                 else
                 {
@@ -41,7 +41,7 @@ namespace ClassLibraryServices.WebService
                 return (
                     false,
                     "Error UserAccessPost, Excepcion: " + ex.Message,
-                    new GeneralAnswer<UserToken>());
+                    new GeneralAnswerDto222<UserToken>());
             }
         }
     }

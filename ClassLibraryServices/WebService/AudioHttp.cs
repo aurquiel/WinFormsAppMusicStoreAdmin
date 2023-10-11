@@ -8,7 +8,7 @@ namespace ClassLibraryServices.WebService
 {
     internal class AudioHttp
     {
-        internal static async Task<(bool, string, GeneralAnswer<List<AudioFile>>)> GetAudioList(WebServiceParams _params, CancellationToken token)
+        internal static async Task<(bool, string, GeneralAnswerDto222<List<AudioFile>>)> GetAudioList(WebServiceParams22 _params, CancellationToken token)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace ClassLibraryServices.WebService
                     return (
                         true,
                         "Archivo lista de audio obtenido del servidor.",
-                        JsonSerializer.Deserialize<GeneralAnswer<List<AudioFile>>>(result));
+                        JsonSerializer.Deserialize<GeneralAnswerDto222<List<AudioFile>>>(result));
                 }
                 else
                 {
@@ -47,7 +47,7 @@ namespace ClassLibraryServices.WebService
             }
         }
 
-        internal static async Task<(bool, string, GeneralAnswer<List<AudioFile>>)> GetAudioListStore(WebServiceParams _params, string storeCode, CancellationToken token)
+        internal static async Task<(bool, string, GeneralAnswerDto222<List<AudioFile>>)> GetAudioListStore(WebServiceParams22 _params, string storeCode, CancellationToken token)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace ClassLibraryServices.WebService
                     return (
                         true,
                         "Archivo lista de audio obtenido del servidor.",
-                        JsonSerializer.Deserialize<GeneralAnswer<List<AudioFile>>>(result));
+                        JsonSerializer.Deserialize<GeneralAnswerDto222<List<AudioFile>>>(result));
                 }
                 else
                 {
@@ -85,7 +85,7 @@ namespace ClassLibraryServices.WebService
             }
         }
 
-        internal static async Task<(bool, string, GeneralAnswer<object>)> SynchronizeAudioListStore(WebServiceParams _params, List<AudioFile> audioList, string storeCode, CancellationToken token)
+        internal static async Task<(bool, string, GeneralAnswerDto222<object>)> SynchronizeAudioListStore(WebServiceParams22 _params, List<AudioFile> audioList, string storeCode, CancellationToken token)
         {
             try
             {
@@ -107,7 +107,7 @@ namespace ClassLibraryServices.WebService
                     return (
                         true,
                         "Archivo lista de audio sincronizado en el servidor.",
-                        JsonSerializer.Deserialize<GeneralAnswer<object>>(result));
+                        JsonSerializer.Deserialize<GeneralAnswerDto222<object>>(result));
                 }
                 else
                 {
@@ -126,7 +126,7 @@ namespace ClassLibraryServices.WebService
             }
         }
 
-        internal static async Task<(bool, string, GeneralAnswer<string>)> SynchronizeAudioListAllStore(WebServiceParams _params, CancellationToken token)
+        internal static async Task<(bool, string, GeneralAnswerDto222<string>)> SynchronizeAudioListAllStore(WebServiceParams22 _params, CancellationToken token)
         {
             try
             {
@@ -145,7 +145,7 @@ namespace ClassLibraryServices.WebService
                     return (
                         true,
                         "Listas de audio sincronizadas en el servidor.",
-                        JsonSerializer.Deserialize<GeneralAnswer<string>>(result));
+                        JsonSerializer.Deserialize<GeneralAnswerDto222<string>>(result));
                 }
                 else
                 {
@@ -164,7 +164,7 @@ namespace ClassLibraryServices.WebService
             }
         }
 
-        internal static async Task<(bool, string, GeneralAnswer<object>)> UploadAudio(WebServiceParams _params, string filePath, CancellationToken token)
+        internal static async Task<(bool, string, GeneralAnswerDto222<object>)> UploadAudio(WebServiceParams22 _params, string filePath, CancellationToken token)
         {
             try
             {
@@ -193,7 +193,7 @@ namespace ClassLibraryServices.WebService
                     return (
                         true,
                         "Audio subido con exito al servidor servidor.",
-                        JsonSerializer.Deserialize<GeneralAnswer<object>>(result));
+                        JsonSerializer.Deserialize<GeneralAnswerDto222<object>>(result));
                 }
                 else
                 {
@@ -212,7 +212,7 @@ namespace ClassLibraryServices.WebService
             }
         }
 
-        internal static async Task<(bool, string, object)> DownloadAudio(WebServiceParams _params, string storeCode, string audioName, IFileManager fileManager, CancellationToken token)
+        internal static async Task<(bool, string, object)> DownloadAudio(WebServiceParams22 _params, string storeCode, string audioName, IFileManager fileManager, CancellationToken token)
         {
             try
             {
@@ -258,7 +258,7 @@ namespace ClassLibraryServices.WebService
             }
         }
 
-        internal static async Task<(bool, string, GeneralAnswer<string>)> DeleteAudio(WebServiceParams _params, string audioName, CancellationToken token)
+        internal static async Task<(bool, string, GeneralAnswerDto222<string>)> DeleteAudio(WebServiceParams22 _params, string audioName, CancellationToken token)
         {
             try
             {
@@ -283,7 +283,7 @@ namespace ClassLibraryServices.WebService
                     return (
                         true,
                         "Archivo de audio eliminado del servisor.",
-                        JsonSerializer.Deserialize<GeneralAnswer<string>>(result));
+                        JsonSerializer.Deserialize<GeneralAnswerDto222<string>>(result));
                 }
                 else
                 {

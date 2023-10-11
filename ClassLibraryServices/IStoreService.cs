@@ -4,9 +4,9 @@ namespace ClassLibraryServices
 {
     public interface IStoreService
     {
-        public Task<GeneralAnswer<List<Store>>> StoreGetAll();
-        public Task<GeneralAnswer<object>> StoreCrete(Store stroe);
-        public Task<GeneralAnswer<object>> StoreUpdate(Store store);
-        public Task<GeneralAnswer<object>> StoreDelete(Store store);
+        public Task<GeneralAnswerDto222<List<Store22>>> StoreGetAll();
+        public Task<GeneralAnswerDto222<object>> StoreCrete(Store22 stroe);
+        public Task<GeneralAnswerDto222<object>> StoreUpdate(Store22 store);
+        public Task<GeneralAnswerDto222<object>> StoreDelete(Store22 store);
     }
 }

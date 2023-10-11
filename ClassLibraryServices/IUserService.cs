@@ -9,10 +9,10 @@ namespace ClassLibraryServices
 {
     public interface IUserService
     {
-        public Task<GeneralAnswer<UserToken>> UserAccess(UserAccess userAccess);
-        public Task<GeneralAnswer<List<User>>> UserGetAll();
-        public Task<GeneralAnswer<object>> UserCrete(User user);
-        public Task<GeneralAnswer<object>> UserUpdate(User user);
-        public Task<GeneralAnswer<object>> UserDelete(User user);
+        public Task<GeneralAnswerDto222<UserToken>> UserAccess(UserAccess22 userAccess);
+        public Task<GeneralAnswerDto222<List<User22>>> UserGetAll();
+        public Task<GeneralAnswerDto222<object>> UserCrete(User22 user);
+        public Task<GeneralAnswerDto222<object>> UserUpdate(User22 user);
+        public Task<GeneralAnswerDto222<object>> UserDelete(User22 user);
     }
 }

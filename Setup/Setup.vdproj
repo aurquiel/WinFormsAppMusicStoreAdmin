@@ -56,6 +56,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -80,6 +88,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
     }
@@ -208,13 +224,13 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Music Store Admin"
-        "ProductCode" = "8:{694479FE-A8D9-4D67-91A8-F25F291DC94D}"
-        "PackageCode" = "8:{95BCA53A-E503-44AE-99E4-E2C92A7D045E}"
-        "UpgradeCode" = "8:{DA879670-A5DB-48C1-8CD9-1242C63210F7}"
+        "ProductCode" = "8:{50ED3D3D-3559-4639-B9BA-DBCE57452D58}"
+        "PackageCode" = "8:{2B78E56B-F809-459B-AD24-3B37ADAAFD32}"
+        "UpgradeCode" = "8:{352CDE85-243C-4052-80E0-642DED0A520E}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
-        "DetectNewerInstalledVersion" = "11:TRUE"
+        "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
         "Manufacturer" = "8:Grupo Total 99"

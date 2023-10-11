@@ -40,14 +40,14 @@ namespace ClassLibraryFiles
             }
         }
 
-        public void CreateDictoriesAndFiles(List<Store> stores)
+        public void CreateDictoriesAndFiles(List<Store22> stores)
         {
             if (!Directory.Exists(AUDIO_STORE_ADMIN_PATH))
             {
                 Directory.CreateDirectory(AUDIO_STORE_ADMIN_PATH);
             }
 
-            foreach (Store store in stores)
+            foreach (Store22 store in stores)
             {
                 if (!Directory.Exists(AUDIO_STORE_ADMIN_PATH + $"\\{store.code}"))
                 {
@@ -69,7 +69,7 @@ namespace ClassLibraryFiles
 
        
 
-        public GeneralAnswer<object> WriteAudioListToBinaryFile(List<AudioFileDTO> audioList, string storeCode)
+        public GeneralAnswerDto222<object> WriteAudioListToBinaryFile(List<AudioFileSelect> audioList, string storeCode)
         {
             try
             {
@@ -78,15 +78,15 @@ namespace ClassLibraryFiles
                     var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(String.Join(Environment.NewLine, audioList.Select(x => x.name).ToArray()));
                     binWriter.Write(System.Convert.ToBase64String(plainTextBytes));
                 }
-                return new GeneralAnswer<object>(true, "Lista de Audio escrita en archivo binario.", null);
+                return new GeneralAnswerDto222<object>(true, "Lista de Audio escrita en archivo binario.", null);
             }
             catch(Exception ex)
             {
-                return new GeneralAnswer<object> (false, "Error escribiendo Lista de Audio a archivo binario. Excepcion: " + ex.Message, null);
+                return new GeneralAnswerDto222<object> (false, "Error escribiendo Lista de Audio a archivo binario. Excepcion: " + ex.Message, null);
             }   
         }
 
-        public GeneralAnswer<List<AudioFileDTO>> ReadAudioListFromBinaryFile(string storeCode)
+        public GeneralAnswerDto222<List<AudioFileSelect>> ReadAudioListFromBinaryFile(string storeCode)
         {
             try
             {
@@ -96,17 +96,18 @@ namespace ClassLibraryFiles
                     var base64EncodedBytes = System.Convert.FromBase64String(binReader.ReadString());
                     audioList = new List<string>(System.Text.Encoding.UTF8.GetString(base64EncodedBytes).Split(Environment.NewLine));
                 }
-                var audioFiles = new List<AudioFileDTO>();
+                var a = string.Join(Environment.NewLine, audioList);
+                var audioFiles = new List<AudioFileSelect>();
                 foreach (var audio in audioList)
                 {
-                    audioFiles.Add(new AudioFileDTO { name = audio, path = Path.Combine(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}" + "\\audio", audio) });
+                    audioFiles.Add(new AudioFileSelect { name = audio, path = Path.Combine(AUDIO_STORE_ADMIN_PATH + $"\\{storeCode}" + "\\audio", audio) });
                 }
 
-                return new GeneralAnswer<List<AudioFileDTO>>(true, "Lista de Audio obtenida de archivo binario.", audioFiles);
+                return new GeneralAnswerDto222<List<AudioFileSelect>>(true, "Lista de Audio obtenida de archivo binario.", audioFiles);
             }
             catch (Exception ex)
             {
-                return new GeneralAnswer<List<AudioFileDTO>>(false, "Error al  obtener Lista de Audio de archivo binario. Excepcion: " + ex.Message, null);
+                return new GeneralAnswerDto222<List<AudioFileSelect>>(false, "Error al  obtener Lista de Audio de archivo binario. Excepcion: " + ex.Message, null);
             }
         }
 
@@ -141,7 +142,6 @@ namespace ClassLibraryFiles
             }
             
             return listAudioFormServer.Except(listAudioPc).ToList();
-
         }
 
     }

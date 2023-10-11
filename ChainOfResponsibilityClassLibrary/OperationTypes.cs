@@ -5,7 +5,7 @@ namespace ChainOfResponsibilityClassLibrary
 {
     public class Operation
     {
-        public Operation(OPERATIONS typeOfOperation, string storeCode, List<AudioFileDTO> audioFileToOperate)
+        public Operation(OPERATIONS typeOfOperation, string storeCode, List<AudioFileSelect> audioFileToOperate)
         {
             TypeOfOperation = typeOfOperation;
             StoreCode = storeCode;
@@ -14,7 +14,7 @@ namespace ChainOfResponsibilityClassLibrary
 
         public OPERATIONS TypeOfOperation { get; set; }
         public string StoreCode { get; set; }
-        public List<AudioFileDTO> AudioFileToOperate { get; set; }
+        public List<AudioFileSelect> AudioFileToOperate { get; set; }
     }
 
 

@@ -9,19 +9,19 @@ namespace ChainOfResponsibilityClassLibrary
         private IServices _services;
         private IFileManager _fileManager;
         private EventHandler<string> _updateLabelMessage;
-        private EventHandler<List<AudioFileDTO>> _getAudioListFiles;
+        private EventHandler<List<AudioFileSelect>> _getAudioListFiles;
         private EventHandler<(bool, string)> _raiseRichTextInsertMessage;
         private CancellationToken _token;
-        private List<AudioFileDTO> _audioFileListToDelete;
+        private List<AudioFileSelect> _audioFileListToDelete;
 
         public ServerDeleteAudioHandler(
             IServices services, 
             IFileManager fileManager,
             EventHandler<string> updateLabelMessage,
-            EventHandler<List<AudioFileDTO>> getAudioListFiles,
+            EventHandler<List<AudioFileSelect>> getAudioListFiles,
             EventHandler<(bool, string)> raiseRichTextInsertMessage, 
             CancellationToken token,
-            List<AudioFileDTO> audioFileListToDelete)
+            List<AudioFileSelect> audioFileListToDelete)
         {
             _services = services;
             _fileManager = fileManager;
@@ -38,7 +38,7 @@ namespace ChainOfResponsibilityClassLibrary
             {
                 _updateLabelMessage?.Invoke(this, "Eliminando audios del servidor");
                 await Task.Delay(100);
-                foreach (AudioFileDTO file in _audioFileListToDelete)
+                foreach (AudioFileSelect file in _audioFileListToDelete)
                 {
                     _updateLabelMessage?.Invoke(this, "Eliminando audio: " + file.name);
                     var result = await _services.AudioService.DeleteAudioServerAsync(file.name, _token);

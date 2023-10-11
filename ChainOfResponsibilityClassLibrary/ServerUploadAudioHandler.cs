@@ -9,19 +9,19 @@ namespace ChainOfResponsibilityClassLibrary
         private IServices _services;
         private IFileManager _fileManager;
         private EventHandler<string> _updateLabelMessage;
-        private EventHandler<List<AudioFileDTO>> _getAudioListFiles;
+        private EventHandler<List<AudioFileSelect>> _getAudioListFiles;
         private EventHandler<(bool, string)> _raiseRichTextInsertMessage;
         private CancellationToken _token;
-        private List<AudioFileDTO> _audioFileListToUpload;
+        private List<AudioFileSelect> _audioFileListToUpload;
 
         public ServerUploadAudioHandler(
             IServices services,
             IFileManager fileManager,
             EventHandler<string> updateLabelMessage,
-            EventHandler<List<AudioFileDTO>> getAudioListFiles,
+            EventHandler<List<AudioFileSelect>> getAudioListFiles,
             EventHandler<(bool, string)> raiseRichTextInsertMessage,
             CancellationToken token,
-            List<AudioFileDTO> audioFileListToUpload)
+            List<AudioFileSelect> audioFileListToUpload)
         {
             _services = services;
             _fileManager = fileManager;
@@ -37,7 +37,7 @@ namespace ChainOfResponsibilityClassLibrary
             if (operation == OperationTypes.OPERATIONS.SERVER_UPLOAD_AUDIO)
             {
                 _updateLabelMessage?.Invoke(this, "Subiendo audio al servidor");
-                foreach (AudioFileDTO file in _audioFileListToUpload)
+                foreach (AudioFileSelect file in _audioFileListToUpload)
                 {
                     _updateLabelMessage?.Invoke(this, "Subiendo audio: " + file.name);
                     var result = await _services.AudioService.UploadAudioServerAsync(file.path, _token);

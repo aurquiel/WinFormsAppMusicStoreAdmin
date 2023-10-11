@@ -11,7 +11,7 @@ namespace ClassLibraryServices.WebService
 {
     internal class StoreHttp
     {
-        internal static async Task<(bool, string, GeneralAnswer<List<Store>>)> StoreGetAll(WebServiceParams _params)
+        internal static async Task<(bool, string, GeneralAnswerDto222<List<Store22>>)> StoreGetAll(WebServiceParams22 _params)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace ClassLibraryServices.WebService
                     return (
                     true,
                     "Respuesta del servidor obtenida con exito.",
-                    JsonSerializer.Deserialize<GeneralAnswer<List<Store>>>(result));
+                    JsonSerializer.Deserialize<GeneralAnswerDto222<List<Store22>>>(result));
                 }
                 else
                 {
@@ -48,11 +48,11 @@ namespace ClassLibraryServices.WebService
                 return (
                     false,
                     "Error, Excepcion: " + ex.Message,
-                    new GeneralAnswer<List<Store>>());
+                    new GeneralAnswerDto222<List<Store22>>());
             }
         }
 
-        internal static async Task<(bool, string, GeneralAnswer<object>)> StorePost(Store store, WebServiceParams _params)
+        internal static async Task<(bool, string, GeneralAnswerDto222<object>)> StorePost(Store22 store, WebServiceParams22 _params)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace ClassLibraryServices.WebService
                     return (
                         true,
                         "Respuesta del servidor obtenida con exito.",
-                        JsonSerializer.Deserialize<GeneralAnswer<object>>(result));
+                        JsonSerializer.Deserialize<GeneralAnswerDto222<object>>(result));
                 }
                 else
                 {
@@ -87,11 +87,11 @@ namespace ClassLibraryServices.WebService
                 return (
                     false,
                     "Error UserPost, Excepcion: " + ex.Message,
-                    new GeneralAnswer<object>());
+                    new GeneralAnswerDto222<object>());
             }
         }
 
-        internal static async Task<(bool, string, GeneralAnswer<object>)> StorePut(Store store, WebServiceParams _params)
+        internal static async Task<(bool, string, GeneralAnswerDto222<object>)> StorePut(Store22 store, WebServiceParams22 _params)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace ClassLibraryServices.WebService
                     return (
                         true,
                         "Respuesta del servidor obtenida con exito.",
-                        JsonSerializer.Deserialize<GeneralAnswer<object>>(result));
+                        JsonSerializer.Deserialize<GeneralAnswerDto222<object>>(result));
                 }
                 else
                 {
@@ -127,11 +127,11 @@ namespace ClassLibraryServices.WebService
                 return (
                     false,
                     "Error UserPut, Excepcion: " + ex.Message,
-                    new GeneralAnswer<object>());
+                    new GeneralAnswerDto222<object>());
             }
         }
 
-        internal static async Task<(bool, string, GeneralAnswer<object>)> StoreDelete(Store store, WebServiceParams _params)
+        internal static async Task<(bool, string, GeneralAnswerDto222<object>)> StoreDelete(Store22 store, WebServiceParams22 _params)
         {
             try
             {
@@ -156,7 +156,7 @@ namespace ClassLibraryServices.WebService
                     return (
                         true,
                         "Respuesta del servidor obtenida con exito.",
-                        JsonSerializer.Deserialize<GeneralAnswer<object>>(result));
+                        JsonSerializer.Deserialize<GeneralAnswerDto222<object>>(result));
                 }
                 else
                 {
@@ -171,7 +171,7 @@ namespace ClassLibraryServices.WebService
                 return (
                     false,
                     "Error UserDelete, Excepcion: " + ex.Message,
-                    new GeneralAnswer<object>());
+                    new GeneralAnswerDto222<object>());
             }
         }
     }

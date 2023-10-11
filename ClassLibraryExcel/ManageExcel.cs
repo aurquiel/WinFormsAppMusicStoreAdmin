@@ -6,12 +6,12 @@ namespace ClassLibraryExcel
 {
     public class ManageExcel
     {
-        public static async Task<GeneralAnswer<object>> CreateReportStore(List<RegisterDisplay> listData, string path)
+        public static async Task<GeneralAnswerDto222<object>> CreateReportStore(List<RegisterDisplay> listData, string path)
         {
             return await Task.Run(() => ShellCreateReportStore(listData, path));
         }
 
-        private static GeneralAnswer<object> ShellCreateReportStore(List<RegisterDisplay> listData, string path)
+        private static GeneralAnswerDto222<object> ShellCreateReportStore(List<RegisterDisplay> listData, string path)
         {
             ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
 
@@ -71,11 +71,11 @@ namespace ClassLibraryExcel
                 //Close Excel package
                 excel.Dispose();
 
-                return new GeneralAnswer<object>(true, "Archivo guardado con exito.", null);
+                return new GeneralAnswerDto222<object>(true, "Archivo guardado con exito.", null);
             }
             catch (Exception ex)
             {
-                return new GeneralAnswer<object>(false, "Error, Excepcion: " + ex.Message.ToLower(), null);
+                return new GeneralAnswerDto222<object>(false, "Error, Excepcion: " + ex.Message.ToLower(), null);
             }
         }
     }

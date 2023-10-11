@@ -9,7 +9,7 @@ namespace ChainOfResponsibilityClassLibrary
         private IServices _services;
         private IFileManager _fileManager;
         private EventHandler<string> _updateLabelMessage;
-        private EventHandler<List<AudioFileDTO>> _getAudioListFiles;
+        private EventHandler<List<AudioFileSelect>> _getAudioListFiles;
         private EventHandler<(bool, string)> _raiseRichTextInsertMessage;
         private CancellationToken _token;
         private string _storeCode;
@@ -18,7 +18,7 @@ namespace ChainOfResponsibilityClassLibrary
             IServices services, 
             IFileManager fileManager,
             EventHandler<string> updateLabelMessage,
-            EventHandler<List<AudioFileDTO>> getAudioListFiles,
+            EventHandler<List<AudioFileSelect>> getAudioListFiles,
             EventHandler<(bool, string)> raiseRichTextInsertMessage, 
             CancellationToken token,
             string storeCode)
@@ -42,7 +42,7 @@ namespace ChainOfResponsibilityClassLibrary
                 _raiseRichTextInsertMessage?.Invoke(this, (result.status, result.statusMessage));
                 if (result.status)
                 {
-                    _getAudioListFiles?.Invoke(this, AudioFileDTO.TransformToDTO(result.data));
+                    _getAudioListFiles?.Invoke(this, AudioFileSelect.TransformToDTO(result.data));
                 }
             }
             else if (successor != null)

@@ -7,7 +7,7 @@ namespace ClassLibraryServices.WebService
 {
     internal class RegisterHttp
     {
-        internal static async Task<(bool, string, GeneralAnswer<List<Register>>)> RegisterGetByMonth(WebServiceParams _params, int storeId, DateTime date)
+        internal static async Task<(bool, string, GeneralAnswerDto222<List<Register22>>)> RegisterGetByMonth(WebServiceParams22 _params, int storeId, DateTime date)
         {
             try
             {
@@ -26,7 +26,7 @@ namespace ClassLibraryServices.WebService
                     return (
                     true,
                     "Respuesta del servidor obtenida con exito.",
-                    JsonSerializer.Deserialize<GeneralAnswer<List<Register>>>(result));
+                    JsonSerializer.Deserialize<GeneralAnswerDto222<List<Register22>>>(result));
                 }
                 else
                 {
@@ -41,11 +41,11 @@ namespace ClassLibraryServices.WebService
                 return (
                     false,
                     "Error al obtener Registros del servidor, Excepcion: " + ex.Message,
-                    new GeneralAnswer<List<Register>>());
+                    new GeneralAnswerDto222<List<Register22>>());
             }
         }
 
-        internal static async Task<(bool, string, GeneralAnswer<List<Register>>)> RegisterGet(WebServiceParams _params, int storeId, DateTime dateInit, DateTime dateEnd)
+        internal static async Task<(bool, string, GeneralAnswerDto222<List<Register22>>)> RegisterGet(WebServiceParams22 _params, int storeId, DateTime dateInit, DateTime dateEnd)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace ClassLibraryServices.WebService
                     return (
                     true,
                     "Respuesta del servidor obtenida con exito.",
-                    JsonSerializer.Deserialize<GeneralAnswer<List<Register>>>(result));
+                    JsonSerializer.Deserialize<GeneralAnswerDto222<List<Register22>>>(result));
                 }
                 else
                 {
@@ -79,11 +79,11 @@ namespace ClassLibraryServices.WebService
                 return (
                     false,
                     "Error al obtener Registros del servidor, Excepcion: " + ex.Message,
-                    new GeneralAnswer<List<Register>>());
+                    new GeneralAnswerDto222<List<Register22>>());
             }
         }
 
-        internal static async Task<(bool, string, GeneralAnswer<object>)> RegisterDelete(WebServiceParams _params, int storeId)
+        internal static async Task<(bool, string, GeneralAnswerDto222<object>)> RegisterDelete(WebServiceParams22 _params, int storeId)
         {
             try
             {
@@ -107,7 +107,7 @@ namespace ClassLibraryServices.WebService
                     return (
                         true,
                         "Respuesta del servidor obtenida con exito.",
-                        JsonSerializer.Deserialize<GeneralAnswer<object>>(result));
+                        JsonSerializer.Deserialize<GeneralAnswerDto222<object>>(result));
                 }
                 else
                 {
@@ -122,11 +122,11 @@ namespace ClassLibraryServices.WebService
                 return (
                     false,
                     "Error al eliminar Registros en el servidor, Excepcion: " + ex.Message,
-                    new GeneralAnswer<object>());
+                    new GeneralAnswerDto222<object>());
             }
         }
 
-        internal static async Task<(bool, string, GeneralAnswer<object>)> RegisterPost(WebServiceParams _params, Register register)
+        internal static async Task<(bool, string, GeneralAnswerDto222<object>)> RegisterPost(WebServiceParams22 _params, Register22 register)
         {
             try
             {
@@ -146,7 +146,7 @@ namespace ClassLibraryServices.WebService
                     return (
                         true,
                         "Respuesta del servidor obtenida con exito.",
-                        JsonSerializer.Deserialize<GeneralAnswer<object>>(result));
+                        JsonSerializer.Deserialize<GeneralAnswerDto222<object>>(result));
                 }
                 else
                 {

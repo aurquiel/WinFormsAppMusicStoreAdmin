@@ -9,7 +9,7 @@ namespace ChainOfResponsibilityClassLibrary
         private IServices _services;
         private IFileManager _fileManager;
         private EventHandler<string> _updateLabelMessage;
-        private EventHandler<List<AudioFileDTO>> _getAudioListFiles;
+        private EventHandler<List<AudioFileSelect>> _getAudioListFiles;
         private EventHandler<(bool, string)> _raiseRichTextInsertMessage;
         private CancellationToken _token;
         private string _storeCode;
@@ -18,7 +18,7 @@ namespace ChainOfResponsibilityClassLibrary
             IServices services,
             IFileManager fileManager,
             EventHandler<string> updateLabelMessage,
-            EventHandler<List<AudioFileDTO>> getAudioListFiles,
+            EventHandler<List<AudioFileSelect>> getAudioListFiles,
             EventHandler<(bool, string)> raiseRichTextInsertMessage,
             CancellationToken token,
             string storeCode)
@@ -44,11 +44,11 @@ namespace ChainOfResponsibilityClassLibrary
                 {
                     if(result.data.Count() == 0 )
                     {
-                        _getAudioListFiles?.Invoke(this, new List<AudioFileDTO>());
+                        _getAudioListFiles?.Invoke(this, new List<AudioFileSelect>());
                     }
                     else
                     {
-                        _fileManager.WriteAudioListToBinaryFile(AudioFileDTO.TransformToDTO(result.data), _storeCode);
+                        _fileManager.WriteAudioListToBinaryFile(AudioFileSelect.TransformToDTO(result.data), _storeCode);
 
                         var listToDowmload = _fileManager.GetAudioListToDownload(result.data.Select(x => x.name).ToList(), _storeCode);
                         if (listToDowmload.Count() > 0)
@@ -70,7 +70,7 @@ namespace ChainOfResponsibilityClassLibrary
                         await Task.Delay(100);
                         _fileManager.EraseAudiosNotInAudioList(result.data.Select(x => x.name).ToList(), _storeCode);
 
-                        _getAudioListFiles?.Invoke(this, AudioFileDTO.TransformToDTO(result.data).Select(x => new AudioFileDTO { name = x.name, duration = x.duration, size = x.size, path = $"{_fileManager.GetAudioStoreAdminPath()}\\{_storeCode}\\audio\\{x.name}" }).ToList());
+                        _getAudioListFiles?.Invoke(this, AudioFileSelect.TransformToDTO(result.data).Select(x => new AudioFileSelect { name = x.name, duration = x.duration, size = x.size, path = $"{_fileManager.GetAudioStoreAdminPath()}\\{_storeCode}\\audio\\{x.name}" }).ToList());
                     }
                 }
                 else if (successor != null)

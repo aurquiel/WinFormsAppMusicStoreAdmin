@@ -9,9 +9,9 @@ namespace ClassLibraryServices
 {
     public interface IRegisterService
     {
-        Task<GeneralAnswer<List<Register>>> GetRegisters(int storeId, DateTime dateInit, DateTime dateEnd);
-        Task<GeneralAnswer<List<Register>>> GetRegisterByMonth(int storeId, DateTime date);
-        Task<GeneralAnswer<object>> RegisterInsert(Register register);
-        Task<GeneralAnswer<object>> RegisterDelete(int storeId);
+        Task<GeneralAnswerDto222<List<Register22>>> GetRegisters(int storeId, DateTime dateInit, DateTime dateEnd);
+        Task<GeneralAnswerDto222<List<Register22>>> GetRegisterByMonth(int storeId, DateTime date);
+        Task<GeneralAnswerDto222<object>> RegisterInsert(Register22 register);
+        Task<GeneralAnswerDto222<object>> RegisterDelete(int storeId);
     }
 }

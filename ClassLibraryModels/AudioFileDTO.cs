@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassLibraryModels
 {
-    public class AudioFileDTO
+    public class AudioFileSelect
     {
         public bool select { get; set; }
 
@@ -19,12 +19,12 @@ namespace ClassLibraryModels
         public string size { get; set; }
    
 
-        public AudioFileDTO()
+        public AudioFileSelect()
         {
 
         }
 
-        public AudioFileDTO(AudioFileDTO audioFileDTO)
+        public AudioFileSelect(AudioFileSelect audioFileDTO)
         {
             this.select = audioFileDTO.select;
             this.name = audioFileDTO.name;
@@ -33,9 +33,9 @@ namespace ClassLibraryModels
             this.size = audioFileDTO.size;
         }
 
-        public static AudioFileDTO TransformToDTO(AudioFile audioFile)
+        public static AudioFileSelect TransformToDTO(AudioFile audioFile)
         {
-            return new AudioFileDTO
+            return new AudioFileSelect
             {
                 select = false,
                 name = audioFile.name,
@@ -45,9 +45,9 @@ namespace ClassLibraryModels
             };
         }
 
-        public static List<AudioFileDTO> TransformToDTO(List<AudioFile> audioFileList)
+        public static List<AudioFileSelect> TransformToDTO(List<AudioFile> audioFileList)
         {
-            List<AudioFileDTO> result = new();
+            List<AudioFileSelect> result = new();
 
             foreach (var item in audioFileList)
             {
@@ -57,7 +57,7 @@ namespace ClassLibraryModels
             return result;
         }
 
-        public static AudioFile TransformFromDTO(AudioFileDTO audioFileDTO)
+        public static AudioFile TransformFromDTO(AudioFileSelect audioFileDTO)
         {
             return new AudioFile
             {
@@ -68,7 +68,7 @@ namespace ClassLibraryModels
             };
         }
 
-        public static List<AudioFile> TransformFromDTO(List<AudioFileDTO> audioFileDTOlist)
+        public static List<AudioFile> TransformFromDTO(List<AudioFileSelect> audioFileDTOlist)
         {
             List<AudioFile> result = new();
 

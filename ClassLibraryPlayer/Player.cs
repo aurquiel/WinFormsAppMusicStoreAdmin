@@ -23,7 +23,7 @@ namespace ClassLibraryPlayer
             if(e.Exception != null)
             {
                 _playNextAudio?.Invoke(this, null);
-                _raiseRichTextInsertMessage?.Invoke(this, (false, "Excepcion aduio detenido: " + e.Exception.Message));
+                _raiseRichTextInsertMessage?.Invoke(this, (false, "Excepcion audio detenido: " + e.Exception.Message));
             }
 
             //Si termino la cancion
@@ -67,6 +67,10 @@ namespace ClassLibraryPlayer
         public void Stop()
         {
             _outputDevice.Stop();
+            if(_audioFile != null)
+            {
+                _audioFile.Close();
+            }
         }
 
         public void Pause()

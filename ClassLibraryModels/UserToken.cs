@@ -8,7 +8,7 @@ namespace ClassLibraryModels
 {
     public class UserToken
     {
-        public User? user { get; set; }
+        public User22? user { get; set; }
         public string? token { get; set; }
     }
 }

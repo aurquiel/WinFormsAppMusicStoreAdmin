@@ -12,6 +12,7 @@
   <ItemGroup>
     <None Remove="Resources\add.png" />
     <None Remove="Resources\app.png" />
+    <None Remove="Resources\AudioStoreLocal.db" />
     <None Remove="Resources\back.png" />
     <None Remove="Resources\cancel.png" />
     <None Remove="Resources\close.png" />
@@ -36,7 +37,7 @@
     <None Remove="Resources\saveCloud.png" />
     <None Remove="Resources\search.png" />
     <None Remove="Resources\selectAll.png" />
-    <None Remove="Resources\selectAudio.png" />
+    <None Remove="Resources\selectTime.png" />
     <None Remove="Resources\stop.png" />
     <None Remove="Resources\synchronizeAllStores.png" />
     <None Remove="Resources\unselectAll.png" />
@@ -46,6 +47,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\AudioStoreLocal.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\back.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -74,7 +78,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="LiveChartsCore.SkiaSharpView.WinForms" Version="2.0.0-beta.920" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.22">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Serilog" Version="3.0.1" />
@@ -84,6 +95,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ChainOfResponsibilityClassLibrary\ChainOfResponsibilityClassLibrary.csproj" />
+    <ProjectReference Include="..\ClassLibraryDomain\ClassLibraryDomain.csproj" />
     <ProjectReference Include="..\ClassLibraryExcel\ClassLibraryExcel.csproj" />
     <ProjectReference Include="..\ClassLibraryFiles\ClassLibraryFiles.csproj" />
     <ProjectReference Include="..\ClassLibraryPlayer\ClassLibraryPlayer.csproj" />
@@ -151,7 +163,7 @@
     <Resource Include="Resources\selectAll.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\selectAudio.png">
+    <Resource Include="Resources\selectTime.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\stop.png">
@@ -180,12 +192,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="UserControlMusic.cs" />
+    <Compile Update="DrivingAdapters\Winforms\UserControlMusic.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
