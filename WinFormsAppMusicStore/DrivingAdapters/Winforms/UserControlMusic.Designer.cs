@@ -37,16 +37,6 @@
             tableLayoutPanel4 = new TableLayoutPanel();
             tableLayoutPanel5 = new TableLayoutPanel();
             dataGridViewServer = new DataGridView();
-            serverSelect = new DataGridViewCheckBoxColumn();
-            serverId = new DataGridViewTextBoxColumn();
-            serverOrder = new DataGridViewTextBoxColumn();
-            serverAudioName = new DataGridViewTextBoxColumn();
-            serverStoreId = new DataGridViewTextBoxColumn();
-            serverPath = new DataGridViewTextBoxColumn();
-            serverAudioDuration = new DataGridViewTextBoxColumn();
-            serverAudioSize = new DataGridViewTextBoxColumn();
-            serverChekFotTime = new DataGridViewTextBoxColumn();
-            serverTimeToPlay = new DrivingAdapters.Winforms.TimeSpanColumn();
             labeServerStadistics = new Label();
             panel7 = new Panel();
             buttonSelectAllTime = new Button();
@@ -145,6 +135,16 @@
             button37 = new Button();
             button38 = new Button();
             label1 = new Label();
+            serverSelect = new DataGridViewCheckBoxColumn();
+            serverId = new DataGridViewTextBoxColumn();
+            serverOrder = new DataGridViewTextBoxColumn();
+            serverAudioName = new DataGridViewTextBoxColumn();
+            serverStoreId = new DataGridViewTextBoxColumn();
+            serverPath = new DataGridViewTextBoxColumn();
+            serverAudioDuration = new DataGridViewTextBoxColumn();
+            serverAudioSize = new DataGridViewTextBoxColumn();
+            serverChekFotTime = new DataGridViewTextBoxColumn();
+            serverTimeToPlay = new DataGridViewTextBoxColumn();
             panel4.SuspendLayout();
             panel5.SuspendLayout();
             tableLayoutPanel.SuspendLayout();
@@ -281,97 +281,6 @@
             dataGridViewServer.Size = new Size(537, 483);
             dataGridViewServer.TabIndex = 26;
             dataGridViewServer.SelectionChanged += dataGridViewServer_SelectionChanged;
-            // 
-            // serverSelect
-            // 
-            serverSelect.DataPropertyName = "select";
-            serverSelect.HeaderText = "Seleccionar";
-            serverSelect.MinimumWidth = 6;
-            serverSelect.Name = "serverSelect";
-            serverSelect.Width = 125;
-            // 
-            // serverId
-            // 
-            serverId.DataPropertyName = "id";
-            serverId.HeaderText = "Id";
-            serverId.Name = "serverId";
-            serverId.ReadOnly = true;
-            serverId.Visible = false;
-            // 
-            // serverOrder
-            // 
-            serverOrder.DataPropertyName = "order";
-            serverOrder.HeaderText = "Orden";
-            serverOrder.Name = "serverOrder";
-            serverOrder.ReadOnly = true;
-            serverOrder.Visible = false;
-            // 
-            // serverAudioName
-            // 
-            serverAudioName.DataPropertyName = "name";
-            serverAudioName.HeaderText = "Nombre";
-            serverAudioName.MinimumWidth = 6;
-            serverAudioName.Name = "serverAudioName";
-            serverAudioName.ReadOnly = true;
-            serverAudioName.Width = 200;
-            // 
-            // serverStoreId
-            // 
-            serverStoreId.DataPropertyName = "storeId";
-            serverStoreId.HeaderText = "Tienda Id";
-            serverStoreId.Name = "serverStoreId";
-            serverStoreId.ReadOnly = true;
-            serverStoreId.Visible = false;
-            // 
-            // serverPath
-            // 
-            serverPath.DataPropertyName = "path";
-            serverPath.HeaderText = "Ruta";
-            serverPath.MinimumWidth = 6;
-            serverPath.Name = "serverPath";
-            serverPath.ReadOnly = true;
-            serverPath.Visible = false;
-            serverPath.Width = 125;
-            // 
-            // serverAudioDuration
-            // 
-            serverAudioDuration.DataPropertyName = "duration";
-            serverAudioDuration.HeaderText = "Duracion";
-            serverAudioDuration.MinimumWidth = 6;
-            serverAudioDuration.Name = "serverAudioDuration";
-            serverAudioDuration.ReadOnly = true;
-            serverAudioDuration.Width = 125;
-            // 
-            // serverAudioSize
-            // 
-            serverAudioSize.DataPropertyName = "size";
-            serverAudioSize.HeaderText = "Peso Mb";
-            serverAudioSize.MinimumWidth = 6;
-            serverAudioSize.Name = "serverAudioSize";
-            serverAudioSize.ReadOnly = true;
-            serverAudioSize.Width = 125;
-            // 
-            // serverChekFotTime
-            // 
-            serverChekFotTime.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            serverChekFotTime.DataPropertyName = "checkForTime";
-            serverChekFotTime.HeaderText = "Tiempo";
-            serverChekFotTime.Name = "serverChekFotTime";
-            serverChekFotTime.ReadOnly = true;
-            serverChekFotTime.Visible = false;
-            serverChekFotTime.Width = 5;
-            // 
-            // serverTimeToPlay
-            // 
-            serverTimeToPlay.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            serverTimeToPlay.DataPropertyName = "timeToPlay";
-            serverTimeToPlay.HeaderText = "Hora";
-            serverTimeToPlay.Name = "serverTimeToPlay";
-            serverTimeToPlay.ReadOnly = true;
-            serverTimeToPlay.Resizable = DataGridViewTriState.True;
-            serverTimeToPlay.SortMode = DataGridViewColumnSortMode.Automatic;
-            serverTimeToPlay.Visible = false;
-            serverTimeToPlay.Width = 5;
             // 
             // labeServerStadistics
             // 
@@ -1714,6 +1623,96 @@
             label1.Text = "LISTA DE AUDIO TIENDA: 0000";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // serverSelect
+            // 
+            serverSelect.DataPropertyName = "select";
+            serverSelect.HeaderText = "Seleccionar";
+            serverSelect.MinimumWidth = 6;
+            serverSelect.Name = "serverSelect";
+            serverSelect.Width = 125;
+            // 
+            // serverId
+            // 
+            serverId.DataPropertyName = "id";
+            serverId.HeaderText = "Id";
+            serverId.Name = "serverId";
+            serverId.ReadOnly = true;
+            serverId.Visible = false;
+            // 
+            // serverOrder
+            // 
+            serverOrder.DataPropertyName = "order";
+            serverOrder.HeaderText = "Orden";
+            serverOrder.Name = "serverOrder";
+            serverOrder.ReadOnly = true;
+            serverOrder.Visible = false;
+            // 
+            // serverAudioName
+            // 
+            serverAudioName.DataPropertyName = "name";
+            serverAudioName.HeaderText = "Nombre";
+            serverAudioName.MinimumWidth = 6;
+            serverAudioName.Name = "serverAudioName";
+            serverAudioName.ReadOnly = true;
+            serverAudioName.Width = 200;
+            // 
+            // serverStoreId
+            // 
+            serverStoreId.DataPropertyName = "storeId";
+            serverStoreId.HeaderText = "Tienda Id";
+            serverStoreId.Name = "serverStoreId";
+            serverStoreId.ReadOnly = true;
+            serverStoreId.Visible = false;
+            // 
+            // serverPath
+            // 
+            serverPath.DataPropertyName = "path";
+            serverPath.HeaderText = "Ruta";
+            serverPath.MinimumWidth = 6;
+            serverPath.Name = "serverPath";
+            serverPath.ReadOnly = true;
+            serverPath.Visible = false;
+            serverPath.Width = 125;
+            // 
+            // serverAudioDuration
+            // 
+            serverAudioDuration.DataPropertyName = "duration";
+            serverAudioDuration.HeaderText = "Duracion";
+            serverAudioDuration.MinimumWidth = 6;
+            serverAudioDuration.Name = "serverAudioDuration";
+            serverAudioDuration.ReadOnly = true;
+            serverAudioDuration.Width = 125;
+            // 
+            // serverAudioSize
+            // 
+            serverAudioSize.DataPropertyName = "size";
+            serverAudioSize.HeaderText = "Peso Mb";
+            serverAudioSize.MinimumWidth = 6;
+            serverAudioSize.Name = "serverAudioSize";
+            serverAudioSize.ReadOnly = true;
+            serverAudioSize.Width = 125;
+            // 
+            // serverChekFotTime
+            // 
+            serverChekFotTime.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            serverChekFotTime.DataPropertyName = "checkForTime";
+            serverChekFotTime.HeaderText = "Tiempo";
+            serverChekFotTime.Name = "serverChekFotTime";
+            serverChekFotTime.ReadOnly = true;
+            serverChekFotTime.Visible = false;
+            serverChekFotTime.Width = 5;
+            // 
+            // serverTimeToPlay
+            // 
+            serverTimeToPlay.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            serverTimeToPlay.DataPropertyName = "timeToPlay";
+            serverTimeToPlay.HeaderText = "Hora";
+            serverTimeToPlay.Name = "serverTimeToPlay";
+            serverTimeToPlay.ReadOnly = true;
+            serverTimeToPlay.Resizable = DataGridViewTriState.True;
+            serverTimeToPlay.Visible = false;
+            serverTimeToPlay.Width = 5;
+            // 
             // UserControlMusic
             // 
             Controls.Add(panel4);
@@ -1841,16 +1840,6 @@
         private Button buttonSelectAllAudio;
         private Button buttonSelectAllPublicityAudioListStore;
         private Button buttonSelectAllAudioAudioListStore;
-        private DataGridViewCheckBoxColumn serverSelect;
-        private DataGridViewTextBoxColumn serverId;
-        private DataGridViewTextBoxColumn serverOrder;
-        private DataGridViewTextBoxColumn serverAudioName;
-        private DataGridViewTextBoxColumn serverStoreId;
-        private DataGridViewTextBoxColumn serverPath;
-        private DataGridViewTextBoxColumn serverAudioDuration;
-        private DataGridViewTextBoxColumn serverAudioSize;
-        private DataGridViewTextBoxColumn serverChekFotTime;
-        private DrivingAdapters.Winforms.TimeSpanColumn serverTimeToPlay;
         private Button buttonSelectAllTime;
         private DataGridViewCheckBoxColumn storeSelect;
         private DataGridViewTextBoxColumn storeId;
@@ -1863,6 +1852,16 @@
         private DataGridViewCheckBoxColumn storeCheckForTime;
         private DataGridViewTextBoxColumn storeTimeToPlay;
         private Button buttonSelectAllTimeAudioListStore;
+        private DataGridViewCheckBoxColumn serverSelect;
+        private DataGridViewTextBoxColumn serverId;
+        private DataGridViewTextBoxColumn serverOrder;
+        private DataGridViewTextBoxColumn serverAudioName;
+        private DataGridViewTextBoxColumn serverStoreId;
+        private DataGridViewTextBoxColumn serverPath;
+        private DataGridViewTextBoxColumn serverAudioDuration;
+        private DataGridViewTextBoxColumn serverAudioSize;
+        private DataGridViewTextBoxColumn serverChekFotTime;
+        private DataGridViewTextBoxColumn serverTimeToPlay;
     }
 }
 #endregion

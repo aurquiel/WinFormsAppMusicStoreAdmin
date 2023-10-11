@@ -1,17 +1,18 @@
-﻿using ChainOfResponsibilityClassLibrary;
-using ClassLibraryDomain.Models;
-using ClassLibraryFiles;
-using ClassLibraryModels;
-using ClassLibraryServices;
+﻿using ClassLibraryDomain.Models;
 using System.ComponentModel;
+using System.Reflection;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
+using WinFormsAppMusicStoreAdmin.DrivingAdapters.Winforms.ChainOfResponsibityOperationAndWait;
+using WinFormsAppMusicStoreAdmin.DrivingAdapters.Winforms.Dtos;
 
 namespace WinFormsAppMusicStoreAdmin
 {
     public partial class UserControlTool : UserControl
     {
-        private IServices _services;
         private EventHandler<(bool, string)> _raiseRichTextInsertMessage;
-        private IFileManager _fileManager;
+        private FormOperationAndWait _formOperationAndWait;
         private List<Store> _stores;
         private BindingSource _bindingAudioListStore = new BindingSource();
         private BindingList<AudioFileSelect> _audioListStore = new BindingList<AudioFileSelect>();
@@ -26,12 +27,12 @@ namespace WinFormsAppMusicStoreAdmin
         ToolTip toolTipButtonSelectAll = new ToolTip();
         ToolTip toolTipButtonPushToServer = new ToolTip();
 
-        public UserControlTool(IServices services, IFileManager fileManager, List<Store> stores, EventHandler<(bool, string)> raiseRichTextInsertMessage)
+        public UserControlTool(FormOperationAndWait formOperationAndWait, List<Store> stores, EventHandler<(bool, string)> raiseRichTextInsertMessage)
         {
             InitializeComponent();
-            _services = services;
+            SetDoubleBuffered();
             _raiseRichTextInsertMessage = raiseRichTextInsertMessage;
-            _fileManager = fileManager;
+            _formOperationAndWait = formOperationAndWait;
             _stores = stores;
             CreateToolTips();
             LoadComboBoxStores();
@@ -46,6 +47,13 @@ namespace WinFormsAppMusicStoreAdmin
                 cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
                 return cp;
             }
+        }
+
+        private void SetDoubleBuffered()
+        {
+            typeof(DataGridView).InvokeMember("DoubleBuffered",
+            BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
+            null, this.dataGridViewStore, new object[] { true });
         }
 
         private void CreateToolTips()
@@ -68,30 +76,27 @@ namespace WinFormsAppMusicStoreAdmin
 
         private void LaunchOperationWaitForm(List<Operation> operations, OPERATION_UPDATE update)
         {
-            //FormOperationAndWait formWait = new FormOperationAndWait(
-            //    _services,
-            //    _fileManager,
-            //    operations,
-            //    _raiseRichTextInsertMessage);
-            //formWait.ShowDialog();
+            _formOperationAndWait.AudioFileListDownloaded = new List<AudioFileSelect>();
+            _formOperationAndWait.Operations = operations;
+            _formOperationAndWait.ShowDialog();
 
-            //if (update == OPERATION_UPDATE.STORE)
-            //{
-            //    if (formWait.AudioFileListDownloaded != null)
-            //    {
-            //        _audioListStoreDownloaded = true;
-            //        BindListboxStore(formWait.AudioFileListDownloaded);
-            //    }
-            //    else
-            //    {
-            //        _audioListStoreDownloaded = false;
-            //        _audioListStore.Clear();
-            //        comboBoxStore.SelectedIndexChanged -= comboBoxStore_SelectedIndexChanged;
-            //        comboBoxStore.SelectedIndex = -1;
-            //        comboBoxStore.SelectedIndexChanged += comboBoxStore_SelectedIndexChanged;
-            //    }
-            //    UpdateStoreStadistics();
-            //}
+            if (update == OPERATION_UPDATE.STORE)
+            {
+                if (_formOperationAndWait.AudioFileListDownloaded != null)
+                {
+                    _audioListStoreDownloaded = true;
+                    BindListboxStore(_formOperationAndWait.AudioFileListDownloaded);
+                }
+                else
+                {
+                    _audioListStoreDownloaded = false;
+                    _audioListStore.Clear();
+                    comboBoxStore.SelectedIndexChanged -= comboBoxStore_SelectedIndexChanged;
+                    comboBoxStore.SelectedIndex = -1;
+                    comboBoxStore.SelectedIndexChanged += comboBoxStore_SelectedIndexChanged;
+                }
+                UpdateStoreStadistics();
+            }
         }
 
         private void BindListboxStore(List<AudioFileSelect> audioList)
@@ -99,9 +104,6 @@ namespace WinFormsAppMusicStoreAdmin
             _audioListStore = new BindingList<AudioFileSelect>(audioList);
             _bindingAudioListStore.DataSource = _audioListStore;
             dataGridViewStore.DataSource = _bindingAudioListStore;
-            dataGridViewStore.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
-            dataGridViewStore.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.ColumnHeader;
-            dataGridViewStore.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
 
         private void UpdateStoreStadistics()
@@ -110,10 +112,10 @@ namespace WinFormsAppMusicStoreAdmin
             double totalSize = 0;
             foreach (var item in _audioListStore)
             {
-                totalSize += Double.Parse(item.size);
-                acumulateTime = acumulateTime.Add(item.duration);
+                totalSize += item.Size;
+                acumulateTime = acumulateTime.Add(item.Duration);
             }
-            labelStoreStadictics.Text = $"Lista Tienda: {((Store22)comboBoxStore.SelectedItem).code} Audios: {_audioListStore.Count}  Peso Mb: {totalSize.ToString("0.##")} Tiempo: {acumulateTime}";
+            labelStoreStadictics.Text = $"Lista Tienda: {((Store)comboBoxStore.SelectedItem).Code} Audios: {_audioListStore.Count}  Peso Mb: {totalSize.ToString("0.##")} Tiempo: {acumulateTime}";
         }
 
         private void BindListboxStore()
@@ -127,7 +129,7 @@ namespace WinFormsAppMusicStoreAdmin
         {
             if (comboBoxStore.SelectedIndex != -1)
             {
-                var op = new List<Operation> { new Operation(OperationTypes.OPERATIONS.STORE_GET_AUDIO_LIST, ((Store22)comboBoxStore.SelectedItem).code, new List<AudioFileSelect>()) };
+                var op = new List<Operation> { new Operation(OperationTypes.OPERATIONS.STORE_GET_AUDIO_LIST, ((Store)comboBoxStore.SelectedItem), new List<AudioFileSelect>()) };
                 LaunchOperationWaitForm(op, OPERATION_UPDATE.STORE);
             }
         }
@@ -136,7 +138,7 @@ namespace WinFormsAppMusicStoreAdmin
         {
             if (comboBoxStore.SelectedIndex != -1)
             {
-                var op = new List<Operation> { new Operation(OperationTypes.OPERATIONS.STORE_GET_AUDIO_LIST, ((Store22)comboBoxStore.SelectedItem).code, new List<AudioFileSelect>()) };
+                var op = new List<Operation> { new Operation(OperationTypes.OPERATIONS.STORE_GET_AUDIO_LIST, ((Store)comboBoxStore.SelectedItem), new List<AudioFileSelect>()) };
                 LaunchOperationWaitForm(op, OPERATION_UPDATE.STORE);
             }
         }
@@ -165,7 +167,14 @@ namespace WinFormsAppMusicStoreAdmin
                 var op = new List<Operation>();
                 foreach (var item in selectedItems)
                 {
-                    op.Add(new Operation(OperationTypes.OPERATIONS.STORE_SYNCHRONIZE_LIST_AUDIO, ((Store22)item).code, _audioListStore.ToList()));
+                    string serialize = JsonSerializer.Serialize(_audioListStore.ToList());
+                    var changedAudioList = JsonSerializer.Deserialize<List<AudioFileSelect>>(serialize);
+                    foreach(var comp in changedAudioList)
+                    {
+                        comp.Id = 0;
+                        comp.StoreId = _stores.Where(x => x.Code == item).Select(x => x.Id).FirstOrDefault();
+                    }
+                    op.Add(new Operation(OperationTypes.OPERATIONS.STORE_SYNCHRONIZE_LIST_AUDIO, ((Store)item), _audioListStore.ToList()));
                 }
 
                 LaunchOperationWaitForm(op, OPERATION_UPDATE.NONE);

@@ -727,6 +727,6 @@ namespace WinFormsAppMusicStoreAdmin
             dataGridViewStore.ClearSelection();
         }
 
-        
+
     }
 }

@@ -145,7 +145,7 @@ namespace WinFormsAppMusicStoreAdmin
             return new List<UserControl> {
                 new UserControlInit(),
                 new UserControlMusic(_formOperationAndWait, _stores, _raiseRichTextInsertMessage),
-                null,//new UserControlTool(_services, _fileManager, _stores, _raiseRichTextInsertMessage),
+                new UserControlTool(_formOperationAndWait, _stores, _raiseRichTextInsertMessage),
                 null,//new UserControlPlayer(_services, _fileManager, _stores, _raiseRichTextInsertMessage),
                 new UserControlRegister(_registerDriving, _excelDriving, _users, _stores, _raiseRichTextInsertMessage),
                 new UserControlStore(_storeDriving, _stores, _raiseRichTextInsertMessage, _raiseUpdateStores),
@@ -162,65 +162,43 @@ namespace WinFormsAppMusicStoreAdmin
             childForm.Show();
         }
 
-        private void ButtonReColorMainMenu()
+        private void musicaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            buttonMusic.BackColor = Color.RoyalBlue;
-            buttonTools.BackColor = Color.RoyalBlue;
-            buttonPlayer.BackColor = Color.RoyalBlue;
-            buttonRegister.BackColor = Color.RoyalBlue;
-            buttonStore.BackColor = Color.RoyalBlue;
-            buttonUser.BackColor = Color.RoyalBlue;
-        }
-
-        private void buttonMusic_Click(object sender, EventArgs e)
-        {
-            ButtonReColorMainMenu();
-            buttonMusic.BackColor = Color.Blue;
             OpenChildForm(_userControlList[(int)USER_CONTORL_ELEMENTS.MUSIC]);
             richTextBoxStatusMessages.Clear();
         }
 
-        private void buttonTools_Click(object sender, EventArgs e)
+        private void usuariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ButtonReColorMainMenu();
-            buttonTools.BackColor = Color.Blue;
+            OpenChildForm(_userControlList[(int)USER_CONTORL_ELEMENTS.USER]);
+            richTextBoxStatusMessages.Clear();
+        }
+
+        private void tiendasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(_userControlList[(int)USER_CONTORL_ELEMENTS.STORE]);
+            richTextBoxStatusMessages.Clear();
+        }
+
+        private void registrosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(_userControlList[(int)USER_CONTORL_ELEMENTS.REGISTER]);
+            richTextBoxStatusMessages.Clear();
+        }
+
+        private void herramientasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             OpenChildForm(_userControlList[(int)USER_CONTORL_ELEMENTS.TOOLS]);
             richTextBoxStatusMessages.Clear();
         }
 
         private void buttonPlayer_Click(object sender, EventArgs e)
         {
-            ButtonReColorMainMenu();
-            buttonPlayer.BackColor = Color.Blue;
             OpenChildForm(_userControlList[(int)USER_CONTORL_ELEMENTS.PLAYER]);
             richTextBoxStatusMessages.Clear();
         }
 
-        private void buttonRegister_Click(object sender, EventArgs e)
-        {
-            ButtonReColorMainMenu();
-            buttonRegister.BackColor = Color.Blue;
-            OpenChildForm(_userControlList[(int)USER_CONTORL_ELEMENTS.REGISTER]);
-            richTextBoxStatusMessages.Clear();
-        }
-
-        private void buttonStore_Click(object sender, EventArgs e)
-        {
-            ButtonReColorMainMenu();
-            buttonStore.BackColor = Color.Blue;
-            OpenChildForm(_userControlList[(int)USER_CONTORL_ELEMENTS.STORE]);
-            richTextBoxStatusMessages.Clear();
-        }
-
-        private void buttonUser_Click(object sender, EventArgs e)
-        {
-            ButtonReColorMainMenu();
-            buttonUser.BackColor = Color.Blue;
-            OpenChildForm(_userControlList[(int)USER_CONTORL_ELEMENTS.USER]);
-            richTextBoxStatusMessages.Clear();
-        }
-
-        private void buttonClose_Click(object sender, EventArgs e)
+        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (var userControl in _userControlList)
             {
@@ -229,5 +207,7 @@ namespace WinFormsAppMusicStoreAdmin
             _userControlList = new List<UserControl>();
             Close();
         }
+
+        
     }
 }
