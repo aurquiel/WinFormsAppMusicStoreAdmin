@@ -74,13 +74,14 @@
             // 
             // panel4
             // 
-            panel4.BackColor = Color.Blue;
+            panel4.BackColor = Color.Navy;
             panel4.Controls.Add(panel5);
             panel4.Dock = DockStyle.Fill;
             panel4.Location = new Point(0, 0);
+            panel4.Margin = new Padding(3, 4, 3, 4);
             panel4.Name = "panel4";
-            panel4.Padding = new Padding(4);
-            panel4.Size = new Size(918, 571);
+            panel4.Padding = new Padding(5);
+            panel4.Size = new Size(1049, 761);
             panel4.TabIndex = 7;
             // 
             // panel5
@@ -88,9 +89,10 @@
             panel5.BackColor = Color.White;
             panel5.Controls.Add(panel6);
             panel5.Dock = DockStyle.Fill;
-            panel5.Location = new Point(4, 4);
+            panel5.Location = new Point(5, 5);
+            panel5.Margin = new Padding(3, 4, 3, 4);
             panel5.Name = "panel5";
-            panel5.Size = new Size(910, 563);
+            panel5.Size = new Size(1039, 751);
             panel5.TabIndex = 3;
             // 
             // panel6
@@ -99,8 +101,9 @@
             panel6.Controls.Add(tableLayoutPanel);
             panel6.Dock = DockStyle.Fill;
             panel6.Location = new Point(0, 0);
+            panel6.Margin = new Padding(3, 4, 3, 4);
             panel6.Name = "panel6";
-            panel6.Size = new Size(910, 563);
+            panel6.Size = new Size(1039, 751);
             panel6.TabIndex = 4;
             // 
             // tableLayoutPanel
@@ -111,23 +114,24 @@
             tableLayoutPanel.Controls.Add(panel1, 0, 1);
             tableLayoutPanel.Dock = DockStyle.Fill;
             tableLayoutPanel.Location = new Point(0, 0);
+            tableLayoutPanel.Margin = new Padding(3, 4, 3, 4);
             tableLayoutPanel.Name = "tableLayoutPanel";
             tableLayoutPanel.RowCount = 2;
-            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 24F));
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel.Size = new Size(910, 563);
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 27F));
+            tableLayoutPanel.Size = new Size(1039, 751);
             tableLayoutPanel.TabIndex = 5;
             // 
             // label4
             // 
             label4.BackColor = Color.White;
             label4.Dock = DockStyle.Fill;
-            label4.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label4.ForeColor = Color.Blue;
+            label4.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label4.ForeColor = Color.Navy;
             label4.Location = new Point(3, 0);
             label4.Name = "label4";
-            label4.Size = new Size(904, 24);
+            label4.Size = new Size(1033, 32);
             label4.TabIndex = 2;
             label4.Text = "REGISTROS";
             label4.TextAlign = ContentAlignment.MiddleCenter;
@@ -137,18 +141,20 @@
             panel1.Controls.Add(panel3);
             panel1.Controls.Add(panel2);
             panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(3, 27);
+            panel1.Location = new Point(3, 36);
+            panel1.Margin = new Padding(3, 4, 3, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(904, 533);
+            panel1.Size = new Size(1033, 711);
             panel1.TabIndex = 3;
             // 
             // panel3
             // 
             panel3.Controls.Add(tabControl1);
             panel3.Dock = DockStyle.Fill;
-            panel3.Location = new Point(0, 59);
+            panel3.Location = new Point(0, 45);
+            panel3.Margin = new Padding(3, 4, 3, 4);
             panel3.Name = "panel3";
-            panel3.Size = new Size(904, 474);
+            panel3.Size = new Size(1033, 666);
             panel3.TabIndex = 1;
             // 
             // tabControl1
@@ -156,19 +162,22 @@
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Dock = DockStyle.Fill;
+            tabControl1.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
             tabControl1.Location = new Point(0, 0);
+            tabControl1.Margin = new Padding(3, 4, 3, 4);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(904, 474);
+            tabControl1.Size = new Size(1033, 666);
             tabControl1.TabIndex = 0;
             // 
             // tabPage1
             // 
             tabPage1.Controls.Add(tableLayoutPanel4);
-            tabPage1.Location = new Point(4, 24);
+            tabPage1.Location = new Point(4, 26);
+            tabPage1.Margin = new Padding(3, 4, 3, 4);
             tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(896, 446);
+            tabPage1.Padding = new Padding(3, 4, 3, 4);
+            tabPage1.Size = new Size(1025, 636);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Graficos";
             tabPage1.UseVisualStyleBackColor = true;
@@ -180,22 +189,23 @@
             tableLayoutPanel4.Controls.Add(cartesianChartMonth, 0, 1);
             tableLayoutPanel4.Controls.Add(cartesianChartWeek, 0, 0);
             tableLayoutPanel4.Dock = DockStyle.Fill;
-            tableLayoutPanel4.Location = new Point(3, 3);
+            tableLayoutPanel4.Location = new Point(3, 4);
+            tableLayoutPanel4.Margin = new Padding(3, 4, 3, 4);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
             tableLayoutPanel4.RowCount = 2;
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel4.Size = new Size(890, 440);
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 27F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 27F));
+            tableLayoutPanel4.Size = new Size(1019, 628);
             tableLayoutPanel4.TabIndex = 0;
             // 
             // cartesianChartMonth
             // 
             cartesianChartMonth.Dock = DockStyle.Fill;
-            cartesianChartMonth.Location = new Point(3, 223);
+            cartesianChartMonth.Location = new Point(3, 317);
             cartesianChartMonth.Name = "cartesianChartMonth";
-            cartesianChartMonth.Size = new Size(884, 214);
+            cartesianChartMonth.Size = new Size(1013, 308);
             cartesianChartMonth.TabIndex = 28;
             // 
             // cartesianChartWeek
@@ -203,16 +213,17 @@
             cartesianChartWeek.Dock = DockStyle.Fill;
             cartesianChartWeek.Location = new Point(3, 3);
             cartesianChartWeek.Name = "cartesianChartWeek";
-            cartesianChartWeek.Size = new Size(884, 214);
+            cartesianChartWeek.Size = new Size(1013, 308);
             cartesianChartWeek.TabIndex = 26;
             // 
             // tabPage2
             // 
             tabPage2.Controls.Add(panel14);
-            tabPage2.Location = new Point(4, 24);
+            tabPage2.Location = new Point(4, 26);
+            tabPage2.Margin = new Padding(3, 4, 3, 4);
             tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(896, 446);
+            tabPage2.Padding = new Padding(3, 4, 3, 4);
+            tabPage2.Size = new Size(1025, 636);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Registros";
             tabPage2.UseVisualStyleBackColor = true;
@@ -221,9 +232,10 @@
             // 
             panel14.Controls.Add(tableLayoutPanel3);
             panel14.Dock = DockStyle.Fill;
-            panel14.Location = new Point(3, 3);
+            panel14.Location = new Point(3, 4);
+            panel14.Margin = new Padding(3, 4, 3, 4);
             panel14.Name = "panel14";
-            panel14.Size = new Size(890, 440);
+            panel14.Size = new Size(1019, 628);
             panel14.TabIndex = 0;
             // 
             // tableLayoutPanel3
@@ -234,13 +246,12 @@
             tableLayoutPanel3.Controls.Add(panel15, 0, 0);
             tableLayoutPanel3.Dock = DockStyle.Fill;
             tableLayoutPanel3.Location = new Point(0, 0);
+            tableLayoutPanel3.Margin = new Padding(3, 4, 3, 4);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 2;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel3.Size = new Size(890, 440);
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 45F));
+            tableLayoutPanel3.Size = new Size(1019, 628);
             tableLayoutPanel3.TabIndex = 1;
             // 
             // panel21
@@ -248,22 +259,24 @@
             panel21.Controls.Add(buttonExportToExcel);
             panel21.Controls.Add(buttonEraseRegisters);
             panel21.Dock = DockStyle.Fill;
-            panel21.Location = new Point(3, 383);
+            panel21.Location = new Point(3, 587);
+            panel21.Margin = new Padding(3, 4, 3, 4);
             panel21.Name = "panel21";
-            panel21.Size = new Size(884, 54);
+            panel21.Size = new Size(1013, 37);
             panel21.TabIndex = 1;
             // 
             // buttonExportToExcel
             // 
             buttonExportToExcel.FlatAppearance.BorderColor = Color.Green;
             buttonExportToExcel.FlatStyle = FlatStyle.Flat;
-            buttonExportToExcel.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonExportToExcel.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point);
             buttonExportToExcel.ForeColor = Color.Green;
             buttonExportToExcel.Image = Properties.Resources.excel;
             buttonExportToExcel.ImageAlign = ContentAlignment.MiddleRight;
-            buttonExportToExcel.Location = new Point(3, 12);
+            buttonExportToExcel.Location = new Point(0, 4);
+            buttonExportToExcel.Margin = new Padding(3, 4, 3, 4);
             buttonExportToExcel.Name = "buttonExportToExcel";
-            buttonExportToExcel.Size = new Size(144, 27);
+            buttonExportToExcel.Size = new Size(90, 30);
             buttonExportToExcel.TabIndex = 30;
             buttonExportToExcel.Text = "Exportar Excel";
             buttonExportToExcel.TextAlign = ContentAlignment.MiddleLeft;
@@ -275,13 +288,14 @@
             buttonEraseRegisters.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonEraseRegisters.FlatAppearance.BorderColor = Color.Green;
             buttonEraseRegisters.FlatStyle = FlatStyle.Flat;
-            buttonEraseRegisters.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonEraseRegisters.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Bold, GraphicsUnit.Point);
             buttonEraseRegisters.ForeColor = Color.FromArgb(192, 0, 0);
             buttonEraseRegisters.Image = Properties.Resources.delete;
             buttonEraseRegisters.ImageAlign = ContentAlignment.MiddleRight;
-            buttonEraseRegisters.Location = new Point(713, 12);
+            buttonEraseRegisters.Location = new Point(850, 4);
+            buttonEraseRegisters.Margin = new Padding(3, 4, 3, 4);
             buttonEraseRegisters.Name = "buttonEraseRegisters";
-            buttonEraseRegisters.Size = new Size(168, 27);
+            buttonEraseRegisters.Size = new Size(160, 30);
             buttonEraseRegisters.TabIndex = 26;
             buttonEraseRegisters.Text = "Eliminar Registros";
             buttonEraseRegisters.TextAlign = ContentAlignment.MiddleLeft;
@@ -292,9 +306,10 @@
             // 
             panel15.Controls.Add(dataGridViewRegisters);
             panel15.Dock = DockStyle.Fill;
-            panel15.Location = new Point(3, 3);
+            panel15.Location = new Point(3, 4);
+            panel15.Margin = new Padding(3, 4, 3, 4);
             panel15.Name = "panel15";
-            panel15.Size = new Size(884, 374);
+            panel15.Size = new Size(1013, 575);
             panel15.TabIndex = 2;
             // 
             // dataGridViewRegisters
@@ -302,13 +317,16 @@
             dataGridViewRegisters.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewRegisters.Dock = DockStyle.Fill;
             dataGridViewRegisters.Location = new Point(0, 0);
+            dataGridViewRegisters.Margin = new Padding(3, 4, 3, 4);
             dataGridViewRegisters.Name = "dataGridViewRegisters";
+            dataGridViewRegisters.RowHeadersWidth = 51;
             dataGridViewRegisters.RowTemplate.Height = 25;
-            dataGridViewRegisters.Size = new Size(884, 374);
+            dataGridViewRegisters.Size = new Size(1013, 575);
             dataGridViewRegisters.TabIndex = 0;
             // 
             // panel2
             // 
+            panel2.BackColor = Color.White;
             panel2.Controls.Add(buttonSearchRegisters);
             panel2.Controls.Add(dateTimePickerDate);
             panel2.Controls.Add(label18);
@@ -316,21 +334,23 @@
             panel2.Controls.Add(label10);
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 0);
+            panel2.Margin = new Padding(3, 4, 3, 4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(904, 59);
+            panel2.Size = new Size(1033, 45);
             panel2.TabIndex = 0;
             // 
             // buttonSearchRegisters
             // 
             buttonSearchRegisters.FlatAppearance.BorderColor = Color.Green;
             buttonSearchRegisters.FlatStyle = FlatStyle.Flat;
-            buttonSearchRegisters.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonSearchRegisters.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Bold, GraphicsUnit.Point);
             buttonSearchRegisters.ForeColor = Color.Blue;
             buttonSearchRegisters.Image = Properties.Resources.search;
             buttonSearchRegisters.ImageAlign = ContentAlignment.MiddleRight;
-            buttonSearchRegisters.Location = new Point(373, 13);
+            buttonSearchRegisters.Location = new Point(389, 6);
+            buttonSearchRegisters.Margin = new Padding(3, 4, 3, 4);
             buttonSearchRegisters.Name = "buttonSearchRegisters";
-            buttonSearchRegisters.Size = new Size(105, 27);
+            buttonSearchRegisters.Size = new Size(90, 30);
             buttonSearchRegisters.TabIndex = 20;
             buttonSearchRegisters.Text = "Buscar";
             buttonSearchRegisters.TextAlign = ContentAlignment.MiddleLeft;
@@ -339,49 +359,53 @@
             // 
             // dateTimePickerDate
             // 
+            dateTimePickerDate.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
             dateTimePickerDate.Format = DateTimePickerFormat.Short;
-            dateTimePickerDate.Location = new Point(251, 14);
+            dateTimePickerDate.Location = new Point(268, 10);
+            dateTimePickerDate.Margin = new Padding(3, 4, 3, 4);
             dateTimePickerDate.Name = "dateTimePickerDate";
-            dateTimePickerDate.Size = new Size(101, 23);
+            dateTimePickerDate.Size = new Size(115, 25);
             dateTimePickerDate.TabIndex = 25;
             // 
             // label18
             // 
             label18.AutoSize = true;
-            label18.Location = new Point(204, 18);
+            label18.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
+            label18.Location = new Point(218, 12);
             label18.Name = "label18";
-            label18.Size = new Size(41, 15);
+            label18.Size = new Size(44, 17);
             label18.TabIndex = 24;
             label18.Text = "Fecha:";
             // 
             // comboBoxStore
             // 
             comboBoxStore.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxStore.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            comboBoxStore.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
             comboBoxStore.FormattingEnabled = true;
-            comboBoxStore.Location = new Point(58, 14);
+            comboBoxStore.Location = new Point(65, 10);
+            comboBoxStore.Margin = new Padding(3, 4, 3, 4);
             comboBoxStore.Name = "comboBoxStore";
-            comboBoxStore.Size = new Size(129, 23);
+            comboBoxStore.Size = new Size(147, 24);
             comboBoxStore.TabIndex = 23;
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(7, 18);
+            label10.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
+            label10.Location = new Point(7, 13);
             label10.Name = "label10";
-            label10.Size = new Size(45, 15);
+            label10.Size = new Size(50, 17);
             label10.TabIndex = 22;
             label10.Text = "Tienda:";
             // 
             // UserControlRegister
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             Controls.Add(panel4);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "UserControlRegister";
-            Size = new Size(918, 571);
+            Size = new Size(1049, 761);
             panel4.ResumeLayout(false);
             panel5.ResumeLayout(false);
             panel6.ResumeLayout(false);

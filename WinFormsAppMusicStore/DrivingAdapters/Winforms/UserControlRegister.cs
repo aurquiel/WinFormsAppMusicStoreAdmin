@@ -20,10 +20,15 @@ namespace WinFormsAppMusicStoreAdmin
         private List<Register> _registers;
         private EventHandler<(bool, string)> _raiseRichTextInsertMessage;
 
+        ToolTip toolTipButtonSearchRegisters = new ToolTip();
+        ToolTip toolTipButtonExcel = new ToolTip();
+        ToolTip toolTipButtonDeleteRegisters = new ToolTip();
+
         public UserControlRegister(IRegisterDriving registerDriving, IExcelDriving excelDriving, List<User> users, List<Store> stores,
             EventHandler<(bool, string)> raiseRichTextInsertMessage)
         {
             InitializeComponent();
+            InitToolTips();
             _registerDriving = registerDriving;
             _excelDriving = excelDriving;
             _users = users;
@@ -31,6 +36,13 @@ namespace WinFormsAppMusicStoreAdmin
             dateTimePickerDate.Value = DateTime.Now;
             _raiseRichTextInsertMessage = raiseRichTextInsertMessage;
             LoadComboBoxStores();
+        }
+
+        private void InitToolTips()
+        {
+            toolTipButtonSearchRegisters.SetToolTip(buttonSearchRegisters, "Buscar registros.");
+            toolTipButtonExcel.SetToolTip(buttonExportToExcel, "Exportar a Excel.");
+            toolTipButtonDeleteRegisters.SetToolTip(buttonEraseRegisters, "Eliminar registros");
         }
 
         private void LoadComboBoxStores()
@@ -227,7 +239,7 @@ namespace WinFormsAppMusicStoreAdmin
                 string savePathFile = GetSavePathExcel();
                 if (savePathFile != string.Empty)
                 {
-                    var result = await _excelDriving.ExportRegisters(_registers, _stores , savePathFile);
+                    var result = await _excelDriving.ExportRegisters(_registers, _stores, savePathFile);
                     _raiseRichTextInsertMessage?.Invoke(this, (result.status, result.statusMessage));
                 }
                 else
@@ -263,6 +275,6 @@ namespace WinFormsAppMusicStoreAdmin
             }
         }
 
-        
+
     }
 }

@@ -11,10 +11,16 @@ namespace WinFormsAppMusicStoreAdmin
         private EventHandler<(bool, string)> _raiseRichTextInsertMessage;
         private EventHandler<List<Store>> _raiseUpdateStores;
 
+        private ToolTip _editStore = new ToolTip();
+        private ToolTip _addStore = new ToolTip();
+        private ToolTip _deleteStore = new ToolTip();
+        private ToolTip _refreshStore = new ToolTip();
+
         public UserControlStore(IStoreDriving storeDriving, List<Store> stores, EventHandler<(bool, string)> raiseRichTextInsertMessage,
             EventHandler<List<Store>> raiseUpdateStores)
         {
             InitializeComponent();
+            InitTooltip();
             _storeDriving = storeDriving;
             _stores = stores;
             _raiseRichTextInsertMessage = raiseRichTextInsertMessage;
@@ -22,6 +28,14 @@ namespace WinFormsAppMusicStoreAdmin
             LoadComboBoxStores();
             comboBoxStoreEdit.SelectedIndex = -1;
             textBoxStoreEditCode.Text = string.Empty;
+        }
+
+        private void InitTooltip()
+        {
+            _editStore.SetToolTip(buttonStoreEdit, "Editar tienda.");
+            _addStore.SetToolTip(buttonStoreAdd, "Crear tienda.");
+            _deleteStore.SetToolTip(buttonStoreDelete, "Eliminar tienda.");
+            _refreshStore.SetToolTip(buttonStoreRefreshData, "Refrescar tiendas.");
         }
 
         private void LoadComboBoxStores()

@@ -13,11 +13,17 @@ namespace WinFormsAppMusicStoreAdmin
         private EventHandler<(bool, string)> _raiseRichTextInsertMessage;
         private EventHandler<List<User>> _raiseUpdateUsers;
 
+        private ToolTip _editUser = new ToolTip();
+        private ToolTip _addUser = new ToolTip();
+        private ToolTip _deleteUser = new ToolTip();
+        private ToolTip _refreshUser = new ToolTip();
+
         public UserControlUser(IUserDriving services, User user, List<User> users,
             List<Store> stores, EventHandler<(bool, string)> raiseRichTextInsertMessage,
             EventHandler<List<User>> raiseUpdateUsers)
         {
             InitializeComponent();
+            InitTooltip();
             _userDriving = services;
             _user = user;
             _users = users;
@@ -25,6 +31,14 @@ namespace WinFormsAppMusicStoreAdmin
             _raiseRichTextInsertMessage = raiseRichTextInsertMessage;
             _raiseUpdateUsers = raiseUpdateUsers;
             LoadData();
+        }
+
+        private void InitTooltip()
+        {
+            _editUser.SetToolTip(buttonUserEdit, "Editar usuario.");
+            _addUser.SetToolTip(buttonUserAdd, "Crear usuario.");
+            _deleteUser.SetToolTip(buttonUserDelete, "Eliminar usuario.");
+            _refreshUser.SetToolTip(buttonUserRefreshData, "Refrescqr usuarios.");
         }
 
         private void LoadData()
@@ -126,7 +140,7 @@ namespace WinFormsAppMusicStoreAdmin
             radioButtonUserEditAdmin.Enabled = false;
             radioButtonUserEditStore.Enabled = false;
             comboBoxUserEditStore.Enabled = false;
-            buttonStoreUserEdit.Enabled = false;
+            buttonUserEdit.Enabled = false;
             buttonUserDelete.Enabled = false;
             textBoxUserAddAlias.Enabled = false;
             textBoxUserAddPassword.Enabled = false;
@@ -145,7 +159,7 @@ namespace WinFormsAppMusicStoreAdmin
             radioButtonUserEditAdmin.Enabled = true;
             radioButtonUserEditStore.Enabled = true;
             comboBoxUserEditStore.Enabled = true;
-            buttonStoreUserEdit.Enabled = true;
+            buttonUserEdit.Enabled = true;
             buttonUserDelete.Enabled = true;
             textBoxUserAddAlias.Enabled = true;
             textBoxUserAddPassword.Enabled = true;

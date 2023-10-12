@@ -125,7 +125,7 @@ namespace WinFormsAppMusicStoreAdmin
         {
             _stores = e;
             _userControlList[(int)USER_CONTORL_ELEMENTS.MUSIC] = new UserControlMusic(_formOperationAndWait, _stores, _raiseRichTextInsertMessage);
-            //_userControlList[(int)USER_CONTORL_ELEMENTS.TOOLS] = new UserControlTool(_services, _fileManager, _stores, _raiseRichTextInsertMessage);
+            _userControlList[(int)USER_CONTORL_ELEMENTS.TOOLS] = new UserControlTool(_formOperationAndWait, _stores, _raiseRichTextInsertMessage);
             //_userControlList[(int)USER_CONTORL_ELEMENTS.PLAYER] = new UserControlPlayer(_services, _fileManager, _stores, _raiseRichTextInsertMessage);
             _userControlList[(int)USER_CONTORL_ELEMENTS.REGISTER] = new UserControlRegister(_registerDriving, _excelDriving, _users, _stores, _raiseRichTextInsertMessage);
             _userControlList[(int)USER_CONTORL_ELEMENTS.STORE] = new UserControlStore(_storeDriving, _stores, _raiseRichTextInsertMessage, _raiseUpdateStores);
@@ -146,7 +146,7 @@ namespace WinFormsAppMusicStoreAdmin
                 new UserControlInit(),
                 new UserControlMusic(_formOperationAndWait, _stores, _raiseRichTextInsertMessage),
                 new UserControlTool(_formOperationAndWait, _stores, _raiseRichTextInsertMessage),
-                null,//new UserControlPlayer(_services, _fileManager, _stores, _raiseRichTextInsertMessage),
+                new UserControlPlayer(_formOperationAndWait, _stores, _raiseRichTextInsertMessage),
                 new UserControlRegister(_registerDriving, _excelDriving, _users, _stores, _raiseRichTextInsertMessage),
                 new UserControlStore(_storeDriving, _stores, _raiseRichTextInsertMessage, _raiseUpdateStores),
                 new UserControlUser(_userDriving, _user, _users, _stores, _raiseRichTextInsertMessage, _raiseUpdateUsers)
@@ -165,6 +165,12 @@ namespace WinFormsAppMusicStoreAdmin
         private void musicaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenChildForm(_userControlList[(int)USER_CONTORL_ELEMENTS.MUSIC]);
+            richTextBoxStatusMessages.Clear();
+        }
+
+        private void reproductorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(_userControlList[(int)USER_CONTORL_ELEMENTS.PLAYER]);
             richTextBoxStatusMessages.Clear();
         }
 

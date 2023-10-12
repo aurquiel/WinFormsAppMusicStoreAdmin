@@ -169,12 +169,12 @@ namespace WinFormsAppMusicStoreAdmin
                 {
                     string serialize = JsonSerializer.Serialize(_audioListStore.ToList());
                     var changedAudioList = JsonSerializer.Deserialize<List<AudioFileSelect>>(serialize);
-                    foreach(var comp in changedAudioList)
+                    foreach (var comp in changedAudioList)
                     {
                         comp.Id = 0;
-                        comp.StoreId = _stores.Where(x => x.Code == item).Select(x => x.Id).FirstOrDefault();
+                        comp.StoreId = _stores.Where(x => x.Code == ((Store)item).Code).Select(x => x.Id).FirstOrDefault();
                     }
-                    op.Add(new Operation(OperationTypes.OPERATIONS.STORE_SYNCHRONIZE_LIST_AUDIO, ((Store)item), _audioListStore.ToList()));
+                    op.Add(new Operation(OperationTypes.OPERATIONS.STORE_SYNCHRONIZE_LIST_AUDIO, ((Store)item), changedAudioList));
                 }
 
                 LaunchOperationWaitForm(op, OPERATION_UPDATE.NONE);
@@ -188,6 +188,16 @@ namespace WinFormsAppMusicStoreAdmin
         private void dataGridViewStore_SelectionChanged(object sender, EventArgs e)
         {
             dataGridViewStore.ClearSelection();
+        }
+
+        private void dataGridViewStore_Resize(object sender, EventArgs e)
+        {
+            var size = dataGridViewStore.Size;
+            dataGridViewStore.Columns["serverAudioName"].Width = size.Width - 480;
+            dataGridViewStore.Columns["serverAudioDuration"].Width = 110;
+            dataGridViewStore.Columns["serverAudioSize"].Width = 90;
+            dataGridViewStore.Columns["checkForTime"].Width = 80;
+            dataGridViewStore.Columns["timeToPlay"].Width = 120;
         }
     }
 }

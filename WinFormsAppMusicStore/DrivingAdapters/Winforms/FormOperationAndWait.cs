@@ -35,7 +35,7 @@ namespace WinFormsAppMusicStoreAdmin
         private readonly IUserDriving _userDriving;
         private readonly IFileManagerDriving _fileManagerDriving;
 
-        public FormOperationAndWait(IMapper mapper, IAudioDriving audioDriving, IAudioListDriving audioListDriving, IStoreDriving storeDriving, 
+        public FormOperationAndWait(IMapper mapper, IAudioDriving audioDriving, IAudioListDriving audioListDriving, IStoreDriving storeDriving,
             IUserDriving userDriving, IFileManagerDriving fileManagerDriving)
         {
             _token = _tokenSource.Token;

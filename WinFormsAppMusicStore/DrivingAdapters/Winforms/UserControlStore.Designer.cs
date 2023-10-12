@@ -52,7 +52,7 @@
             // 
             // panel4
             // 
-            panel4.BackColor = Color.Blue;
+            panel4.BackColor = Color.Navy;
             panel4.Controls.Add(panel5);
             panel4.Dock = DockStyle.Fill;
             panel4.Location = new Point(0, 0);
@@ -94,14 +94,14 @@
             // 
             buttonStoreRefreshData.FlatAppearance.BorderColor = Color.Green;
             buttonStoreRefreshData.FlatStyle = FlatStyle.Flat;
-            buttonStoreRefreshData.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonStoreRefreshData.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Bold, GraphicsUnit.Point);
             buttonStoreRefreshData.ForeColor = Color.Blue;
             buttonStoreRefreshData.Image = Properties.Resources.refresh;
             buttonStoreRefreshData.ImageAlign = ContentAlignment.MiddleRight;
             buttonStoreRefreshData.Location = new Point(22, 36);
             buttonStoreRefreshData.Margin = new Padding(3, 4, 3, 4);
             buttonStoreRefreshData.Name = "buttonStoreRefreshData";
-            buttonStoreRefreshData.Size = new Size(120, 36);
+            buttonStoreRefreshData.Size = new Size(120, 30);
             buttonStoreRefreshData.TabIndex = 18;
             buttonStoreRefreshData.Text = "Refrescar";
             buttonStoreRefreshData.TextAlign = ContentAlignment.MiddleLeft;
@@ -127,11 +127,11 @@
             // 
             // textBoxStoreAddCode
             // 
-            textBoxStoreAddCode.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            textBoxStoreAddCode.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
             textBoxStoreAddCode.Location = new Point(141, 30);
             textBoxStoreAddCode.Margin = new Padding(3, 4, 3, 4);
             textBoxStoreAddCode.Name = "textBoxStoreAddCode";
-            textBoxStoreAddCode.Size = new Size(147, 24);
+            textBoxStoreAddCode.Size = new Size(147, 22);
             textBoxStoreAddCode.TabIndex = 22;
             textBoxStoreAddCode.KeyPress += textBoxOnlyNumbers_KeyPress;
             // 
@@ -139,14 +139,14 @@
             // 
             buttonStoreAdd.FlatAppearance.BorderColor = Color.Green;
             buttonStoreAdd.FlatStyle = FlatStyle.Flat;
-            buttonStoreAdd.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonStoreAdd.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Bold, GraphicsUnit.Point);
             buttonStoreAdd.ForeColor = Color.Green;
             buttonStoreAdd.Image = Properties.Resources.add;
             buttonStoreAdd.ImageAlign = ContentAlignment.MiddleRight;
             buttonStoreAdd.Location = new Point(22, 80);
             buttonStoreAdd.Margin = new Padding(3, 4, 3, 4);
             buttonStoreAdd.Name = "buttonStoreAdd";
-            buttonStoreAdd.Size = new Size(120, 36);
+            buttonStoreAdd.Size = new Size(90, 30);
             buttonStoreAdd.TabIndex = 19;
             buttonStoreAdd.Text = "Agregar";
             buttonStoreAdd.TextAlign = ContentAlignment.MiddleLeft;
@@ -156,10 +156,10 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
             label1.Location = new Point(22, 33);
             label1.Name = "label1";
-            label1.Size = new Size(103, 18);
+            label1.Size = new Size(96, 16);
             label1.TabIndex = 2;
             label1.Text = "Nuevo Tienda:";
             // 
@@ -187,14 +187,14 @@
             // 
             buttonStoreEdit.FlatAppearance.BorderColor = Color.Green;
             buttonStoreEdit.FlatStyle = FlatStyle.Flat;
-            buttonStoreEdit.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonStoreEdit.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Bold, GraphicsUnit.Point);
             buttonStoreEdit.ForeColor = Color.FromArgb(255, 128, 0);
             buttonStoreEdit.Image = Properties.Resources.edit;
             buttonStoreEdit.ImageAlign = ContentAlignment.MiddleRight;
             buttonStoreEdit.Location = new Point(22, 115);
             buttonStoreEdit.Margin = new Padding(3, 4, 3, 4);
             buttonStoreEdit.Name = "buttonStoreEdit";
-            buttonStoreEdit.Size = new Size(120, 36);
+            buttonStoreEdit.Size = new Size(90, 30);
             buttonStoreEdit.TabIndex = 18;
             buttonStoreEdit.Text = "Editar";
             buttonStoreEdit.TextAlign = ContentAlignment.MiddleLeft;
@@ -205,14 +205,14 @@
             // 
             buttonStoreDelete.FlatAppearance.BorderColor = Color.Green;
             buttonStoreDelete.FlatStyle = FlatStyle.Flat;
-            buttonStoreDelete.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonStoreDelete.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Bold, GraphicsUnit.Point);
             buttonStoreDelete.ForeColor = Color.FromArgb(192, 0, 0);
             buttonStoreDelete.Image = Properties.Resources.delete;
             buttonStoreDelete.ImageAlign = ContentAlignment.MiddleRight;
-            buttonStoreDelete.Location = new Point(158, 115);
+            buttonStoreDelete.Location = new Point(141, 115);
             buttonStoreDelete.Margin = new Padding(3, 4, 3, 4);
             buttonStoreDelete.Name = "buttonStoreDelete";
-            buttonStoreDelete.Size = new Size(120, 36);
+            buttonStoreDelete.Size = new Size(90, 30);
             buttonStoreDelete.TabIndex = 19;
             buttonStoreDelete.Text = "Eliminar";
             buttonStoreDelete.TextAlign = ContentAlignment.MiddleLeft;
@@ -222,42 +222,42 @@
             // comboBoxStoreEdit
             // 
             comboBoxStoreEdit.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxStoreEdit.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            comboBoxStoreEdit.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
             comboBoxStoreEdit.FormattingEnabled = true;
             comboBoxStoreEdit.Location = new Point(141, 31);
             comboBoxStoreEdit.Margin = new Padding(3, 4, 3, 4);
             comboBoxStoreEdit.Name = "comboBoxStoreEdit";
-            comboBoxStoreEdit.Size = new Size(147, 26);
+            comboBoxStoreEdit.Size = new Size(147, 24);
             comboBoxStoreEdit.TabIndex = 21;
             comboBoxStoreEdit.SelectedIndexChanged += comboBoxStoreEdit_SelectedIndexChanged;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label4.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
             label4.Location = new Point(22, 34);
             label4.Name = "label4";
-            label4.Size = new Size(56, 18);
+            label4.Size = new Size(53, 16);
             label4.TabIndex = 20;
             label4.Text = "Tienda:";
             // 
             // textBoxStoreEditCode
             // 
-            textBoxStoreEditCode.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            textBoxStoreEditCode.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
             textBoxStoreEditCode.Location = new Point(141, 68);
             textBoxStoreEditCode.Margin = new Padding(3, 4, 3, 4);
             textBoxStoreEditCode.Name = "textBoxStoreEditCode";
-            textBoxStoreEditCode.Size = new Size(147, 24);
+            textBoxStoreEditCode.Size = new Size(147, 22);
             textBoxStoreEditCode.TabIndex = 3;
             textBoxStoreEditCode.KeyPress += textBoxOnlyNumbers_KeyPress;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
             label2.Location = new Point(22, 71);
             label2.Name = "label2";
-            label2.Size = new Size(98, 18);
+            label2.Size = new Size(91, 16);
             label2.TabIndex = 2;
             label2.Text = "Editar Tienda:";
             // 

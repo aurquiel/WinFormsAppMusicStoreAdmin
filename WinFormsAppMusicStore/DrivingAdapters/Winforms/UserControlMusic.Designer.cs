@@ -30,6 +30,10 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             panel4 = new Panel();
             panel5 = new Panel();
             tableLayoutPanel = new TableLayoutPanel();
@@ -37,6 +41,16 @@
             tableLayoutPanel4 = new TableLayoutPanel();
             tableLayoutPanel5 = new TableLayoutPanel();
             dataGridViewServer = new DataGridView();
+            serverSelect = new DataGridViewCheckBoxColumn();
+            serverId = new DataGridViewTextBoxColumn();
+            serverOrder = new DataGridViewTextBoxColumn();
+            serverAudioName = new DataGridViewTextBoxColumn();
+            serverStoreId = new DataGridViewTextBoxColumn();
+            serverPath = new DataGridViewTextBoxColumn();
+            serverAudioDuration = new DataGridViewTextBoxColumn();
+            serverAudioSize = new DataGridViewTextBoxColumn();
+            serverChekFotTime = new DataGridViewTextBoxColumn();
+            serverTimeToPlay = new DataGridViewTextBoxColumn();
             labeServerStadistics = new Label();
             panel7 = new Panel();
             buttonSelectAllTime = new Button();
@@ -58,8 +72,8 @@
             storeName = new DataGridViewTextBoxColumn();
             storeStoreId = new DataGridViewTextBoxColumn();
             storePath = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
+            storeDuration = new DataGridViewTextBoxColumn();
+            storeSize = new DataGridViewTextBoxColumn();
             storeCheckForTime = new DataGridViewCheckBoxColumn();
             storeTimeToPlay = new DataGridViewTextBoxColumn();
             panel9 = new Panel();
@@ -135,16 +149,6 @@
             button37 = new Button();
             button38 = new Button();
             label1 = new Label();
-            serverSelect = new DataGridViewCheckBoxColumn();
-            serverId = new DataGridViewTextBoxColumn();
-            serverOrder = new DataGridViewTextBoxColumn();
-            serverAudioName = new DataGridViewTextBoxColumn();
-            serverStoreId = new DataGridViewTextBoxColumn();
-            serverPath = new DataGridViewTextBoxColumn();
-            serverAudioDuration = new DataGridViewTextBoxColumn();
-            serverAudioSize = new DataGridViewTextBoxColumn();
-            serverChekFotTime = new DataGridViewTextBoxColumn();
-            serverTimeToPlay = new DataGridViewTextBoxColumn();
             panel4.SuspendLayout();
             panel5.SuspendLayout();
             tableLayoutPanel.SuspendLayout();
@@ -175,7 +179,7 @@
             // 
             // panel4
             // 
-            panel4.BackColor = Color.Blue;
+            panel4.BackColor = Color.Navy;
             panel4.Controls.Add(panel5);
             panel4.Dock = DockStyle.Fill;
             panel4.Location = new Point(0, 0);
@@ -261,26 +265,141 @@
             dataGridViewServer.AllowUserToDeleteRows = false;
             dataGridViewServer.AllowUserToResizeRows = false;
             dataGridViewServer.BackgroundColor = Color.White;
-            dataGridViewServer.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewServer.Columns.AddRange(new DataGridViewColumn[] { serverSelect, serverId, serverOrder, serverAudioName, serverStoreId, serverPath, serverAudioDuration, serverAudioSize, serverChekFotTime, serverTimeToPlay });
-            dataGridViewServer.Dock = DockStyle.Fill;
-            dataGridViewServer.GridColor = Color.White;
-            dataGridViewServer.Location = new Point(3, 3);
-            dataGridViewServer.Name = "dataGridViewServer";
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
             dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dataGridViewServer.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewServer.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewServer.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewServer.Columns.AddRange(new DataGridViewColumn[] { serverSelect, serverId, serverOrder, serverAudioName, serverStoreId, serverPath, serverAudioDuration, serverAudioSize, serverChekFotTime, serverTimeToPlay });
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dataGridViewServer.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewServer.Dock = DockStyle.Fill;
+            dataGridViewServer.GridColor = Color.White;
+            dataGridViewServer.Location = new Point(3, 3);
+            dataGridViewServer.Name = "dataGridViewServer";
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dataGridViewServer.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dataGridViewServer.RowHeadersWidth = 51;
             dataGridViewServer.RowTemplate.Height = 25;
             dataGridViewServer.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewServer.Size = new Size(537, 483);
             dataGridViewServer.TabIndex = 26;
             dataGridViewServer.SelectionChanged += dataGridViewServer_SelectionChanged;
+            dataGridViewServer.Resize += dataGridViewServer_Resize;
+            // 
+            // serverSelect
+            // 
+            serverSelect.DataPropertyName = "select";
+            serverSelect.HeaderText = "Seleccionar";
+            serverSelect.MinimumWidth = 6;
+            serverSelect.Name = "serverSelect";
+            serverSelect.Width = 125;
+            // 
+            // serverId
+            // 
+            serverId.DataPropertyName = "id";
+            serverId.HeaderText = "Id";
+            serverId.MinimumWidth = 6;
+            serverId.Name = "serverId";
+            serverId.ReadOnly = true;
+            serverId.Visible = false;
+            serverId.Width = 125;
+            // 
+            // serverOrder
+            // 
+            serverOrder.DataPropertyName = "order";
+            serverOrder.HeaderText = "Orden";
+            serverOrder.MinimumWidth = 6;
+            serverOrder.Name = "serverOrder";
+            serverOrder.ReadOnly = true;
+            serverOrder.Visible = false;
+            serverOrder.Width = 125;
+            // 
+            // serverAudioName
+            // 
+            serverAudioName.DataPropertyName = "name";
+            serverAudioName.HeaderText = "Nombre";
+            serverAudioName.MinimumWidth = 6;
+            serverAudioName.Name = "serverAudioName";
+            serverAudioName.ReadOnly = true;
+            serverAudioName.Width = 200;
+            // 
+            // serverStoreId
+            // 
+            serverStoreId.DataPropertyName = "storeId";
+            serverStoreId.HeaderText = "Tienda Id";
+            serverStoreId.MinimumWidth = 6;
+            serverStoreId.Name = "serverStoreId";
+            serverStoreId.ReadOnly = true;
+            serverStoreId.Visible = false;
+            serverStoreId.Width = 125;
+            // 
+            // serverPath
+            // 
+            serverPath.DataPropertyName = "path";
+            serverPath.HeaderText = "Ruta";
+            serverPath.MinimumWidth = 6;
+            serverPath.Name = "serverPath";
+            serverPath.ReadOnly = true;
+            serverPath.Visible = false;
+            serverPath.Width = 125;
+            // 
+            // serverAudioDuration
+            // 
+            serverAudioDuration.DataPropertyName = "duration";
+            serverAudioDuration.HeaderText = "Duracion";
+            serverAudioDuration.MinimumWidth = 6;
+            serverAudioDuration.Name = "serverAudioDuration";
+            serverAudioDuration.ReadOnly = true;
+            serverAudioDuration.Width = 125;
+            // 
+            // serverAudioSize
+            // 
+            serverAudioSize.DataPropertyName = "size";
+            serverAudioSize.HeaderText = "Mb";
+            serverAudioSize.MinimumWidth = 6;
+            serverAudioSize.Name = "serverAudioSize";
+            serverAudioSize.ReadOnly = true;
+            serverAudioSize.Width = 125;
+            // 
+            // serverChekFotTime
+            // 
+            serverChekFotTime.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            serverChekFotTime.DataPropertyName = "checkForTime";
+            serverChekFotTime.HeaderText = "Tiempo";
+            serverChekFotTime.MinimumWidth = 6;
+            serverChekFotTime.Name = "serverChekFotTime";
+            serverChekFotTime.ReadOnly = true;
+            serverChekFotTime.Visible = false;
+            serverChekFotTime.Width = 6;
+            // 
+            // serverTimeToPlay
+            // 
+            serverTimeToPlay.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            serverTimeToPlay.DataPropertyName = "timeToPlay";
+            serverTimeToPlay.HeaderText = "Hora";
+            serverTimeToPlay.MinimumWidth = 6;
+            serverTimeToPlay.Name = "serverTimeToPlay";
+            serverTimeToPlay.ReadOnly = true;
+            serverTimeToPlay.Resizable = DataGridViewTriState.True;
+            serverTimeToPlay.Visible = false;
+            serverTimeToPlay.Width = 6;
             // 
             // labeServerStadistics
             // 
@@ -496,26 +615,44 @@
             dataGridViewStore.AllowUserToDeleteRows = false;
             dataGridViewStore.AllowUserToResizeRows = false;
             dataGridViewStore.BackgroundColor = Color.White;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = SystemColors.Control;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            dataGridViewStore.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             dataGridViewStore.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewStore.Columns.AddRange(new DataGridViewColumn[] { storeSelect, storeId, storeOrder, storeName, storeStoreId, storePath, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4, storeCheckForTime, storeTimeToPlay });
+            dataGridViewStore.Columns.AddRange(new DataGridViewColumn[] { storeSelect, storeId, storeOrder, storeName, storeStoreId, storePath, storeDuration, storeSize, storeCheckForTime, storeTimeToPlay });
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = SystemColors.Window;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle5.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.False;
+            dataGridViewStore.DefaultCellStyle = dataGridViewCellStyle5;
             dataGridViewStore.Dock = DockStyle.Fill;
             dataGridViewStore.GridColor = Color.White;
             dataGridViewStore.Location = new Point(3, 3);
             dataGridViewStore.Name = "dataGridViewStore";
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Control;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dataGridViewStore.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = SystemColors.Control;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle6.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            dataGridViewStore.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             dataGridViewStore.RowHeadersWidth = 51;
             dataGridViewStore.RowTemplate.Height = 25;
             dataGridViewStore.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewStore.Size = new Size(537, 483);
             dataGridViewStore.TabIndex = 26;
+            dataGridViewStore.DataError += dataGridViewStore_DataError;
             dataGridViewStore.SelectionChanged += dataGridViewStore_SelectionChanged;
+            dataGridViewStore.Resize += dataGridViewStore_Resize;
             // 
             // storeSelect
             // 
@@ -529,16 +666,20 @@
             // 
             storeId.DataPropertyName = "id";
             storeId.HeaderText = "Id";
+            storeId.MinimumWidth = 6;
             storeId.Name = "storeId";
             storeId.ReadOnly = true;
             storeId.Visible = false;
+            storeId.Width = 125;
             // 
             // storeOrder
             // 
             storeOrder.DataPropertyName = "order";
             storeOrder.HeaderText = "Orden";
+            storeOrder.MinimumWidth = 6;
             storeOrder.Name = "storeOrder";
             storeOrder.Visible = false;
+            storeOrder.Width = 125;
             // 
             // storeName
             // 
@@ -553,9 +694,11 @@
             // 
             storeStoreId.DataPropertyName = "storeId";
             storeStoreId.HeaderText = "Tienda Id";
+            storeStoreId.MinimumWidth = 6;
             storeStoreId.Name = "storeStoreId";
             storeStoreId.ReadOnly = true;
             storeStoreId.Visible = false;
+            storeStoreId.Width = 125;
             // 
             // storePath
             // 
@@ -567,40 +710,44 @@
             storePath.Visible = false;
             storePath.Width = 125;
             // 
-            // dataGridViewTextBoxColumn3
+            // storeDuration
             // 
-            dataGridViewTextBoxColumn3.DataPropertyName = "duration";
-            dataGridViewTextBoxColumn3.HeaderText = "Duracion";
-            dataGridViewTextBoxColumn3.MinimumWidth = 6;
-            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            dataGridViewTextBoxColumn3.ReadOnly = true;
-            dataGridViewTextBoxColumn3.Width = 125;
+            storeDuration.DataPropertyName = "duration";
+            storeDuration.HeaderText = "Duracion";
+            storeDuration.MinimumWidth = 6;
+            storeDuration.Name = "storeDuration";
+            storeDuration.ReadOnly = true;
+            storeDuration.Width = 125;
             // 
-            // dataGridViewTextBoxColumn4
+            // storeSize
             // 
-            dataGridViewTextBoxColumn4.DataPropertyName = "size";
-            dataGridViewTextBoxColumn4.HeaderText = "Peso Mb";
-            dataGridViewTextBoxColumn4.MinimumWidth = 6;
-            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            dataGridViewTextBoxColumn4.ReadOnly = true;
-            dataGridViewTextBoxColumn4.Width = 125;
+            storeSize.DataPropertyName = "size";
+            storeSize.HeaderText = "Mb";
+            storeSize.MinimumWidth = 6;
+            storeSize.Name = "storeSize";
+            storeSize.ReadOnly = true;
+            storeSize.Width = 125;
             // 
             // storeCheckForTime
             // 
             storeCheckForTime.DataPropertyName = "checkForTime";
             storeCheckForTime.HeaderText = "Tiempo";
+            storeCheckForTime.MinimumWidth = 6;
             storeCheckForTime.Name = "storeCheckForTime";
             storeCheckForTime.ReadOnly = true;
             storeCheckForTime.Resizable = DataGridViewTriState.True;
             storeCheckForTime.SortMode = DataGridViewColumnSortMode.Automatic;
+            storeCheckForTime.Width = 125;
             // 
             // storeTimeToPlay
             // 
             storeTimeToPlay.DataPropertyName = "timeToPlay";
             storeTimeToPlay.HeaderText = "Hora";
+            storeTimeToPlay.MinimumWidth = 6;
             storeTimeToPlay.Name = "storeTimeToPlay";
             storeTimeToPlay.Resizable = DataGridViewTriState.True;
             storeTimeToPlay.SortMode = DataGridViewColumnSortMode.NotSortable;
+            storeTimeToPlay.Width = 125;
             // 
             // panel9
             // 
@@ -735,7 +882,7 @@
             comboBoxStore.FormattingEnabled = true;
             comboBoxStore.Location = new Point(3, 6);
             comboBoxStore.Name = "comboBoxStore";
-            comboBoxStore.Size = new Size(72, 20);
+            comboBoxStore.Size = new Size(72, 25);
             comboBoxStore.TabIndex = 22;
             comboBoxStore.SelectedIndexChanged += comboBoxStore_SelectedIndexChanged;
             // 
@@ -831,8 +978,8 @@
             // 
             label4.BackColor = Color.White;
             label4.Dock = DockStyle.Fill;
-            label4.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label4.ForeColor = Color.Blue;
+            label4.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            label4.ForeColor = Color.Navy;
             label4.Location = new Point(3, 0);
             label4.Name = "label4";
             label4.Size = new Size(1146, 24);
@@ -1077,7 +1224,7 @@
             comboBox1.FormattingEnabled = true;
             comboBox1.Location = new Point(3, 6);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(85, 21);
+            comboBox1.Size = new Size(85, 25);
             comboBox1.TabIndex = 22;
             // 
             // button11
@@ -1382,7 +1529,7 @@
             comboBox2.FormattingEnabled = true;
             comboBox2.Location = new Point(3, 6);
             comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(85, 21);
+            comboBox2.Size = new Size(85, 25);
             comboBox2.TabIndex = 22;
             // 
             // button26
@@ -1537,7 +1684,7 @@
             comboBox3.FormattingEnabled = true;
             comboBox3.Location = new Point(3, 6);
             comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(85, 21);
+            comboBox3.Size = new Size(85, 25);
             comboBox3.TabIndex = 22;
             // 
             // button34
@@ -1622,96 +1769,6 @@
             label1.TabIndex = 2;
             label1.Text = "LISTA DE AUDIO TIENDA: 0000";
             label1.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // serverSelect
-            // 
-            serverSelect.DataPropertyName = "select";
-            serverSelect.HeaderText = "Seleccionar";
-            serverSelect.MinimumWidth = 6;
-            serverSelect.Name = "serverSelect";
-            serverSelect.Width = 125;
-            // 
-            // serverId
-            // 
-            serverId.DataPropertyName = "id";
-            serverId.HeaderText = "Id";
-            serverId.Name = "serverId";
-            serverId.ReadOnly = true;
-            serverId.Visible = false;
-            // 
-            // serverOrder
-            // 
-            serverOrder.DataPropertyName = "order";
-            serverOrder.HeaderText = "Orden";
-            serverOrder.Name = "serverOrder";
-            serverOrder.ReadOnly = true;
-            serverOrder.Visible = false;
-            // 
-            // serverAudioName
-            // 
-            serverAudioName.DataPropertyName = "name";
-            serverAudioName.HeaderText = "Nombre";
-            serverAudioName.MinimumWidth = 6;
-            serverAudioName.Name = "serverAudioName";
-            serverAudioName.ReadOnly = true;
-            serverAudioName.Width = 200;
-            // 
-            // serverStoreId
-            // 
-            serverStoreId.DataPropertyName = "storeId";
-            serverStoreId.HeaderText = "Tienda Id";
-            serverStoreId.Name = "serverStoreId";
-            serverStoreId.ReadOnly = true;
-            serverStoreId.Visible = false;
-            // 
-            // serverPath
-            // 
-            serverPath.DataPropertyName = "path";
-            serverPath.HeaderText = "Ruta";
-            serverPath.MinimumWidth = 6;
-            serverPath.Name = "serverPath";
-            serverPath.ReadOnly = true;
-            serverPath.Visible = false;
-            serverPath.Width = 125;
-            // 
-            // serverAudioDuration
-            // 
-            serverAudioDuration.DataPropertyName = "duration";
-            serverAudioDuration.HeaderText = "Duracion";
-            serverAudioDuration.MinimumWidth = 6;
-            serverAudioDuration.Name = "serverAudioDuration";
-            serverAudioDuration.ReadOnly = true;
-            serverAudioDuration.Width = 125;
-            // 
-            // serverAudioSize
-            // 
-            serverAudioSize.DataPropertyName = "size";
-            serverAudioSize.HeaderText = "Peso Mb";
-            serverAudioSize.MinimumWidth = 6;
-            serverAudioSize.Name = "serverAudioSize";
-            serverAudioSize.ReadOnly = true;
-            serverAudioSize.Width = 125;
-            // 
-            // serverChekFotTime
-            // 
-            serverChekFotTime.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            serverChekFotTime.DataPropertyName = "checkForTime";
-            serverChekFotTime.HeaderText = "Tiempo";
-            serverChekFotTime.Name = "serverChekFotTime";
-            serverChekFotTime.ReadOnly = true;
-            serverChekFotTime.Visible = false;
-            serverChekFotTime.Width = 5;
-            // 
-            // serverTimeToPlay
-            // 
-            serverTimeToPlay.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            serverTimeToPlay.DataPropertyName = "timeToPlay";
-            serverTimeToPlay.HeaderText = "Hora";
-            serverTimeToPlay.Name = "serverTimeToPlay";
-            serverTimeToPlay.ReadOnly = true;
-            serverTimeToPlay.Resizable = DataGridViewTriState.True;
-            serverTimeToPlay.Visible = false;
-            serverTimeToPlay.Width = 5;
             // 
             // UserControlMusic
             // 
@@ -1841,16 +1898,6 @@
         private Button buttonSelectAllPublicityAudioListStore;
         private Button buttonSelectAllAudioAudioListStore;
         private Button buttonSelectAllTime;
-        private DataGridViewCheckBoxColumn storeSelect;
-        private DataGridViewTextBoxColumn storeId;
-        private DataGridViewTextBoxColumn storeOrder;
-        private DataGridViewTextBoxColumn storeName;
-        private DataGridViewTextBoxColumn storeStoreId;
-        private DataGridViewTextBoxColumn storePath;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private DataGridViewCheckBoxColumn storeCheckForTime;
-        private DataGridViewTextBoxColumn storeTimeToPlay;
         private Button buttonSelectAllTimeAudioListStore;
         private DataGridViewCheckBoxColumn serverSelect;
         private DataGridViewTextBoxColumn serverId;
@@ -1862,6 +1909,16 @@
         private DataGridViewTextBoxColumn serverAudioSize;
         private DataGridViewTextBoxColumn serverChekFotTime;
         private DataGridViewTextBoxColumn serverTimeToPlay;
+        private DataGridViewCheckBoxColumn storeSelect;
+        private DataGridViewTextBoxColumn storeId;
+        private DataGridViewTextBoxColumn storeOrder;
+        private DataGridViewTextBoxColumn storeName;
+        private DataGridViewTextBoxColumn storeStoreId;
+        private DataGridViewTextBoxColumn storePath;
+        private DataGridViewTextBoxColumn storeDuration;
+        private DataGridViewTextBoxColumn storeSize;
+        private DataGridViewCheckBoxColumn storeCheckForTime;
+        private DataGridViewTextBoxColumn storeTimeToPlay;
     }
 }
 #endregion

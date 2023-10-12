@@ -228,8 +228,8 @@
             // 
             label1.BackColor = Color.White;
             label1.Dock = DockStyle.Fill;
-            label1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.ForeColor = Color.Blue;
+            label1.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.ForeColor = Color.Navy;
             label1.Location = new Point(3, 0);
             label1.Name = "label1";
             label1.Size = new Size(923, 32);
@@ -240,9 +240,9 @@
             // listBoxAudio
             // 
             listBoxAudio.Dock = DockStyle.Fill;
-            listBoxAudio.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            listBoxAudio.Font = new Font("Microsoft Sans Serif", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
             listBoxAudio.FormattingEnabled = true;
-            listBoxAudio.ItemHeight = 25;
+            listBoxAudio.ItemHeight = 16;
             listBoxAudio.Location = new Point(3, 36);
             listBoxAudio.Margin = new Padding(3, 4, 3, 4);
             listBoxAudio.Name = "listBoxAudio";
@@ -253,7 +253,7 @@
             // 
             // panel4
             // 
-            panel4.BackColor = Color.Blue;
+            panel4.BackColor = Color.Navy;
             panel4.Controls.Add(panel5);
             panel4.Dock = DockStyle.Fill;
             panel4.Location = new Point(0, 0);

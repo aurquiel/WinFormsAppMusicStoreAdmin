@@ -11,8 +11,6 @@ namespace WinFormsAppMusicStoreAdmin
 {
     public partial class UserControlPlayer : UserControl
     {
-        private IServices _services;
-        private IFileManager _fileManager;
         private EventHandler<(bool, string)> _raiseRichTextInsertMessage;
         private List<Store> _stores;
 
@@ -32,13 +30,11 @@ namespace WinFormsAppMusicStoreAdmin
         ToolTip toolTipButtonStop = new ToolTip();
 
 
-        public UserControlPlayer(IServices services, IFileManager fileManager, List<Store> stores, EventHandler<(bool, string)> raiseRichTextInsertMessage)
+        public UserControlPlayer(FormOperationAndWait formOperationAndWait, List<Store> stores, EventHandler<(bool, string)> raiseRichTextInsertMessage)
         {
             InitializeComponent();
             WireUpEvents();
             CreateToolTips();
-            _services = services;
-            _fileManager = fileManager;
             _raiseRichTextInsertMessage = raiseRichTextInsertMessage;
             _player = new Player(_playNextAudio, _raiseRichTextInsertMessage);
             _stores = stores;
@@ -241,7 +237,7 @@ namespace WinFormsAppMusicStoreAdmin
 
         private void MaxNumberOfErrors(bool playStatus)
         {
-            if(playStatus)
+            if (playStatus)
             {
                 numberOfErros = 0;
             }

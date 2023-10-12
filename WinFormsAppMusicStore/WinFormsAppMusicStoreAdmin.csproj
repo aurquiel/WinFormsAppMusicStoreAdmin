@@ -26,6 +26,7 @@
     <None Remove="Resources\loader.gif" />
     <None Remove="Resources\login.png" />
     <None Remove="Resources\logoMundoTotalGrande.png" />
+    <None Remove="Resources\menu.png" />
     <None Remove="Resources\MundoTotalLogo.png" />
     <None Remove="Resources\next.png" />
     <None Remove="Resources\pause.png" />
@@ -42,6 +43,7 @@
     <None Remove="Resources\stop.png" />
     <None Remove="Resources\store.png" />
     <None Remove="Resources\synchronizeAllStores.png" />
+    <None Remove="Resources\timer.ico" />
     <None Remove="Resources\tools.png" />
     <None Remove="Resources\unselectAll.png" />
     <None Remove="Resources\upArrow.png" />
@@ -51,10 +53,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\add.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\delete.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\edit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Resources\AudioStoreLocal.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\back.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\excel.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\icon.ico">
@@ -67,9 +84,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\add.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Resources\app.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -107,22 +121,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\delete.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Resources\downArrow.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\edit.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\erase.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\eraseAll.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\excel.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\loader.gif">
@@ -132,6 +137,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\logoMundoTotalGrande.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\menu.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\MundoTotalLogo.png">
@@ -180,6 +188,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\synchronizeAllStores.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\timer.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\tools.png">

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormOperationAndWait));
             panel4 = new Panel();
             panel5 = new Panel();
             labelMessage = new Label();
@@ -49,8 +50,8 @@
             panel4.Location = new Point(0, 0);
             panel4.Margin = new Padding(3, 4, 3, 4);
             panel4.Name = "panel4";
-            panel4.Padding = new Padding(5, 5, 5, 5);
-            panel4.Size = new Size(741, 208);
+            panel4.Padding = new Padding(5);
+            panel4.Size = new Size(741, 170);
             panel4.TabIndex = 6;
             // 
             // panel5
@@ -64,23 +65,24 @@
             panel5.Location = new Point(5, 5);
             panel5.Margin = new Padding(3, 4, 3, 4);
             panel5.Name = "panel5";
-            panel5.Size = new Size(731, 198);
+            panel5.Size = new Size(731, 160);
             panel5.TabIndex = 3;
             // 
             // labelMessage
             // 
             labelMessage.AutoSize = true;
-            labelMessage.Font = new Font("Segoe UI", 9F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
+            labelMessage.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
             labelMessage.ForeColor = Color.DarkGreen;
-            labelMessage.Location = new Point(171, 97);
+            labelMessage.Location = new Point(155, 77);
             labelMessage.Name = "labelMessage";
-            labelMessage.Size = new Size(137, 20);
+            labelMessage.Size = new Size(120, 17);
             labelMessage.TabIndex = 21;
             labelMessage.Text = "por favor espere...";
             // 
             // labelOperation
             // 
-            labelOperation.Location = new Point(226, 97);
+            labelOperation.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
+            labelOperation.Location = new Point(215, 75);
             labelOperation.Name = "labelOperation";
             labelOperation.Size = new Size(505, 29);
             labelOperation.TabIndex = 20;
@@ -88,31 +90,32 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label2.Location = new Point(171, 43);
+            label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.Location = new Point(155, 23);
             label2.Name = "label2";
-            label2.Size = new Size(240, 28);
+            label2.Size = new Size(176, 20);
             label2.TabIndex = 16;
             label2.Text = "Ejecutando Operaciones";
             // 
             // label1
             // 
             label1.Image = Properties.Resources.wait;
-            label1.Location = new Point(3, 7);
+            label1.Location = new Point(3, 4);
             label1.Name = "label1";
-            label1.Size = new Size(146, 184);
+            label1.Size = new Size(146, 145);
             label1.TabIndex = 0;
             // 
             // FormOperationAndWait
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(741, 208);
+            ClientSize = new Size(741, 170);
             Controls.Add(panel4);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "FormOperationAndWait";
             StartPosition = FormStartPosition.Manual;
-            Text = "7";
+            Text = "Realizando Operaciones ...";
             TopMost = true;
             FormClosing += FormOperationAndWait_FormClosing;
             Shown += FormWait_Shown;

@@ -1,10 +1,6 @@
 ﻿using ClassLibraryDomain.Models;
-using ClassLibraryDomain.Ports.Driving;
 using System.ComponentModel;
 using System.Reflection;
-using System.Text.Json;
-using System.Windows.Forms;
-using WinFormsAppMusicStoreAdmin.DrivenAdapters.WebserviceAdapters.Entities;
 using WinFormsAppMusicStoreAdmin.DrivingAdapters.Winforms.ChainOfResponsibityOperationAndWait;
 using WinFormsAppMusicStoreAdmin.DrivingAdapters.Winforms.Dtos;
 
@@ -32,12 +28,18 @@ namespace WinFormsAppMusicStoreAdmin
         ToolTip toolTipButtonRemoveAudioFromServer = new ToolTip();
         ToolTip toolTipButtonUnselectAll = new ToolTip();
         ToolTip toolTipButtonSelectAll = new ToolTip();
+        ToolTip toolTipButtonSelectAudio = new ToolTip();
+        ToolTip toolTipButtonSelectPublicity = new ToolTip();
+        ToolTip toolTipButtonSelectTime = new ToolTip();
         ToolTip toolTipButtonAddAudiosToServer = new ToolTip();
         ToolTip toolTipButtonSynchronizeAllStores = new ToolTip();
         ToolTip toolTipButtonAddAudioToAudioListStore = new ToolTip();
         ToolTip toolTipButtonRefreshListStore = new ToolTip();
         ToolTip toolTipButtonUnselectAllStoreAudiList = new ToolTip();
         ToolTip toolTipButtonSelectAllStoreAudiList = new ToolTip();
+        ToolTip toolTipButtonSelectAudioStoreAudiList = new ToolTip();
+        ToolTip toolTipButtonSelectPublicityStoreAudiList = new ToolTip();
+        ToolTip toolTipButtonSelectTimeStoreAudiList = new ToolTip();
         ToolTip toolTipButtonArrangePublicity = new ToolTip();
         ToolTip toolTipButtonMoveDown = new ToolTip();
         ToolTip toolTipButtonMoveUp = new ToolTip();
@@ -83,13 +85,19 @@ namespace WinFormsAppMusicStoreAdmin
             toolTipButtonRemoveAudioFromServer.SetToolTip(buttonRemoveAudioFromServer, "Remover audio del servidor.");
             toolTipButtonUnselectAll.SetToolTip(buttonUnselectAll, "Deseleccionar todos.");
             toolTipButtonSelectAll.SetToolTip(buttonSelectAll, "Seleccionar todos.");
+            toolTipButtonSelectAudio.SetToolTip(buttonSelectAllAudio, "Seleccionar musica.");
+            toolTipButtonSelectPublicity.SetToolTip(buttonSelectAllPublicity, "Seleccionar publicidad.");
+            toolTipButtonSelectTime.SetToolTip(buttonSelectAllTime, "Seleccionar tiempo.");
             toolTipButtonAddAudiosToServer.SetToolTip(buttonAddAudiosToServer, "Agregar audios.");
             toolTipButtonSynchronizeAllStores.SetToolTip(buttonSynchronizeAllStores, "Sincronizar lista de audio de las tiendas.");
             toolTipButtonAddAudioToAudioListStore.SetToolTip(buttonAddAudioToAudioListStore, "Agregar Audios a Lista de Audio Tienda.");
             toolTipButtonRefreshListStore.SetToolTip(buttonRefreshListStore, "Actualizar a Lista de Audio Tienda.");
-            toolTipButtonUnselectAllStoreAudiList.SetToolTip(buttonSelectAllAudioListStore, "Deseleccionar todos.");
+            toolTipButtonUnselectAllStoreAudiList.SetToolTip(buttonUnselectAllAudioListStore, "Deseleccionar todos.");
             toolTipButtonSelectAllStoreAudiList.SetToolTip(buttonSelectAllAudioListStore, "Seleccionar todos.");
-            toolTipButtonArrangePublicity.SetToolTip(buttonArrangePublicity, "Ordenar publicidad.");
+            toolTipButtonSelectAudioStoreAudiList.SetToolTip(buttonSelectAllAudioAudioListStore, "Seleccionar musica.");
+            toolTipButtonSelectPublicityStoreAudiList.SetToolTip(buttonSelectAllPublicityAudioListStore, "Seleccionar publicidad.");
+            toolTipButtonSelectTimeStoreAudiList.SetToolTip(buttonSelectAllTimeAudioListStore, "Seleccionar tiempo.");
+            toolTipButtonArrangePublicity.SetToolTip(buttonArrangePublicity, "Ordenar lista de reproduccion.");
             toolTipButtonMoveDown.SetToolTip(buttonMoveDownAudioListStore, "Desplazar abajo.");
             toolTipButtonMoveUp.SetToolTip(buttonMoveUpAudioListStore, "Desplazar arriba.");
             toolTipButtonDeleteAudioAudioListStore.SetToolTip(buttonDeleteAudioAudioListStore, "Eliminar Audio.");
@@ -637,15 +645,13 @@ namespace WinFormsAppMusicStoreAdmin
             }
         }
 
-
-
         private void buttonUploadAudioListStore_Click(object sender, EventArgs e)
         {
             int index = 1;
             foreach (var item in _audioListStore)
             {
                 item.Id = 0;
-                item.Order = ++index;
+                item.Order = index++;
             }
             var op = new List<Operation> {
                 new Operation(OperationTypes.OPERATIONS.STORE_SYNCHRONIZE_LIST_AUDIO, ((Store)comboBoxStore.SelectedItem), _audioListStore.ToList()),
@@ -727,6 +733,38 @@ namespace WinFormsAppMusicStoreAdmin
             dataGridViewStore.ClearSelection();
         }
 
+        private void dataGridViewServer_Resize(object sender, EventArgs e)
+        {
+            var a = dataGridViewServer.Size;
+            dataGridViewServer.Columns["serverAudioName"].Width = a.Width - 410;
+            dataGridViewServer.Columns["serverSelect"].Width = 120;
+            dataGridViewServer.Columns["serverAudioDuration"].Width = 110;
+            dataGridViewServer.Columns["serverAudioSize"].Width = 90;
+            dataGridViewServer.Refresh();
+        }
 
+        private void dataGridViewStore_Resize(object sender, EventArgs e)
+        {
+            var a = dataGridViewStore.Size;
+            dataGridViewStore.Columns["storeName"].Width = a.Width - 620;
+            dataGridViewStore.Columns["storeSelect"].Width = 120;
+            dataGridViewStore.Columns["storeDuration"].Width = 110;
+            dataGridViewStore.Columns["storeSize"].Width = 90;
+            dataGridViewStore.Columns["storeCheckForTime"].Width = 80;
+            dataGridViewStore.Columns["storeTimeToPlay"].Width = 120;
+            dataGridViewStore.Refresh();
+        }
+
+        private void dataGridViewStore_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            if (e.Context == (DataGridViewDataErrorContexts.Parsing | DataGridViewDataErrorContexts.Commit))
+            {
+                MessageBox.Show("Formato de hora invalido, ingrese un formato de hora valido para continuar, hh:mm:ss", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                MessageBox.Show("el siguiente error a ocurrido: " + e.Exception.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
