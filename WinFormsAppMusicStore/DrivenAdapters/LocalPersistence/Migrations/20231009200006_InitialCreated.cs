@@ -22,7 +22,7 @@ namespace WinFormsAppMusicStoreAdmin.DrivenAdapters.LocalPersistence.Migrations
                     Size = table.Column<double>(type: "REAL", nullable: false),
                     Duration = table.Column<TimeSpan>(type: "TEXT", nullable: false),
                     CheckForTime = table.Column<bool>(type: "INTEGER", nullable: false),
-                    PlayTime = table.Column<TimeSpan>(type: "TEXT", nullable: false)
+                    TimeToPlay = table.Column<TimeSpan>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

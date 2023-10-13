@@ -5,19 +5,19 @@ using WinFormsAppMusicStoreAdmin.DrivingAdapters.Winforms.Dtos;
 
 namespace WinFormsAppMusicStoreAdmin.DrivingAdapters.Winforms.ChainOfResponsibityOperationAndWait
 {
-    public class StoreGetAudioListHandler : Handler
+    public class PlayerGetAudioListStorePcHandler : Handler
     {
         private readonly IMapper _mapper;
-        private IAudioListDriving _audioListDriving;
+        private IAudioListLocalDriving _audioListLocalDriving;
         private EventHandler<string> _updateLabelMessage;
         private EventHandler<List<AudioFileSelect>> _getAudioListFiles;
         private EventHandler<(bool, string)> _raiseRichTextInsertMessage;
         private CancellationToken _token;
         private Store _store;
 
-        public StoreGetAudioListHandler(
+        public PlayerGetAudioListStorePcHandler(
             IMapper mapper,
-            IAudioListDriving audioListDriving,
+            IAudioListLocalDriving audioListLocalDriving,
             EventHandler<string> updateLabelMessage,
             EventHandler<List<AudioFileSelect>> getAudioListFiles,
             EventHandler<(bool, string)> raiseRichTextInsertMessage,
@@ -25,7 +25,7 @@ namespace WinFormsAppMusicStoreAdmin.DrivingAdapters.Winforms.ChainOfResponsibit
             Store store)
         {
             _mapper = mapper;
-            _audioListDriving = audioListDriving;
+            _audioListLocalDriving = audioListLocalDriving;
             _updateLabelMessage = updateLabelMessage;
             _getAudioListFiles = getAudioListFiles;
             _raiseRichTextInsertMessage = raiseRichTextInsertMessage;
@@ -35,15 +35,20 @@ namespace WinFormsAppMusicStoreAdmin.DrivingAdapters.Winforms.ChainOfResponsibit
 
         public override async Task HandleRequest(OperationTypes.OPERATIONS operation)
         {
-            if (operation == OperationTypes.OPERATIONS.STORE_GET_AUDIO_LIST)
+            if (operation == OperationTypes.OPERATIONS.PLAYER_GET_AUDIO_LIST_STORE_PC)
             {
-                _updateLabelMessage?.Invoke(this, "Espere obteniendo lista de audio de la tienda.");
+                _updateLabelMessage?.Invoke(this, $"Espere obteniendo lista local de audio de la tienda {_store.Code}.");
                 await Task.Delay(100);
-                var result = await _audioListDriving.DownloadAudioListStoreAsync(_store.Id, _token);
-                _raiseRichTextInsertMessage?.Invoke(this, (result.status, result.statusMessage));
-                if (result.status)
+                try
                 {
-                    _getAudioListFiles?.Invoke(this, _mapper.Map<List<AudioFile>, List<AudioFileSelect>>(result.data));
+                    var listAudio = await _audioListLocalDriving.GetAudioListAsync(_store.Id);
+                    _raiseRichTextInsertMessage?.Invoke(this, (true, $"Lista de reproduccion obtenida localmente tienda {_store.Code}"));
+                    _getAudioListFiles?.Invoke(this, _mapper.Map<List<AudioFile>, List<AudioFileSelect>>(listAudio));
+                }
+                catch(Exception ex) 
+                {
+                    _raiseRichTextInsertMessage?.Invoke(this, (false, $"Error al obtener lista local de reproduccion tienda {_store.Code}, excepcion: " + ex.Message));
+                    _getAudioListFiles?.Invoke(this, new List<AudioFileSelect>());
                 }
             }
             else if (successor != null)

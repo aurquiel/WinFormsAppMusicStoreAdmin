@@ -1,13 +1,7 @@
 ﻿using AutoMapper;
 using ClassLibraryDomain.Models;
 using ClassLibraryDomain.Ports.Driven;
-using ClassLibraryModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using WinFormsAppMusicStoreAdmin.DrivenAdapters.WebserviceAdapters.Entities;
 
 namespace WinFormsAppMusicStoreAdmin.DrivenAdapters.WebserviceAdapters

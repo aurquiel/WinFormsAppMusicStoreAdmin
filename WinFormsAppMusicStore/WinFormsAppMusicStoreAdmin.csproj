@@ -56,6 +56,9 @@
     <Resource Include="Resources\add.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\AudioStoreLocal.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\delete.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -65,9 +68,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\AudioStoreLocal.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Resources\back.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

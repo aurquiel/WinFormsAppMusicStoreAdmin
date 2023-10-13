@@ -1,8 +1,5 @@
 using ClassLibraryDomain.Models;
 using ClassLibraryDomain.Ports.Driving;
-using ClassLibraryModels;
-using ClassLibraryServices;
-using ClassLibraryServices.WebService;
 using Serilog;
 using System.Configuration;
 using WinFormsAppMusicStoreAdmin.DrivenAdapters.WebserviceAdapters;

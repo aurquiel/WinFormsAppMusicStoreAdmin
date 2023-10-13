@@ -13,7 +13,7 @@ namespace WinFormsAppMusicStoreAdmin.DrivingAdapters.Winforms.ChainOfResponsibit
         private EventHandler<(bool, string)> _raiseRichTextInsertMessage;
         private CancellationToken _token;
         private List<AudioFileSelect> _audioFileListToSynchronize;
-        private int _storeId;
+        private Store _store;
 
         public StoreSynchronizeListAudio(
             IMapper mapper,
@@ -23,7 +23,7 @@ namespace WinFormsAppMusicStoreAdmin.DrivingAdapters.Winforms.ChainOfResponsibit
             EventHandler<(bool, string)> raiseRichTextInsertMessage,
             CancellationToken token,
             List<AudioFileSelect> audioFileListToSynchronize,
-            int storeId)
+            Store store)
         {
             _mapper = mapper;
             _audioListDriving = audioListDriving;
@@ -31,15 +31,15 @@ namespace WinFormsAppMusicStoreAdmin.DrivingAdapters.Winforms.ChainOfResponsibit
             _raiseRichTextInsertMessage = raiseRichTextInsertMessage;
             _token = token;
             _audioFileListToSynchronize = audioFileListToSynchronize;
-            _storeId = storeId;
+            _store = store;
         }
 
         public override async Task HandleRequest(OperationTypes.OPERATIONS operation)
         {
             if (operation == OperationTypes.OPERATIONS.STORE_SYNCHRONIZE_LIST_AUDIO)
             {
-                _updateLabelMessage?.Invoke(this, $"Subiendo y sincronizando lista de audio de tienda: {_storeId}");
-                var result = await _audioListDriving.SynchronizeAudioListStore(_mapper.Map<List<AudioFileSelect>, List<AudioFile>>(_audioFileListToSynchronize), _storeId, _token);
+                _updateLabelMessage?.Invoke(this, $"Subiendo y sincronizando lista de audio de tienda: {_store.Id}");
+                var result = await _audioListDriving.SynchronizeAudioListStore(_mapper.Map<List<AudioFileSelect>, List<AudioFile>>(_audioFileListToSynchronize), _store.Id, _token);
                 _raiseRichTextInsertMessage?.Invoke(this, (result.status, result.statusMessage));
                 if (_token.IsCancellationRequested)
                 {

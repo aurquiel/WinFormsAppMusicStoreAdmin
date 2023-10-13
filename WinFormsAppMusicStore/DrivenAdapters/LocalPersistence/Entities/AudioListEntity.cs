@@ -37,6 +37,6 @@ namespace WinFormsAppMusicStoreAdmin.DrivenAdapters.LocalPersistence.Entities
         public bool CheckForTime { get; set; }
 
         [Required]
-        public TimeSpan PlayTime { get; set; }
+        public TimeSpan TimeToPlay { get; set; }
     }
 }

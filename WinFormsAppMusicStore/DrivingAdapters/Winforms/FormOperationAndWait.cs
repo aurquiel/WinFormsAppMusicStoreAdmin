@@ -34,9 +34,10 @@ namespace WinFormsAppMusicStoreAdmin
         private readonly IStoreDriving _storeDriving;
         private readonly IUserDriving _userDriving;
         private readonly IFileManagerDriving _fileManagerDriving;
+        private readonly IAudioListLocalDriving _audioListLocalDriving;
 
         public FormOperationAndWait(IMapper mapper, IAudioDriving audioDriving, IAudioListDriving audioListDriving, IStoreDriving storeDriving,
-            IUserDriving userDriving, IFileManagerDriving fileManagerDriving)
+            IUserDriving userDriving, IFileManagerDriving fileManagerDriving, IAudioListLocalDriving audioListLocalDriving)
         {
             _token = _tokenSource.Token;
             WireUpEvents();
@@ -47,7 +48,7 @@ namespace WinFormsAppMusicStoreAdmin
             _storeDriving = storeDriving;
             _userDriving = userDriving;
             _fileManagerDriving = fileManagerDriving;
-
+            _audioListLocalDriving = audioListLocalDriving;
             this.StartPosition = FormStartPosition.CenterParent;
         }
 
@@ -98,7 +99,7 @@ namespace WinFormsAppMusicStoreAdmin
                 _getAudioListFiles,
                 _raiseRichTextInsertMessage,
                 _token,
-                operation.Store.Id
+                operation.Store
                 );
 
             h6 = new StoreSynchronizeListAudio(
@@ -109,27 +110,30 @@ namespace WinFormsAppMusicStoreAdmin
                 _raiseRichTextInsertMessage,
                 _token,
                 operation.AudioFileToOperate,
-                operation.Store.Id
+                operation.Store
                 );
 
-            //h7 = new PlayerGetAudioListStorePcHandler(
-            //    _services,
-            //    _fileManager,
-            //    _updateLabelMessage,
-            //    _getAudioListFiles,
-            //    _raiseRichTextInsertMessage,
-            //    _token,
-            //    operation.StoreCode
-            //    );
-            //h8 = new PlayerGetAudioListStoreServerHandler(
-            //    _services,
-            //    _fileManager,
-            //    _updateLabelMessage,
-            //    _getAudioListFiles,
-            //    _raiseRichTextInsertMessage,
-            //    _token,
-            //    operation.StoreCode
-            //    );
+            h7 = new PlayerGetAudioListStorePcHandler(
+                _mapper,
+                _audioListLocalDriving,
+                _updateLabelMessage,
+                _getAudioListFiles,
+                _raiseRichTextInsertMessage,
+                _token,
+                operation.Store
+                );
+
+            h8 = new PlayerGetAudioListStoreServerHandler(
+                _audioDriving,
+                _audioListDriving,
+                _audioListLocalDriving,
+                _fileManagerDriving,
+                _updateLabelMessage,
+                _getAudioListFiles,
+                _raiseRichTextInsertMessage,
+                _token,
+                operation.Store
+                );
 
             h1.SetSuccessor(h2);
             h2.SetSuccessor(h3);
@@ -137,7 +141,7 @@ namespace WinFormsAppMusicStoreAdmin
             h4.SetSuccessor(h5);
             h5.SetSuccessor(h6);
             h6.SetSuccessor(h7);
-            //h7.SetSuccessor(h8);
+            h7.SetSuccessor(h8);
         }
 
         private void WireUpEvents()

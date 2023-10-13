@@ -72,7 +72,7 @@ namespace WinFormsAppMusicStoreAdmin.DrivenAdapters.WebserviceAdapters
             }
         }
 
-        public async Task<GeneralAnswer<object>> DownloadAudioServerAsync(string storeCode, string audioName, string folderPath, CancellationToken token)
+        public async Task<GeneralAnswer<object>> DownloadAudioServerAsync(string storeCode, string audioName, CancellationToken token)
         {
             var result = await DownloadAudio(storeCode, audioName, token);
 

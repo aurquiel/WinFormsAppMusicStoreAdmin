@@ -16,6 +16,8 @@ namespace WinFormsAppMusicStoreAdmin
         private readonly IStoreDriving _storeDriving;
         private readonly IRegisterDriving _registerDriving;
         private readonly IExcelDriving _excelDriving;
+        private readonly IPlayerDriving _playerDriving;
+        private readonly IAudioListLocalDriving _audioListLocalDriving;
         private FormOperationAndWait _formOperationAndWait;
         private EventHandler<(bool, string)> _raiseRichTextInsertMessage;
         private EventHandler<List<Store>> _raiseUpdateStores;
@@ -30,7 +32,7 @@ namespace WinFormsAppMusicStoreAdmin
 
         public FormMain(ILogger logger, IAudioDriving audioDriving, IAudioListDriving audioListDriving, IUserDriving userDriving,
             IFileManagerDriving fileManagerDriving, IStoreDriving storeDriving, IRegisterDriving registerDriving, IExcelDriving excelDriving,
-            FormOperationAndWait formOperationAndWait)
+            IPlayerDriving playerDriving, IAudioListLocalDriving audioListLocalDriving, FormOperationAndWait formOperationAndWait)
         {
             InitializeComponent();
             WireUpEvents();
@@ -42,6 +44,8 @@ namespace WinFormsAppMusicStoreAdmin
             _storeDriving = storeDriving;
             _registerDriving = registerDriving;
             _excelDriving = excelDriving;
+            _playerDriving = playerDriving;
+            _audioListLocalDriving = audioListLocalDriving;
             _formOperationAndWait = formOperationAndWait;
             _logger = logger;
         }
@@ -146,7 +150,7 @@ namespace WinFormsAppMusicStoreAdmin
                 new UserControlInit(),
                 new UserControlMusic(_formOperationAndWait, _stores, _raiseRichTextInsertMessage),
                 new UserControlTool(_formOperationAndWait, _stores, _raiseRichTextInsertMessage),
-                new UserControlPlayer(_formOperationAndWait, _stores, _raiseRichTextInsertMessage),
+                new UserControlPlayer(_formOperationAndWait, _playerDriving, _stores, _raiseRichTextInsertMessage),
                 new UserControlRegister(_registerDriving, _excelDriving, _users, _stores, _raiseRichTextInsertMessage),
                 new UserControlStore(_storeDriving, _stores, _raiseRichTextInsertMessage, _raiseUpdateStores),
                 new UserControlUser(_userDriving, _user, _users, _stores, _raiseRichTextInsertMessage, _raiseUpdateUsers)

@@ -16,12 +16,21 @@ namespace WinFormsAppMusicStoreAdmin.DrivingAdapters.Player
         private EventHandler<(bool, string)> _raiseRichTextInsertMessage;
         private EventHandler _playNextAudio;
 
-        public Player(EventHandler playNextAudio, EventHandler<(bool, string)> raiseRichTextInsertMessage)
+        public Player()
         {
-            _playNextAudio = playNextAudio;
-            _raiseRichTextInsertMessage = raiseRichTextInsertMessage;
             _outputDevice.Volume = 1;
             _outputDevice.PlaybackStopped += _outputDevice_PlaybackStopped;
+        }
+
+        public void SetRaiseRichTextInsertMessage(EventHandler<(bool, string)> raiseRichTextInsertMessage)
+        {
+            _raiseRichTextInsertMessage = raiseRichTextInsertMessage;
+        }
+
+        public void SetPlayNextAudio(EventHandler playNextAudio)
+        {
+            _playNextAudio = playNextAudio;
+
         }
 
         private void _outputDevice_PlaybackStopped(object? sender, StoppedEventArgs e)

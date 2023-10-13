@@ -23,9 +23,9 @@ namespace ClassLibraryDomain.UsesCases
             return await _audioPersistencePort.DownloadAudioListServerAsync(token);
         }
 
-        public async Task<GeneralAnswer<object>> DownloadAudioServerAsync(string storeCode, string audioName, string folderPath, CancellationToken token)
+        public async Task<GeneralAnswer<object>> DownloadAudioServerAsync(string storeCode, string audioName, CancellationToken token)
         {
-            return await _audioPersistencePort.DownloadAudioServerAsync(storeCode, audioName, folderPath, token);
+            return await _audioPersistencePort.DownloadAudioServerAsync(storeCode, audioName, token);
         }
 
         public async Task<GeneralAnswer<object>> UploadAudioAsync(string filePath, CancellationToken token)
