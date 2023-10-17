@@ -15,6 +15,8 @@ namespace WinFormsAppMusicStoreAdmin.DrivingAdapters.Winforms.Dtos.Mappings
         {
             CreateMap<AudioFile, AudioFileSelect>();
             CreateMap<AudioFileSelect, AudioFile>();
+            CreateMap<AudioFileSelect, AudioFileSelectPlayed>();
+            CreateMap<AudioFileSelectPlayed, AudioFileSelect>();
         }
     }
 }

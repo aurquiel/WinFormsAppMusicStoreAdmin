@@ -391,6 +391,18 @@ namespace WinFormsAppMusicStoreAdmin
             _bindingAudioListStore.DataSource = _audioListStore;
             dataGridViewStore.DataSource = _bindingAudioListStore;
             dataGridViewStore.Columns[8].DefaultCellStyle.Format = "hh\\:mm\\:ss";
+            ReadOnlyTimeSpanNoCheckForTime();
+        }
+
+        private void ReadOnlyTimeSpanNoCheckForTime()
+        {
+            foreach (DataGridViewRow row in dataGridViewStore.Rows)
+            {
+                if(Convert.ToBoolean(row.Cells["storeCheckForTime"].Value) == false)
+                {
+                    row.Cells["storeTimeToPlay"].ReadOnly = true;
+                }
+            }
         }
 
         private void buttonMoveDownAudioListStore_Click(object sender, EventArgs e)
@@ -449,11 +461,13 @@ namespace WinFormsAppMusicStoreAdmin
 
             if (onlySongs.Count == 0)
             {
+                onlyPublicity.AddRange(onlyTime);
                 return onlyPublicity;
             }
 
             if (onlyPublicity.Count == 0)
             {
+                onlySongs.AddRange(onlyPublicity);
                 return onlySongs;
             }
 

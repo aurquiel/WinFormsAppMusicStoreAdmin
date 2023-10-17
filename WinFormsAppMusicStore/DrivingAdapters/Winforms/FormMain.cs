@@ -1,4 +1,5 @@
-﻿using ClassLibraryDomain.Models;
+﻿using AutoMapper;
+using ClassLibraryDomain.Models;
 using ClassLibraryDomain.Ports.Driving;
 using Serilog;
 using System.Data;
@@ -8,7 +9,7 @@ namespace WinFormsAppMusicStoreAdmin
     public partial class FormMain : Form
     {
         private ILogger _logger;
-
+        private readonly IMapper _mapper;
         private IAudioDriving _audioDriving;
         private IAudioListDriving _audioListDriving;
         private readonly IUserDriving _userDriving;
@@ -30,7 +31,7 @@ namespace WinFormsAppMusicStoreAdmin
 
         private enum USER_CONTORL_ELEMENTS { INIT = 0, MUSIC = 1, TOOLS = 2, PLAYER = 3, REGISTER = 4, STORE = 5, USER = 6 }
 
-        public FormMain(ILogger logger, IAudioDriving audioDriving, IAudioListDriving audioListDriving, IUserDriving userDriving,
+        public FormMain(ILogger logger, IMapper mapper, IAudioDriving audioDriving, IAudioListDriving audioListDriving, IUserDriving userDriving,
             IFileManagerDriving fileManagerDriving, IStoreDriving storeDriving, IRegisterDriving registerDriving, IExcelDriving excelDriving,
             IPlayerDriving playerDriving, IAudioListLocalDriving audioListLocalDriving, FormOperationAndWait formOperationAndWait)
         {
@@ -48,6 +49,7 @@ namespace WinFormsAppMusicStoreAdmin
             _audioListLocalDriving = audioListLocalDriving;
             _formOperationAndWait = formOperationAndWait;
             _logger = logger;
+            _mapper = mapper;
         }
 
         internal void SetActiveUser(User user)
@@ -150,7 +152,7 @@ namespace WinFormsAppMusicStoreAdmin
                 new UserControlInit(),
                 new UserControlMusic(_formOperationAndWait, _stores, _raiseRichTextInsertMessage),
                 new UserControlTool(_formOperationAndWait, _stores, _raiseRichTextInsertMessage),
-                new UserControlPlayer(_formOperationAndWait, _playerDriving, _stores, _raiseRichTextInsertMessage),
+                new UserControlPlayer(_formOperationAndWait, _mapper, _playerDriving, _stores, _raiseRichTextInsertMessage),
                 new UserControlRegister(_registerDriving, _excelDriving, _users, _stores, _raiseRichTextInsertMessage),
                 new UserControlStore(_storeDriving, _stores, _raiseRichTextInsertMessage, _raiseUpdateStores),
                 new UserControlUser(_userDriving, _user, _users, _stores, _raiseRichTextInsertMessage, _raiseUpdateUsers)

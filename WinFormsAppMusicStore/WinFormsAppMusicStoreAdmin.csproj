@@ -98,6 +98,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="EPPlus" Version="6.2.10" />
     <PackageReference Include="LiveChartsCore.SkiaSharpView.WinForms" Version="2.0.0-beta.920" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.22" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.22">
@@ -106,18 +107,14 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+    <PackageReference Include="NAudio" Version="2.2.1" />
     <PackageReference Include="Serilog" Version="3.0.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ChainOfResponsibilityClassLibrary\ChainOfResponsibilityClassLibrary.csproj" />
     <ProjectReference Include="..\ClassLibraryDomain\ClassLibraryDomain.csproj" />
-    <ProjectReference Include="..\ClassLibraryExcel\ClassLibraryExcel.csproj" />
-    <ProjectReference Include="..\ClassLibraryFiles\ClassLibraryFiles.csproj" />
-    <ProjectReference Include="..\ClassLibraryPlayer\ClassLibraryPlayer.csproj" />
-    <ProjectReference Include="..\ClassLibraryServices\ClassLibraryServices.csproj" />
   </ItemGroup>
 
   <ItemGroup>
