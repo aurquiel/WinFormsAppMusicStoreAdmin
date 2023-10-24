@@ -16,7 +16,7 @@ namespace WinFormsAppMusicStoreAdmin.DrivingAdapters.Winforms
         private readonly IStoreDriving _storeDriving;
         private int REGISTERS_TIME_INTERVAL_MINUTES;
 
-        public FormLogin(FormMain formMain, ILogger logger, IFileManagerDriving fileManagerDriving, 
+        public FormLogin(FormMain formMain, ILogger logger, IFileManagerDriving fileManagerDriving,
             IUserAccessDriving userAccessDriving, IUserDriving userDriving, IStoreDriving storeDriving)
         {
             InitializeComponent();
@@ -72,7 +72,7 @@ namespace WinFormsAppMusicStoreAdmin.DrivingAdapters.Winforms
             }
         }
 
-        private void GetRegistersIntervalTime() 
+        private void GetRegistersIntervalTime()
         {
             try
             {
