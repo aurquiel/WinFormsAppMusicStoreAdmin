@@ -30,13 +30,11 @@ namespace WinFormsAppMusicStoreAdmin
         private readonly IMapper _mapper;
         private readonly IAudioDriving _audioDriving;
         private readonly IAudioListDriving _audioListDriving;
-        private readonly IStoreDriving _storeDriving;
-        private readonly IUserDriving _userDriving;
         private readonly IFileManagerDriving _fileManagerDriving;
         private readonly IAudioListLocalDriving _audioListLocalDriving;
 
-        public FormOperationAndWait(IMapper mapper, IAudioDriving audioDriving, IAudioListDriving audioListDriving, IStoreDriving storeDriving,
-            IUserDriving userDriving, IFileManagerDriving fileManagerDriving, IAudioListLocalDriving audioListLocalDriving)
+        public FormOperationAndWait(IMapper mapper, IAudioDriving audioDriving, IAudioListDriving audioListDriving,
+            IFileManagerDriving fileManagerDriving, IAudioListLocalDriving audioListLocalDriving)
         {
             _token = _tokenSource.Token;
             WireUpEvents();
@@ -44,8 +42,6 @@ namespace WinFormsAppMusicStoreAdmin
             _mapper = mapper;
             _audioDriving = audioDriving;
             _audioListDriving = audioListDriving;
-            _storeDriving = storeDriving;
-            _userDriving = userDriving;
             _fileManagerDriving = fileManagerDriving;
             _audioListLocalDriving = audioListLocalDriving;
             this.StartPosition = FormStartPosition.CenterParent;
@@ -162,6 +158,8 @@ namespace WinFormsAppMusicStoreAdmin
         private void FormOperationAndWait_FormClosing(object sender, FormClosingEventArgs e)
         {
             _tokenSource.Cancel();
+            this.Hide();
+            e.Cancel = true;
         }
 
         private async void FormWait_Shown(object sender, EventArgs e)
@@ -170,7 +168,7 @@ namespace WinFormsAppMusicStoreAdmin
             _token = _tokenSource.Token;
             await Task.Delay(500);
             await DoOperations(_token);
-            Close();
+            this.Hide();
         }
 
         private async Task DoOperations(CancellationToken token)

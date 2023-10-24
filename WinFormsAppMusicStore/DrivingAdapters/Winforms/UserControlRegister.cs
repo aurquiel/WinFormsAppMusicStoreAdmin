@@ -13,6 +13,7 @@ namespace WinFormsAppMusicStoreAdmin
 {
     public partial class UserControlRegister : UserControl
     {
+        private readonly int _timeInterval;
         private readonly IRegisterDriving _registerDriving;
         private readonly IExcelDriving _excelDriving;
         private List<User> _users;
@@ -24,11 +25,12 @@ namespace WinFormsAppMusicStoreAdmin
         ToolTip toolTipButtonExcel = new ToolTip();
         ToolTip toolTipButtonDeleteRegisters = new ToolTip();
 
-        public UserControlRegister(IRegisterDriving registerDriving, IExcelDriving excelDriving, List<User> users, List<Store> stores,
+        public UserControlRegister(int timeInterval, IRegisterDriving registerDriving, IExcelDriving excelDriving, List<User> users, List<Store> stores,
             EventHandler<(bool, string)> raiseRichTextInsertMessage)
         {
             InitializeComponent();
             InitToolTips();
+            _timeInterval = timeInterval;
             _registerDriving = registerDriving;
             _excelDriving = excelDriving;
             _users = users;
@@ -91,10 +93,10 @@ namespace WinFormsAppMusicStoreAdmin
                     datesWeek.ContainsKey(registers[i].CreationDateTime.Date))
                 {
                     if (registers[i + 1].CreationDateTime.Date == registers[i].CreationDateTime.Date &&
-                        (registers[i + 1].CreationDateTime - registers[i].CreationDateTime).TotalMinutes >= 25 &&
-                        (registers[i + 1].CreationDateTime - registers[i].CreationDateTime).TotalMinutes <= 35)
+                        (registers[i + 1].CreationDateTime - registers[i].CreationDateTime).TotalMinutes >= _timeInterval - 5 &&
+                        (registers[i + 1].CreationDateTime - registers[i].CreationDateTime).TotalMinutes <= _timeInterval + 5)
                     {
-                        datesWeek[registers[i].CreationDateTime.Date] += 0.5; //aumento el registro en el diccionario
+                        datesWeek[registers[i].CreationDateTime.Date] += _timeInterval * 0.01666666666666666666666666666667; //aumento el registro en el diccionario
                     }
                 }
             }
@@ -141,10 +143,10 @@ namespace WinFormsAppMusicStoreAdmin
                     datesMonth.ContainsKey(registers[i].CreationDateTime.Date))
                 {
                     if (registers[i + 1].CreationDateTime.Date == registers[i].CreationDateTime.Date &&
-                        (registers[i + 1].CreationDateTime - registers[i].CreationDateTime).TotalMinutes >= 25 &&
-                        (registers[i + 1].CreationDateTime - registers[i].CreationDateTime).TotalMinutes <= 35)
+                        (registers[i + 1].CreationDateTime - registers[i].CreationDateTime).TotalMinutes >= _timeInterval - 5 &&
+                        (registers[i + 1].CreationDateTime - registers[i].CreationDateTime).TotalMinutes <= _timeInterval + 5)
                     {
-                        datesMonth[registers[i].CreationDateTime.Date] += 0.5; //aumento el registro en el diccionario
+                        datesMonth[registers[i].CreationDateTime.Date] += _timeInterval * 0.01666666666666666666666666666667; //aumento el registro en el diccionario
                     }
                 }
             }

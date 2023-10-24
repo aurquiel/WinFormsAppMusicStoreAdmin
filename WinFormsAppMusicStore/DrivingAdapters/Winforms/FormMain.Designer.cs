@@ -70,7 +70,7 @@
             panel6.Dock = DockStyle.Fill;
             panel6.Location = new Point(0, 0);
             panel6.Name = "panel6";
-            panel6.Size = new Size(1440, 647);
+            panel6.Size = new Size(1440, 645);
             panel6.TabIndex = 2;
             // 
             // panelChildForm
@@ -78,7 +78,7 @@
             panelChildForm.Dock = DockStyle.Fill;
             panelChildForm.Location = new Point(0, 0);
             panelChildForm.Name = "panelChildForm";
-            panelChildForm.Size = new Size(1440, 647);
+            panelChildForm.Size = new Size(1440, 645);
             panelChildForm.TabIndex = 3;
             // 
             // panel2
@@ -88,7 +88,7 @@
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1440, 58);
+            panel2.Size = new Size(1440, 60);
             panel2.TabIndex = 2;
             // 
             // panel5
@@ -97,7 +97,7 @@
             panel5.Dock = DockStyle.Fill;
             panel5.Location = new Point(118, 0);
             panel5.Name = "panel5";
-            panel5.Size = new Size(1322, 58);
+            panel5.Size = new Size(1322, 60);
             panel5.TabIndex = 4;
             // 
             // richTextBoxStatusMessages
@@ -108,7 +108,7 @@
             richTextBoxStatusMessages.Location = new Point(0, 0);
             richTextBoxStatusMessages.Name = "richTextBoxStatusMessages";
             richTextBoxStatusMessages.ReadOnly = true;
-            richTextBoxStatusMessages.Size = new Size(1322, 58);
+            richTextBoxStatusMessages.Size = new Size(1322, 60);
             richTextBoxStatusMessages.TabIndex = 0;
             richTextBoxStatusMessages.Text = "";
             // 
@@ -119,7 +119,7 @@
             panel3.Dock = DockStyle.Left;
             panel3.Location = new Point(0, 0);
             panel3.Name = "panel3";
-            panel3.Size = new Size(118, 58);
+            panel3.Size = new Size(118, 60);
             panel3.TabIndex = 2;
             // 
             // label1
@@ -128,7 +128,7 @@
             label1.Font = new Font("Segoe UI", 7.8F, FontStyle.Bold, GraphicsUnit.Point);
             label1.Location = new Point(11, 20);
             label1.Name = "label1";
-            label1.Size = new Size(65, 17);
+            label1.Size = new Size(54, 13);
             label1.TabIndex = 0;
             label1.Text = "ESTATUS:";
             // 
@@ -150,7 +150,7 @@
             splitContainer.Panel2.Controls.Add(panel2);
             splitContainer.Panel2MinSize = 45;
             splitContainer.Size = new Size(1442, 715);
-            splitContainer.SplitterDistance = 649;
+            splitContainer.SplitterDistance = 647;
             splitContainer.SplitterWidth = 6;
             splitContainer.TabIndex = 3;
             // 
@@ -199,14 +199,14 @@
             menuToolStripMenuItem.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
             menuToolStripMenuItem.Image = Properties.Resources.menu;
             menuToolStripMenuItem.Name = "menuToolStripMenuItem";
-            menuToolStripMenuItem.Size = new Size(75, 24);
+            menuToolStripMenuItem.Size = new Size(69, 24);
             menuToolStripMenuItem.Text = "Menu";
             // 
             // musicaToolStripMenuItem
             // 
             musicaToolStripMenuItem.Image = Properties.Resources.arrange;
             musicaToolStripMenuItem.Name = "musicaToolStripMenuItem";
-            musicaToolStripMenuItem.Size = new Size(224, 26);
+            musicaToolStripMenuItem.Size = new Size(142, 22);
             musicaToolStripMenuItem.Text = "Musica";
             musicaToolStripMenuItem.Click += musicaToolStripMenuItem_Click;
             // 
@@ -214,7 +214,7 @@
             // 
             herramientasToolStripMenuItem.Image = Properties.Resources.tools;
             herramientasToolStripMenuItem.Name = "herramientasToolStripMenuItem";
-            herramientasToolStripMenuItem.Size = new Size(224, 26);
+            herramientasToolStripMenuItem.Size = new Size(142, 22);
             herramientasToolStripMenuItem.Text = "Herramientas";
             herramientasToolStripMenuItem.Click += herramientasToolStripMenuItem_Click;
             // 
@@ -222,7 +222,7 @@
             // 
             reproductorToolStripMenuItem.Image = Properties.Resources.play;
             reproductorToolStripMenuItem.Name = "reproductorToolStripMenuItem";
-            reproductorToolStripMenuItem.Size = new Size(224, 26);
+            reproductorToolStripMenuItem.Size = new Size(142, 22);
             reproductorToolStripMenuItem.Text = "Reproductor";
             reproductorToolStripMenuItem.Click += reproductorToolStripMenuItem_Click;
             // 
@@ -230,7 +230,7 @@
             // 
             registrosToolStripMenuItem.Image = Properties.Resources.registers;
             registrosToolStripMenuItem.Name = "registrosToolStripMenuItem";
-            registrosToolStripMenuItem.Size = new Size(224, 26);
+            registrosToolStripMenuItem.Size = new Size(142, 22);
             registrosToolStripMenuItem.Text = "Registros";
             registrosToolStripMenuItem.Click += registrosToolStripMenuItem_Click;
             // 
@@ -238,7 +238,7 @@
             // 
             tiendasToolStripMenuItem.Image = Properties.Resources.store;
             tiendasToolStripMenuItem.Name = "tiendasToolStripMenuItem";
-            tiendasToolStripMenuItem.Size = new Size(224, 26);
+            tiendasToolStripMenuItem.Size = new Size(142, 22);
             tiendasToolStripMenuItem.Text = "Tiendas";
             tiendasToolStripMenuItem.Click += tiendasToolStripMenuItem_Click;
             // 
@@ -246,26 +246,26 @@
             // 
             usuariosToolStripMenuItem.Image = Properties.Resources.users;
             usuariosToolStripMenuItem.Name = "usuariosToolStripMenuItem";
-            usuariosToolStripMenuItem.Size = new Size(224, 26);
+            usuariosToolStripMenuItem.Size = new Size(142, 22);
             usuariosToolStripMenuItem.Text = "Usuarios";
             usuariosToolStripMenuItem.Click += usuariosToolStripMenuItem_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(221, 6);
+            toolStripSeparator1.Size = new Size(139, 6);
             // 
             // salirToolStripMenuItem
             // 
             salirToolStripMenuItem.Image = Properties.Resources.close;
             salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            salirToolStripMenuItem.Size = new Size(224, 26);
+            salirToolStripMenuItem.Size = new Size(142, 22);
             salirToolStripMenuItem.Text = "Salir";
             salirToolStripMenuItem.Click += salirToolStripMenuItem_Click;
             // 
             // FormMain
             // 
-            AutoScaleDimensions = new SizeF(12F, 25F);
+            AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1442, 753);
@@ -277,6 +277,7 @@
             Name = "FormMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Music Store";
+            FormClosing += FormMain_FormClosing;
             panel6.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel5.ResumeLayout(false);

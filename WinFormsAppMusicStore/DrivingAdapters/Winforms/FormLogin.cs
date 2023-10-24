@@ -14,6 +14,7 @@ namespace WinFormsAppMusicStoreAdmin.DrivingAdapters.Winforms
         private readonly IUserAccessDriving _userAccessDriving;
         private readonly IUserDriving _userDriving;
         private readonly IStoreDriving _storeDriving;
+        private int REGISTERS_TIME_INTERVAL_MINUTES;
 
         public FormLogin(FormMain formMain, ILogger logger, IFileManagerDriving fileManagerDriving, 
             IUserAccessDriving userAccessDriving, IUserDriving userDriving, IStoreDriving storeDriving)
@@ -29,6 +30,7 @@ namespace WinFormsAppMusicStoreAdmin.DrivingAdapters.Winforms
             GetIpWebService();
             GetTimeoutWebService();
             GetTimeoutWebServiceHeavyTask();
+            GetRegistersIntervalTime();
         }
 
         private void GetIpWebService()
@@ -67,6 +69,19 @@ namespace WinFormsAppMusicStoreAdmin.DrivingAdapters.Winforms
             {
                 _logger.Error(ex, "Error al obtener timeout del webservice del archivo de configuracion", null);
                 WebServiceParams.TIMEOUT_WEB_SERVICE_HEAVY_TASK = 600; //10 min para descargar o subir una cancion
+            }
+        }
+
+        private void GetRegistersIntervalTime() 
+        {
+            try
+            {
+                REGISTERS_TIME_INTERVAL_MINUTES = Int32.Parse(ConfigurationManager.AppSettings["REGISTERS_INTERVAL_TIME_MINUTES"].ToString());
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, "Error al obtener tiempo de registros", null);
+                REGISTERS_TIME_INTERVAL_MINUTES = 30; //30 min
             }
         }
 
@@ -186,6 +201,7 @@ namespace WinFormsAppMusicStoreAdmin.DrivingAdapters.Winforms
         private void LaunchMainWindows(User activeUser, List<User> users, List<Store> stores)
         {
             this.Hide();
+            _formMain.SetRegistersTimeInterval(REGISTERS_TIME_INTERVAL_MINUTES);
             _formMain.SetActiveUser(activeUser);
             _formMain.SetUsers(users);
             _formMain.SetStores(stores);

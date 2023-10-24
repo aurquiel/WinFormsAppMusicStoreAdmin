@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using ClassLibraryDomain.Models;
 using ClassLibraryDomain.Ports.Driving;
-using System.Collections.Generic;
 using System.ComponentModel;
 using WinFormsAppMusicStoreAdmin.DrivingAdapters.Player;
 using WinFormsAppMusicStoreAdmin.DrivingAdapters.Winforms.ChainOfResponsibityOperationAndWait;
@@ -208,11 +207,22 @@ namespace WinFormsAppMusicStoreAdmin
             }
         }
 
+        public static bool IsWithin15Minutes(TimeSpan timeSpan)
+        {
+            TimeSpan startTime = timeSpan;
+            TimeSpan endTime = timeSpan + TimeSpan.FromMinutes(15);
+
+            return DateTime.Now.TimeOfDay >= startTime && DateTime.Now.TimeOfDay <= endTime;
+        }
+
         private async Task CheckTimeToPlayAudio(AudioFileSelect audioFileSelect)
         {
-            var audioToPlayByTime = _audioListPlayerByTime.Where(x => x.Played == false && x.TimeToPlay >= DateTime.Now.TimeOfDay.Subtract(new TimeSpan(0,15,0)) && x.TimeToPlay <= DateTime.Now.TimeOfDay.Add(new TimeSpan(0, 15,0))).FirstOrDefault();
+            var audioToPlayByTime = _audioListPlayerByTime.Where(
+                x => x.Played == false &&
+                IsWithin15Minutes(x.TimeToPlay)
+                ).FirstOrDefault();
 
-            if(audioToPlayByTime is not null) 
+            if (audioToPlayByTime is not null) 
             {
                 for(int i = 0; i < _audioListPlayerByTime.Count; i++)
                 {

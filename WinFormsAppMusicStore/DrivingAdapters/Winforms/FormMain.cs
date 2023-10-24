@@ -28,6 +28,7 @@ namespace WinFormsAppMusicStoreAdmin
         public List<User> _users;
         public List<Store> _stores;
         private List<UserControl> _userControlList;
+        private int REGISTERS_TIME_INTERVAL_MINUTES;
 
         private enum USER_CONTORL_ELEMENTS { INIT = 0, MUSIC = 1, TOOLS = 2, PLAYER = 3, REGISTER = 4, STORE = 5, USER = 6 }
 
@@ -50,6 +51,11 @@ namespace WinFormsAppMusicStoreAdmin
             _formOperationAndWait = formOperationAndWait;
             _logger = logger;
             _mapper = mapper;
+        }
+
+        internal void SetRegistersTimeInterval(int time)
+        {
+            REGISTERS_TIME_INTERVAL_MINUTES = time;
         }
 
         internal void SetActiveUser(User user)
@@ -132,8 +138,8 @@ namespace WinFormsAppMusicStoreAdmin
             _stores = e;
             _userControlList[(int)USER_CONTORL_ELEMENTS.MUSIC] = new UserControlMusic(_formOperationAndWait, _stores, _raiseRichTextInsertMessage);
             _userControlList[(int)USER_CONTORL_ELEMENTS.TOOLS] = new UserControlTool(_formOperationAndWait, _stores, _raiseRichTextInsertMessage);
-            //_userControlList[(int)USER_CONTORL_ELEMENTS.PLAYER] = new UserControlPlayer(_services, _fileManager, _stores, _raiseRichTextInsertMessage);
-            _userControlList[(int)USER_CONTORL_ELEMENTS.REGISTER] = new UserControlRegister(_registerDriving, _excelDriving, _users, _stores, _raiseRichTextInsertMessage);
+            _userControlList[(int)USER_CONTORL_ELEMENTS.PLAYER] = new UserControlPlayer(_formOperationAndWait, _mapper, _playerDriving, _stores, _raiseRichTextInsertMessage);
+            _userControlList[(int)USER_CONTORL_ELEMENTS.REGISTER] = new UserControlRegister(REGISTERS_TIME_INTERVAL_MINUTES, _registerDriving, _excelDriving, _users, _stores, _raiseRichTextInsertMessage);
             _userControlList[(int)USER_CONTORL_ELEMENTS.STORE] = new UserControlStore(_storeDriving, _stores, _raiseRichTextInsertMessage, _raiseUpdateStores);
             _userControlList[(int)USER_CONTORL_ELEMENTS.USER] = new UserControlUser(_userDriving, _user, _users, _stores, _raiseRichTextInsertMessage, _raiseUpdateUsers);
         }
@@ -142,7 +148,7 @@ namespace WinFormsAppMusicStoreAdmin
         {
             _users = e;
             _user = _users.Where(x => x.id == _user.id).FirstOrDefault();
-            _userControlList[(int)USER_CONTORL_ELEMENTS.REGISTER] = new UserControlRegister(_registerDriving, _excelDriving, _users, _stores, _raiseRichTextInsertMessage);
+            _userControlList[(int)USER_CONTORL_ELEMENTS.REGISTER] = new UserControlRegister(REGISTERS_TIME_INTERVAL_MINUTES, _registerDriving, _excelDriving, _users, _stores, _raiseRichTextInsertMessage);
             _userControlList[(int)USER_CONTORL_ELEMENTS.USER] = new UserControlUser(_userDriving, _user, _users, _stores, _raiseRichTextInsertMessage, _raiseUpdateUsers);
         }
 
@@ -153,7 +159,7 @@ namespace WinFormsAppMusicStoreAdmin
                 new UserControlMusic(_formOperationAndWait, _stores, _raiseRichTextInsertMessage),
                 new UserControlTool(_formOperationAndWait, _stores, _raiseRichTextInsertMessage),
                 new UserControlPlayer(_formOperationAndWait, _mapper, _playerDriving, _stores, _raiseRichTextInsertMessage),
-                new UserControlRegister(_registerDriving, _excelDriving, _users, _stores, _raiseRichTextInsertMessage),
+                new UserControlRegister(REGISTERS_TIME_INTERVAL_MINUTES, _registerDriving, _excelDriving, _users, _stores, _raiseRichTextInsertMessage),
                 new UserControlStore(_storeDriving, _stores, _raiseRichTextInsertMessage, _raiseUpdateStores),
                 new UserControlUser(_userDriving, _user, _users, _stores, _raiseRichTextInsertMessage, _raiseUpdateUsers)
             };
@@ -212,14 +218,16 @@ namespace WinFormsAppMusicStoreAdmin
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Close();
+        }
+
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
             foreach (var userControl in _userControlList)
             {
                 userControl.Dispose();
             }
             _userControlList = new List<UserControl>();
-            Close();
         }
-
-        
     }
 }
